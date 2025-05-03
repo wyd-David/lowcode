@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.EtlWorkCollectMapper">
+
+    <resultMap type="EtlWorkCollect" id="EtlWorkCollectResult">
+        <result property="collectId"    column="collect_id"    />
+        <result property="collectName"    column="collect_name"    />
+        <result property="collectResouceId"    column="collect_resouce_id"    />
+        <result property="collectTableName"    column="collect_table_name"    />
+        <result property="collectToDatasourceid"    column="collect_to_datasourceId"    />
+        <result property="collectToTableName"    column="collect_to_table_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="collectType"    column="collect_type"    />
+        <result property="collectAdd"    column="collect_add"    />
+        <result property="fieldName"    column="field_name"    />
+        <result property="fieldValue"    column="field_value"    />
+        <result property="fieldType"    column="field_type"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+        <result property="lastStatus"    column="last_status"    />
+        <result property="apiCodeIn"    column="api_code_in"    />
+        <result property="apiCodeOut"    column="api_code_out"    />
+        <result property="collectResult"    column="collect_result"    />
+        <result property="runNodeId"    column="run_node_id"    />
+        <result property="disableEnableState"    column="DISABLE_ENABLE_STATE"    />
+        <result property="beforeSql"    column="before_sql"    />
+        <result property="afterSql"    column="after_sql"    />
+
+    </resultMap>
+
+    <sql id="selectEtlWorkCollectVo">
+        select collect_id, collect_name, collect_resouce_id, collect_table_name,before_sql,after_sql, collect_to_datasourceId, collect_to_table_name, create_by, create_time, collect_type, collect_add, field_name, field_value, field_type, last_update_time, last_status, api_code_in, api_code_out, collect_result, run_node_id,DISABLE_ENABLE_STATE from etl_work_collect
+    </sql>
+
+    <select id="selectEtlWorkCollectList" parameterType="EtlWorkCollect" resultMap="EtlWorkCollectResult">
+        select collect_id, collect_name, collect_resouce_id,before_sql,after_sql, collect_table_name, collect_to_datasourceId, collect_to_table_name, create_by, create_time, collect_type, collect_add, field_name, field_value, field_type, last_update_time, last_status, api_code_in, api_code_out, '' as collect_result, run_node_id,DISABLE_ENABLE_STATE from etl_work_collect
+        <where>
+            <if test="collectName != null  and collectName != ''"> and collect_name like concat('%', #{collectName}, '%')</if>
+            <if test="collectResouceId != null  and collectResouceId != ''"> and collect_resouce_id = #{collectResouceId}</if>
+            <if test="collectTableName != null  and collectTableName != ''"> and collect_table_name like concat('%', #{collectTableName}, '%')</if>
+            <if test="collectToDatasourceid != null  and collectToDatasourceid != ''"> and collect_to_datasourceId = #{collectToDatasourceid}</if>
+            <if test="collectToTableName != null  and collectToTableName != ''"> and collect_to_table_name like concat('%', #{collectToTableName}, '%')</if>
+            <if test="collectType != null  and collectType != ''"> and collect_type = #{collectType}</if>
+            <if test="collectAdd != null  and collectAdd != ''"> and collect_add = #{collectAdd}</if>
+            <if test="fieldName != null  and fieldName != ''"> and field_name like concat('%', #{fieldName}, '%')</if>
+            <if test="fieldValue != null  and fieldValue != ''"> and field_value = #{fieldValue}</if>
+            <if test="fieldType != null  and fieldType != ''"> and field_type = #{fieldType}</if>
+            <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
+            <if test="lastStatus != null  and lastStatus != ''"> and last_status = #{lastStatus}</if>
+            <if test="apiCodeIn != null  and apiCodeIn != ''"> and api_code_in = #{apiCodeIn}</if>
+            <if test="apiCodeOut != null  and apiCodeOut != ''"> and api_code_out = #{apiCodeOut}</if>
+            <if test="collectResult != null  and collectResult != ''"> and collect_result = #{collectResult}</if>
+            <if test="runNodeId != null  and runNodeId != ''"> and run_node_id = #{runNodeId}</if>
+            <if test="disableEnableState != null  and disableEnableState != ''"> and DISABLE_ENABLE_STATE = #{disableEnableState}</if>
+            <if test="createBy != null  and createBy != ''">
+            and (collect_resouce_id  IN(
+                SELECT a.`datasourceId` FROM `app_unit_info` a WHERE a.`create_by`=#{createBy}
+                )
+                OR collect_to_datasourceId IN(
+                SELECT a.`datasourceId` FROM `app_unit_info` a WHERE a.`create_by`=#{createBy}
+                ))
+            </if>
+        </where>
+                ORDER BY last_update_time DESC
+    </select>
+
+    <select id="selectEtlWorkCollectById" parameterType="String" resultMap="EtlWorkCollectResult">
+        <include refid="selectEtlWorkCollectVo"/>
+        where collect_id = #{collectId}
+    </select>
+
+    <insert id="insertEtlWorkCollect" parameterType="EtlWorkCollect">
+        insert into etl_work_collect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="collectId != null">collect_id,</if>
+            <if test="collectName != null">collect_name,</if>
+            <if test="collectResouceId != null">collect_resouce_id,</if>
+            <if test="collectTableName != null">collect_table_name,</if>
+            <if test="collectToDatasourceid != null">collect_to_datasourceId,</if>
+            <if test="collectToTableName != null">collect_to_table_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="collectType != null">collect_type,</if>
+            <if test="collectAdd != null">collect_add,</if>
+            <if test="fieldName != null">field_name,</if>
+            <if test="fieldValue != null">field_value,</if>
+            <if test="fieldType != null">field_type,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+            <if test="lastStatus != null">last_status,</if>
+            <if test="apiCodeIn != null">api_code_in,</if>
+            <if test="apiCodeOut != null">api_code_out,</if>
+            <if test="collectResult != null">collect_result,</if>
+            <if test="runNodeId != null">run_node_id,</if>
+            <if test="disableEnableState != null">DISABLE_ENABLE_STATE,</if>
+            <if test="beforeSql != null">before_sql,</if>
+            <if test="afterSql != null">after_sql,</if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="collectId != null">#{collectId},</if>
+            <if test="collectName != null">#{collectName},</if>
+            <if test="collectResouceId != null">#{collectResouceId},</if>
+            <if test="collectTableName != null">#{collectTableName},</if>
+            <if test="collectToDatasourceid != null">#{collectToDatasourceid},</if>
+            <if test="collectToTableName != null">#{collectToTableName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="collectType != null">#{collectType},</if>
+            <if test="collectAdd != null">#{collectAdd},</if>
+            <if test="fieldName != null">#{fieldName},</if>
+            <if test="fieldValue != null">#{fieldValue},</if>
+            <if test="fieldType != null">#{fieldType},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+            <if test="lastStatus != null">#{lastStatus},</if>
+            <if test="apiCodeIn != null">#{apiCodeIn},</if>
+            <if test="apiCodeOut != null">#{apiCodeOut},</if>
+            <if test="collectResult != null">#{collectResult},</if>
+            <if test="runNodeId != null">#{runNodeId},</if>
+            <if test="disableEnableState != null">#{disableEnableState},</if>
+            <if test="beforeSql != null">#{beforeSql},</if>
+            <if test="afterSql != null">#{afterSql},</if>
+
+        </trim>
+    </insert>
+
+    <insert id="bathInsertEtlWorkCollect" parameterType="java.util.List">
+        insert into etl_work_collect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                collect_id,
+                                                                collect_name,
+                                                                collect_resouce_id,
+                                                                collect_table_name,
+                                                                collect_to_datasourceId,
+                                                                collect_to_table_name,
+                                                                create_by,
+                                                                create_time,
+                                                                collect_type,
+                                                                collect_add,
+                                                                field_name,
+                                                                field_value,
+                                                                field_type,
+                                                                last_update_time,
+                                                                last_status,
+                                                                api_code_in,
+                                                                api_code_out,
+                                                                collect_result,
+                                                                run_node_id,
+            before_sql,after_sql,
+
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.collectId},
+                                                                                #{item.collectName},
+                                                                                #{item.collectResouceId},
+                                                                                #{item.collectTableName},
+                                                                                #{item.collectToDatasourceid},
+                                                                                #{item.collectToTableName},
+                                                                                #{item.createBy},
+                                                                                #{item.createTime},
+                                                                                #{item.collectType},
+                                                                                #{item.collectAdd},
+                                                                                #{item.fieldName},
+                                                                                #{item.fieldValue},
+                                                                                #{item.fieldType},
+                                                                                #{item.lastUpdateTime},
+                                                                                #{item.lastStatus},
+                                                                                #{item.apiCodeIn},
+                                                                                #{item.apiCodeOut},
+                                                                                #{item.collectResult},
+                                                                                #{item.runNodeId},
+                #{item.beforeSql},
+                #{item.afterSql},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateEtlWorkCollect" parameterType="EtlWorkCollect">
+        update etl_work_collect
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="collectName != null">collect_name = #{collectName},</if>
+            <if test="collectResouceId != null">collect_resouce_id = #{collectResouceId},</if>
+            <if test="collectTableName != null">collect_table_name = #{collectTableName},</if>
+            <if test="collectToDatasourceid != null">collect_to_datasourceId = #{collectToDatasourceid},</if>
+            <if test="collectToTableName != null">collect_to_table_name = #{collectToTableName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="collectType != null">collect_type = #{collectType},</if>
+            <if test="collectAdd != null">collect_add = #{collectAdd},</if>
+            <if test="fieldName != null">field_name = #{fieldName},</if>
+            <if test="fieldValue != null">field_value = #{fieldValue},</if>
+            <if test="fieldType != null">field_type = #{fieldType},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="lastStatus != null">last_status = #{lastStatus},</if>
+            <if test="apiCodeIn != null">api_code_in = #{apiCodeIn},</if>
+            <if test="apiCodeOut != null">api_code_out = #{apiCodeOut},</if>
+            <if test="collectResult != null">collect_result = #{collectResult},</if>
+            <if test="runNodeId != null">run_node_id = #{runNodeId},</if>
+            <if test="disableEnableState != null">DISABLE_ENABLE_STATE = #{disableEnableState},</if>
+            <if test="beforeSql != null">before_sql = #{beforeSql},</if>
+            <if test="afterSql != null">after_sql = #{afterSql},</if>
+
+        </trim>
+        where collect_id = #{collectId}
+    </update>
+
+    <delete id="deleteEtlWorkCollectById" parameterType="String">
+        delete from etl_work_collect where collect_id = #{collectId}
+    </delete>
+
+    <delete id="deleteEtlWorkCollectByIds" parameterType="String">
+        delete from etl_work_collect where collect_id in
+        <foreach item="collectId" collection="array" open="(" separator="," close=")">
+            #{collectId}
+        </foreach>
+    </delete>
+
+</mapper>

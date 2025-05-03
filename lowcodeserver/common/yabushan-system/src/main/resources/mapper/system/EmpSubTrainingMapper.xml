@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubTrainingMapper">
+    
+    <resultMap type="EmpSubTraining" id="EmpSubTrainingResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="startDate"    column="START_DATE"    />
+        <result property="endDate"    column="END_DATE"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="trainingMethod"    column="TRAINING_METHOD"    />
+        <result property="projectName"    column="PROJECT_NAME"    />
+        <result property="doOrg"    column="DO_ORG"    />
+        <result property="qualificationNo"    column="QUALIFICATION_NO"    />
+        <result property="contentType"    column="CONTENT_TYPE"    />
+        <result property="examScore"    column="EXAM_SCORE"    />
+        <result property="examHour"    column="EXAM_HOUR"    />
+        <result property="grantOrg"    column="GRANT_ORG"    />
+        <result property="projectAddress"    column="PROJECT_ADDRESS"    />
+        <result property="trainingType"    column="TRAINING_TYPE"    />
+        <result property="projectCode"    column="PROJECT_CODE"    />
+        <result property="projectGoal"    column="PROJECT_GOAL"    />
+        <result property="projectCost"    column="PROJECT_COST"    />
+        <result property="personalCost"    column="PERSONAL_COST"    />
+        <result property="teachSource"    column="TEACH_SOURCE"    />
+        <result property="foreignTeachFlag"    column="FOREIGN_TEACH_FLAG"    />
+        <result property="trainingContract"    column="TRAINING_CONTRACT"    />
+        <result property="trainingWritNo"    column="TRAINING_WRIT_NO"    />
+        <result property="cycleDay"    column="CYCLE_DAY"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectEmpSubTrainingVo">
+        select REC_ID, EMP_ID, START_DATE, END_DATE, SORT_INDEX, TRAINING_METHOD, PROJECT_NAME, DO_ORG, QUALIFICATION_NO, CONTENT_TYPE, EXAM_SCORE, EXAM_HOUR, GRANT_ORG, PROJECT_ADDRESS, TRAINING_TYPE, PROJECT_CODE, PROJECT_GOAL, PROJECT_COST, PERSONAL_COST, TEACH_SOURCE, FOREIGN_TEACH_FLAG, TRAINING_CONTRACT, TRAINING_WRIT_NO, CYCLE_DAY, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME from emp_sub_training
+    </sql>
+
+    <select id="selectEmpSubTrainingList" parameterType="EmpSubTraining" resultMap="EmpSubTrainingResult">
+        <include refid="selectEmpSubTrainingVo"/>
+        <where>  
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="startDate != null "> and START_DATE = #{startDate}</if>
+            <if test="endDate != null "> and END_DATE = #{endDate}</if>
+            <if test="sortIndex != null "> and SORT_INDEX = #{sortIndex}</if>
+            <if test="trainingMethod != null "> and TRAINING_METHOD = #{trainingMethod}</if>
+            <if test="projectName != null  and projectName != ''"> and PROJECT_NAME like concat('%', #{projectName}, '%')</if>
+            <if test="doOrg != null  and doOrg != ''"> and DO_ORG = #{doOrg}</if>
+            <if test="qualificationNo != null  and qualificationNo != ''"> and QUALIFICATION_NO = #{qualificationNo}</if>
+            <if test="contentType != null "> and CONTENT_TYPE = #{contentType}</if>
+            <if test="examScore != null  and examScore != ''"> and EXAM_SCORE = #{examScore}</if>
+            <if test="examHour != null  and examHour != ''"> and EXAM_HOUR = #{examHour}</if>
+            <if test="grantOrg != null  and grantOrg != ''"> and GRANT_ORG = #{grantOrg}</if>
+            <if test="projectAddress != null  and projectAddress != ''"> and PROJECT_ADDRESS = #{projectAddress}</if>
+            <if test="trainingType != null "> and TRAINING_TYPE = #{trainingType}</if>
+            <if test="projectCode != null  and projectCode != ''"> and PROJECT_CODE = #{projectCode}</if>
+            <if test="projectGoal != null "> and PROJECT_GOAL = #{projectGoal}</if>
+            <if test="projectCost != null  and projectCost != ''"> and PROJECT_COST = #{projectCost}</if>
+            <if test="personalCost != null  and personalCost != ''"> and PERSONAL_COST = #{personalCost}</if>
+            <if test="teachSource != null  and teachSource != ''"> and TEACH_SOURCE = #{teachSource}</if>
+            <if test="foreignTeachFlag != null "> and FOREIGN_TEACH_FLAG = #{foreignTeachFlag}</if>
+            <if test="trainingContract != null "> and TRAINING_CONTRACT = #{trainingContract}</if>
+            <if test="trainingWritNo != null  and trainingWritNo != ''"> and TRAINING_WRIT_NO = #{trainingWritNo}</if>
+            <if test="cycleDay != null  and cycleDay != ''"> and CYCLE_DAY = #{cycleDay}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmpSubTrainingById" parameterType="String" resultMap="EmpSubTrainingResult">
+        <include refid="selectEmpSubTrainingVo"/>
+        where REC_ID = #{recId}
+    </select>
+        
+    <insert id="insertEmpSubTraining" parameterType="EmpSubTraining">
+        insert into emp_sub_training
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="startDate != null">START_DATE,</if>
+            <if test="endDate != null">END_DATE,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="trainingMethod != null">TRAINING_METHOD,</if>
+            <if test="projectName != null">PROJECT_NAME,</if>
+            <if test="doOrg != null">DO_ORG,</if>
+            <if test="qualificationNo != null">QUALIFICATION_NO,</if>
+            <if test="contentType != null">CONTENT_TYPE,</if>
+            <if test="examScore != null">EXAM_SCORE,</if>
+            <if test="examHour != null">EXAM_HOUR,</if>
+            <if test="grantOrg != null">GRANT_ORG,</if>
+            <if test="projectAddress != null">PROJECT_ADDRESS,</if>
+            <if test="trainingType != null">TRAINING_TYPE,</if>
+            <if test="projectCode != null">PROJECT_CODE,</if>
+            <if test="projectGoal != null">PROJECT_GOAL,</if>
+            <if test="projectCost != null">PROJECT_COST,</if>
+            <if test="personalCost != null">PERSONAL_COST,</if>
+            <if test="teachSource != null">TEACH_SOURCE,</if>
+            <if test="foreignTeachFlag != null">FOREIGN_TEACH_FLAG,</if>
+            <if test="trainingContract != null">TRAINING_CONTRACT,</if>
+            <if test="trainingWritNo != null">TRAINING_WRIT_NO,</if>
+            <if test="cycleDay != null">CYCLE_DAY,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="trainingMethod != null">#{trainingMethod},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="doOrg != null">#{doOrg},</if>
+            <if test="qualificationNo != null">#{qualificationNo},</if>
+            <if test="contentType != null">#{contentType},</if>
+            <if test="examScore != null">#{examScore},</if>
+            <if test="examHour != null">#{examHour},</if>
+            <if test="grantOrg != null">#{grantOrg},</if>
+            <if test="projectAddress != null">#{projectAddress},</if>
+            <if test="trainingType != null">#{trainingType},</if>
+            <if test="projectCode != null">#{projectCode},</if>
+            <if test="projectGoal != null">#{projectGoal},</if>
+            <if test="projectCost != null">#{projectCost},</if>
+            <if test="personalCost != null">#{personalCost},</if>
+            <if test="teachSource != null">#{teachSource},</if>
+            <if test="foreignTeachFlag != null">#{foreignTeachFlag},</if>
+            <if test="trainingContract != null">#{trainingContract},</if>
+            <if test="trainingWritNo != null">#{trainingWritNo},</if>
+            <if test="cycleDay != null">#{cycleDay},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubTraining" parameterType="EmpSubTraining">
+        update emp_sub_training
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="startDate != null">START_DATE = #{startDate},</if>
+            <if test="endDate != null">END_DATE = #{endDate},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="trainingMethod != null">TRAINING_METHOD = #{trainingMethod},</if>
+            <if test="projectName != null">PROJECT_NAME = #{projectName},</if>
+            <if test="doOrg != null">DO_ORG = #{doOrg},</if>
+            <if test="qualificationNo != null">QUALIFICATION_NO = #{qualificationNo},</if>
+            <if test="contentType != null">CONTENT_TYPE = #{contentType},</if>
+            <if test="examScore != null">EXAM_SCORE = #{examScore},</if>
+            <if test="examHour != null">EXAM_HOUR = #{examHour},</if>
+            <if test="grantOrg != null">GRANT_ORG = #{grantOrg},</if>
+            <if test="projectAddress != null">PROJECT_ADDRESS = #{projectAddress},</if>
+            <if test="trainingType != null">TRAINING_TYPE = #{trainingType},</if>
+            <if test="projectCode != null">PROJECT_CODE = #{projectCode},</if>
+            <if test="projectGoal != null">PROJECT_GOAL = #{projectGoal},</if>
+            <if test="projectCost != null">PROJECT_COST = #{projectCost},</if>
+            <if test="personalCost != null">PERSONAL_COST = #{personalCost},</if>
+            <if test="teachSource != null">TEACH_SOURCE = #{teachSource},</if>
+            <if test="foreignTeachFlag != null">FOREIGN_TEACH_FLAG = #{foreignTeachFlag},</if>
+            <if test="trainingContract != null">TRAINING_CONTRACT = #{trainingContract},</if>
+            <if test="trainingWritNo != null">TRAINING_WRIT_NO = #{trainingWritNo},</if>
+            <if test="cycleDay != null">CYCLE_DAY = #{cycleDay},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubTrainingById" parameterType="String">
+        delete from emp_sub_training where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubTrainingByIds" parameterType="String">
+        delete from emp_sub_training where REC_ID in 
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+    
+</mapper>

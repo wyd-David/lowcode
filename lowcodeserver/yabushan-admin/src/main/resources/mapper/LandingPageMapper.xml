@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.web.mapper.LandingPageMapper">
+
+    <!-- 订单号匹配 -->
+    <select id="selectOrderMatching" parameterType="com.yabushan.web.model.vo.YmxOrderInfoVO" resultType="com.yabushan.web.model.entity.YmxOrderInfo">
+        select
+            ORDER_ID as orderId, AMAZON_ORDER_ID as amazonOrderId, MERCHANT_ORDER_ID as merchantOrderId, PURCHASE_DATE as purchaseDate, ORDER_STATUS orderStatus, SALES_CHANNEL salesChannel, ORDER_CHANNEL orderChannel, URL url, SHIP_SERVICE_LEVEL shipServiceLevel, PRODUCT_NAME productName, SKU sku, ASIN asin, ITEM_STATUS itemStatus, QUANTITY quantity, CURRENCY currency, ITEM_PRICE itemPrice, ITEM_TAX itemTax, SHIPPING_PRICE shippingPrice, SHIPPING_TAX shippingTax, GIFT_WRAP_PRICE giftWrapPrice, GIFT_WRAP_TAX giftWrapTax, ITEM_PROMOTION_DISCOUNT itemPromotionDiscount, SHIP_PROMOTION_DISCOUNT shipPromotionDiscount, SHIP_CITY shipCity, SHIP_POSTAL_CODE shipPostalCode, SHIP_STATE shipState, SHIP_COUNTRY shipCountry, PROMOTION_IDS promotionIds, IS_BUSINESS_ORDER isBusinessOrder, PURCHASE_ORDER_NUMBER purchaseOrderNumber, CUSTOMER_INFORMATION_ID customerInformationId, PRICE_DESIGNATION priceDesignation, CREATED_BY createdBy, CREATED_TIME createdTime, LAST_UPDATED_BY lastUpdatedBy, LAST_UPDATED_TIME lastUpdatedTime
+        from ymx_order_info
+        where ORDER_ID = #{orderId}
+    </select>
+
+    <!-- 根据 ASIN 查询对应礼物 -->
+    <select id="selectGiftInfo" parameterType="java.lang.String" resultType="com.yabushan.web.model.entity.YmxGiftInfo">
+        select GIFT_ID as giftId, GIFT_NAME as giftName, GIFT_IMAGE as giftImage, CREATED_BY as createdBy, CREATED_TIME as createdTime from ymx_gift_info g where g.GIFT_ID in (
+            select t.GIFT_ID from ymx_order_gift_info t where t.asin = #{asin} )
+    </select>
+
+    <!-- 录入客户个人信息 -->
+    <insert id="insertCustomerInformationInfo" parameterType="com.yabushan.web.model.entity.YmxCustomerInformationInfo">
+        insert into ymx_customer_information_info(CUSTOMER_INFORMATION_ID, CUSTOMER_EMAIL, CUSTOMER_NAME, CUSTOMER_FACEBOOK_ID, CREATED_BY, CREATED_TIME)
+        values (#{customerInformationId}, #{customerEmail}, #{customerName}, #{customerFacebookId}, #{createdBy}, SYSDATE())
+    </insert>
+
+    <!-- 记录客户所选礼物信息 -->
+    <insert id="recordCustomerGifts" parameterType="com.yabushan.web.model.vo.YmxCustomerGiftInfoVO">
+        insert into ymx_customer_gift_info(CUSTOMER_GIFT_ID, CUSTOMER_INFORMATION_ID, GIFT_ID, ORDER_ID,CREATED_BY, CREATED_TIME)
+        values (#{customerGiftId}, #{customerInformationId}, #{giftId}, #{orderId}, #{createdBy}, SYSDATE())
+    </insert>
+
+    <!-- 记录客户所选星级信息 -->
+    <insert id="recordCustomerStarRating" parameterType="com.yabushan.web.model.vo.YmxCustomerGiftInfoVO">
+        insert into ymx_comment_info(COMMENT_ID, COMMENT_STAR_RATING, CREATED_BY, CREATED_TIME)
+        values (#{commentId}, #{commentStarRating}, #{createdBy}, SYSDATE())
+    </insert>
+
+    <!-- 更新订单表 -->
+    <update id="updateOrderId" parameterType="com.yabushan.web.model.vo.YmxOrderInfoVO">
+        update ymx_order_info
+        <set>
+            <if test="customerInformationId != null and customerInformationId != ''">
+              CUSTOMER_INFORMATION_ID = #{customerInformationId},
+            </if>
+            <if test="lastUpdatedBy != null and lastUpdatedBy != ''">
+              LAST_UPDATED_BY = #{lastUpdatedBy},
+            </if>
+            <if test="lastUpdatedTime != null">
+              LAST_UPDATED_TIME = SYSDATE()
+            </if>
+        </set>
+        where ORDER_ID = #{orderId}
+    </update>
+
+    <!-- 更新评论表 -->
+    <update id="updateCustomerStarRating" parameterType="com.yabushan.web.model.vo.YmxCommentInfoVO">
+        update ymx_comment_info
+        <set>
+            <if test="commentImage != null and commentImage != ''">
+                COMMENT_IMAGE = #{commentImage},
+            </if>
+            <if test="commentThankYou != null and commentThankYou != ''">
+                COMMENT_THANK_YOU = #{commentThankYou},
+            </if>
+            <if test="lastUpdatedBy != null and lastUpdatedBy != ''">
+                LAST_UPDATED_BY = #{lastUpdatedBy},
+            </if>
+            <if test="lastUpdatedTime != null">
+                LAST_UPDATED_TIME = SYSDATE()
+            </if>
+        </set>
+        where COMMENT_ID = #{commentId}
+    </update>
+
+    <!--&lt;!&ndash;新增HCM推送数据&ndash;&gt;-->
+    <!--<insert id="insertHcmJoinEmpInfo" parameterType="com.bingo.models.entity.HcmJoinEmpInfo">-->
+        <!--insert into HCM_JOIN_EMP_INFO(KEY_ID, EMPID, EMPNAME, SEX, NATION, BIRTHDAY, NATIVEPLACE, POSITION, POSITIONNAME, DEPARTMENTID, COMPANYID, DEPARTMENTCODE, COMPANYCODE, STATE, USERPRINCIPALNAME, MANAGERID, MANAGERNAME, DEFAULTMANAGERID, DEFAULTMANAGERNAME, OLDID, OLDDEPARTMENTID, OLDCOMPANYID, COMPANYNAME, DEPARTMENTNAME, MOBILEPHONE, MFLAG, POSLINE, UPDATETIME, ENTRYDATE, LEAVEDATE, LAST_UPDATED_TIME, IS_DEAL_WITH)-->
+        <!--values (#{keyId}, #{empId}, #{empName}, #{sex}, #{nation}, #{birthday}, #{nativeplace}, #{position}, #{positionname}, #{departmentId}, #{companyId}, #{departmentCode},#{companyCode}, #{state}, #{userprincipalname}, #{managerid}, #{managername}, #{defaultmanagerid}, #{defaultmanagername}, #{oldId}, #{oldDepartmentId}, #{oldCompanyId}, #{companyName},-->
+ <!--#{departmentName}, #{mobilephone}, #{mflag}, #{posline}, #{updatetime}, #{entrydate}, #{leavedate}, #{lastUpdatedTime}, #{isdealwith})-->
+    <!--</insert>-->
+
+    <!--&lt;!&ndash;通过主键修改数据&ndash;&gt;-->
+    <!--<update id="update">-->
+        <!--update XZ_EMP_INFO-->
+        <!--<set>-->
+            <!--<if test="empCode != null and empCode != ''">-->
+                <!--EMP_CODE = #{empCode},-->
+            <!--</if>-->
+            <!--<if test="userId != null">-->
+                <!--USER_ID = #{userId},-->
+            <!--</if>-->
+            <!--<if test="empName != null and empName != ''">-->
+                <!--EMP_NAME = #{empName},-->
+            <!--</if>-->
+            <!--<if test="companyId != null and companyId != ''">-->
+                <!--COMPANY_ID = #{companyId},-->
+            <!--</if>-->
+            <!--<if test="orgId != null and orgId != ''">-->
+                <!--ORG_ID = #{orgId},-->
+            <!--</if>-->
+            <!--<if test="postLevel != null and postLevel != ''">-->
+                <!--POST_LEVEL = #{postLevel},-->
+            <!--</if>-->
+            <!--<if test="empPosition != null and empPosition != ''">-->
+                <!--EMP_POSITION = #{empPosition},-->
+            <!--</if>-->
+            <!--<if test="empStatus != null and empStatus != ''">-->
+                <!--EMP_STATUS = #{empStatus},-->
+            <!--</if>-->
+            <!--<if test="createdBy != null and createdBy != ''">-->
+                <!--CREATED_BY = #{createdBy},-->
+            <!--</if>-->
+            <!--<if test="createdTime != null">-->
+                <!--CREATED_TIME = #{createdTime},-->
+            <!--</if>-->
+            <!--<if test="lastUpdatedBy != null and lastUpdatedBy != ''">-->
+                <!--LAST_UPDATED_BY = #{lastUpdatedBy},-->
+            <!--</if>-->
+            <!--<if test="lastUpdatedTime != null">-->
+                <!--LAST_UPDATED_TIME = #{lastUpdatedTime},-->
+            <!--</if>-->
+        <!--</set>-->
+        <!--where EMP_ID = #{empId}-->
+    <!--</update>-->
+    <!--&lt;!&ndash;通过主键修改组织临时表数据&ndash;&gt;-->
+    <!--<update id="updateOrgInfo">-->
+        <!--update XZ_EMP_INFO_TMP-->
+        <!--<set>-->
+            <!--<if test="name != null and name != ''">-->
+                <!--NAME = #{name},-->
+            <!--</if>-->
+        <!--</set>-->
+        <!--where ID = #{id}-->
+    <!--</update>-->
+
+    <!--&lt;!&ndash;通过主键删除&ndash;&gt;-->
+    <!--<delete id="deleteById">-->
+        <!--delete from XZ_EMP_INFO where EMP_ID = #{empId}-->
+    <!--</delete>-->
+
+    <!--&lt;!&ndash;通过主键删除组织临时表数据&ndash;&gt;-->
+    <!--<delete id="deleteOrgInfo">-->
+        <!--delete from XZ_EMP_INFO_TMP where ID = #{id}-->
+    <!--</delete>-->
+
+</mapper>

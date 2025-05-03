@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.DataApiInfosMapper">
+    <resultMap type="DataApiInfos" id="DataApiInfosResult">
+        <result property="id"    column="ID"    />
+        <result property="resourceId"    column="resource_id"    />
+        <result property="resourceCode"    column="resource_code"    />
+        <result property="resourceName"    column="resource_name"    />
+        <result property="datasourceId"    column="datasource_id"    />
+        <result property="apiDefination"    column="api_defination"    />
+        <result property="apiCode"    column="api_code"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="apiStatus"    column="api_status"    />
+    </resultMap>
+
+    <sql id="selectDataApiInfosVo">
+        select ID, resource_id, resource_code, resource_name, datasource_id, api_defination, api_code, create_by, create_time, update_by, update_time, remark, api_status from data_api_infos
+    </sql>
+
+    <select id="selectDataApiInfosList" parameterType="DataApiInfos" resultMap="DataApiInfosResult">
+        <include refid="selectDataApiInfosVo"/>
+        <where>
+            <if test="id != null "> and ID = #{id}</if>
+            <if test="resourceId != null  and resourceId != ''"> and resource_id like concat('%', #{resourceId}, '%')</if>
+            <if test="resourceCode != null  and resourceCode != ''"> and resource_code like concat('%', #{resourceCode}, '%')</if>
+            <if test="resourceName != null  and resourceName != ''"> and resource_name like concat('%', #{resourceName}, '%')</if>
+            <if test="datasourceId != null  and datasourceId != ''"> and datasource_id like concat('%', #{datasourceId}, '%')</if>
+            <if test="apiDefination != null  and apiDefination != ''"> and api_defination = #{apiDefination}</if>
+            <if test="apiCode != null  and apiCode != ''"> and api_code like concat('%', #{apiCode}, '%')</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
+            <if test="remark != null  and remark != ''"> and remark = #{remark}</if>
+            <if test="apiStatus != null  and apiStatus != ''"> and api_status = #{apiStatus}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectDataApiInfosById" parameterType="Long" resultMap="DataApiInfosResult">
+        <include refid="selectDataApiInfosVo"/>
+        where ID = #{id}
+    </select>
+
+    <select id="selectDataApiInfosCode" parameterType="String" resultMap="DataApiInfosResult">
+        <include refid="selectDataApiInfosVo"/>
+        where api_code = #{apiCode}
+    </select>
+
+    <insert id="insertDataApiInfos" parameterType="DataApiInfos" useGeneratedKeys="true" keyProperty="id">
+        insert into data_api_infos
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resourceId != null">resource_id,</if>
+            <if test="resourceCode != null">resource_code,</if>
+            <if test="resourceName != null">resource_name,</if>
+            <if test="datasourceId != null">datasource_id,</if>
+            <if test="apiDefination != null">api_defination,</if>
+            <if test="apiCode != null">api_code,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="apiStatus != null">api_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resourceId != null">#{resourceId},</if>
+            <if test="resourceCode != null">#{resourceCode},</if>
+            <if test="resourceName != null">#{resourceName},</if>
+            <if test="datasourceId != null">#{datasourceId},</if>
+            <if test="apiDefination != null">#{apiDefination},</if>
+            <if test="apiCode != null">#{apiCode},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="apiStatus != null">#{apiStatus},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertDataApiInfos" parameterType="java.util.List">
+        insert into data_api_infos
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            resource_id,
+            resource_code,
+            resource_name,
+            datasource_id,
+            api_defination,
+            api_code,
+            create_by,
+            create_time,
+            update_by,
+            update_time,
+            remark,
+            api_status,
+        </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.resourceId},
+                #{item.resourceCode},
+                #{item.resourceName},
+                #{item.datasourceId},
+                #{item.apiDefination},
+                #{item.apiCode},
+                #{item.createBy},
+                #{item.createTime},
+                #{item.updateBy},
+                #{item.updateTime},
+                #{item.remark},
+                #{item.apiStatus},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateDataApiInfos" parameterType="DataApiInfos">
+        update data_api_infos
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="resourceId != null">resource_id = #{resourceId},</if>
+            <if test="resourceCode != null">resource_code = #{resourceCode},</if>
+            <if test="resourceName != null">resource_name = #{resourceName},</if>
+            <if test="datasourceId != null">datasource_id = #{datasourceId},</if>
+            <if test="apiDefination != null">api_defination = #{apiDefination},</if>
+            <if test="apiCode != null">api_code = #{apiCode},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="apiStatus != null">api_status = #{apiStatus},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteDataApiInfosById" parameterType="Long">
+        delete from data_api_infos where ID = #{id}
+    </delete>
+
+    <delete id="deleteDataApiInfosByIds" parameterType="String">
+        delete from data_api_infos where ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

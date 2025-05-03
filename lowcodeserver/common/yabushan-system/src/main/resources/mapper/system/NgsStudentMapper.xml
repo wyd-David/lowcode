@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.NgsStudentMapper">
+
+    <resultMap type="NgsStudent" id="NgsStudentResult">
+        <result property="stId"    column="ST_ID"    />
+        <result property="stName"    column="ST_NAME"    />
+        <result property="stMobile"    column="ST_MOBILE"    />
+        <result property="stOrgId"    column="ST_ORG_ID"    />
+        <result property="stClassNum"    column="ST_CLASS_NUM"    />
+        <result property="stAllNum"    column="ST_ALL_NUM"    />
+        <result property="stMemo"    column="ST_MEMO"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+        <result property="orgName"    column="ORG_NAME"    />
+    </resultMap>
+
+    <sql id="selectNgsStudentVo">
+        SELECT
+          S.ST_ID,
+          S.ST_NAME,
+          S.ST_MOBILE,
+          S.ST_ORG_ID,
+          S.ST_CLASS_NUM,
+          S.ST_ALL_NUM,
+          S.ST_MEMO,
+          S.CREATE_TIME,
+          S.CREATE_BY,
+          S.UPDATE_BY,
+          S.UPDATE_TIME,
+          T.ORG_NAME
+        FROM
+          ngs_student S  join  NGS_ORG t on s.ST_ORG_ID=T.org_id
+    </sql>
+
+    <select id="selectNgsStudentList" parameterType="NgsStudent" resultMap="NgsStudentResult">
+        <include refid="selectNgsStudentVo"/>
+        <where>
+            <if test="stName != null  and stName != ''"> and S.ST_NAME like concat('%', #{stName}, '%')</if>
+            <if test="stMobile != null  and stMobile != ''"> and S.ST_MOBILE = #{stMobile}</if>
+            <if test="stOrgId != null  and stOrgId != ''"> and S.ST_ORG_ID = #{stOrgId}</if>
+            <if test="stClassNum != null "> and S.ST_CLASS_NUM = #{stClassNum}</if>
+            <if test="stAllNum != null "> and S.ST_ALL_NUM = #{stAllNum}</if>
+            <if test="stMemo != null  and stMemo != ''"> and S.ST_MEMO = #{stMemo}</if>
+            <if test="createTime != null "> and S.CREATE_TIME = #{createTime}</if>
+            <if test="createBy != null  and createBy != ''"> and S.CREATE_BY = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and S.UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and S.UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectNgsStudentById" parameterType="String" resultMap="NgsStudentResult">
+        <include refid="selectNgsStudentVo"/>
+        where S.ST_ID = #{stId}
+    </select>
+
+    <insert id="insertNgsStudent" parameterType="NgsStudent">
+        insert into ngs_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stId != null">ST_ID,</if>
+            <if test="stName != null">ST_NAME,</if>
+            <if test="stMobile != null">ST_MOBILE,</if>
+            <if test="stOrgId != null">ST_ORG_ID,</if>
+            <if test="stClassNum != null">ST_CLASS_NUM,</if>
+            <if test="stAllNum != null">ST_ALL_NUM,</if>
+            <if test="stMemo != null">ST_MEMO,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stId != null">#{stId},</if>
+            <if test="stName != null">#{stName},</if>
+            <if test="stMobile != null">#{stMobile},</if>
+            <if test="stOrgId != null">#{stOrgId},</if>
+            <if test="stClassNum != null">#{stClassNum},</if>
+            <if test="stAllNum != null">#{stAllNum},</if>
+            <if test="stMemo != null">#{stMemo},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNgsStudent" parameterType="NgsStudent">
+        update ngs_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stName != null">ST_NAME = #{stName},</if>
+            <if test="stMobile != null">ST_MOBILE = #{stMobile},</if>
+            <if test="stOrgId != null">ST_ORG_ID = #{stOrgId},</if>
+            <if test="stClassNum != null">ST_CLASS_NUM = #{stClassNum},</if>
+            <if test="stAllNum != null">ST_ALL_NUM = #{stAllNum},</if>
+            <if test="stMemo != null">ST_MEMO = #{stMemo},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where ST_ID = #{stId}
+    </update>
+
+    <delete id="deleteNgsStudentById" parameterType="String">
+        delete from ngs_student where ST_ID = #{stId}
+    </delete>
+
+    <delete id="deleteNgsStudentByIds" parameterType="String">
+        delete from ngs_student where ST_ID in
+        <foreach item="stId" collection="array" open="(" separator="," close=")">
+            #{stId}
+        </foreach>
+    </delete>
+
+</mapper>

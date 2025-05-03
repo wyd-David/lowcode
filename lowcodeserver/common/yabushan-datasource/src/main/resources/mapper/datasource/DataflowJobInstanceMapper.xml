@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.DataflowJobInstanceMapper">
+    
+    <resultMap type="DataflowJobInstance" id="DataflowJobInstanceResult">
+        <result property="jobInstanceId"    column="job_instance_id"    />
+        <result property="jobId"    column="job_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="status"    column="status"    />
+        <result property="errorMessage"    column="error_message"    />
+        <result property="versionNo"    column="version_no"    />
+        <result property="firstRunTime"    column="first_run_time"    />
+        <result property="eventTime"    column="event_time"    />
+        <result property="retryCount"    column="retry_count"    />
+        <result property="rescheduleCount"    column="reschedule_count"    />
+        <result property="nextRetryTime"    column="next_retry_time"    />
+        <result property="isCancelRetry"    column="is_cancel_retry"    />
+        <result property="runExecutor"    column="run_executor"    />
+        <result property="logPath"    column="log_path"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="runType"    column="run_type"    />
+    </resultMap>
+
+    <sql id="selectDataflowJobInstanceVo">
+        select job_instance_id, job_id, create_time, start_time, end_time, status, error_message, version_no, first_run_time, event_time, retry_count, reschedule_count, next_retry_time, is_cancel_retry, run_executor, log_path, create_user_id, run_type from dataflow_job_instance
+    </sql>
+
+    <select id="selectDataflowJobInstanceList" parameterType="DataflowJobInstance" resultMap="DataflowJobInstanceResult">
+        <include refid="selectDataflowJobInstanceVo"/>
+        <where>  
+            <if test="jobId != null  and jobId != ''"> and job_id = #{jobId}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="errorMessage != null  and errorMessage != ''"> and error_message = #{errorMessage}</if>
+            <if test="versionNo != null "> and version_no = #{versionNo}</if>
+            <if test="firstRunTime != null "> and first_run_time = #{firstRunTime}</if>
+            <if test="eventTime != null "> and event_time = #{eventTime}</if>
+            <if test="retryCount != null "> and retry_count = #{retryCount}</if>
+            <if test="rescheduleCount != null "> and reschedule_count = #{rescheduleCount}</if>
+            <if test="nextRetryTime != null "> and next_retry_time = #{nextRetryTime}</if>
+            <if test="isCancelRetry != null  and isCancelRetry != ''"> and is_cancel_retry = #{isCancelRetry}</if>
+            <if test="runExecutor != null  and runExecutor != ''"> and run_executor = #{runExecutor}</if>
+            <if test="logPath != null  and logPath != ''"> and log_path = #{logPath}</if>
+            <if test="createUserId != null  and createUserId != ''"> and create_user_id = #{createUserId}</if>
+            <if test="runType != null "> and run_type = #{runType}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataflowJobInstanceById" parameterType="String" resultMap="DataflowJobInstanceResult">
+        <include refid="selectDataflowJobInstanceVo"/>
+        where job_instance_id = #{jobInstanceId}
+    </select>
+        
+    <insert id="insertDataflowJobInstance" parameterType="DataflowJobInstance">
+        insert into dataflow_job_instance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobInstanceId != null">job_instance_id,</if>
+            <if test="jobId != null and jobId != ''">job_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="status != null">status,</if>
+            <if test="errorMessage != null">error_message,</if>
+            <if test="versionNo != null">version_no,</if>
+            <if test="firstRunTime != null">first_run_time,</if>
+            <if test="eventTime != null">event_time,</if>
+            <if test="retryCount != null">retry_count,</if>
+            <if test="rescheduleCount != null">reschedule_count,</if>
+            <if test="nextRetryTime != null">next_retry_time,</if>
+            <if test="isCancelRetry != null">is_cancel_retry,</if>
+            <if test="runExecutor != null">run_executor,</if>
+            <if test="logPath != null">log_path,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="runType != null">run_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobInstanceId != null">#{jobInstanceId},</if>
+            <if test="jobId != null and jobId != ''">#{jobId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="errorMessage != null">#{errorMessage},</if>
+            <if test="versionNo != null">#{versionNo},</if>
+            <if test="firstRunTime != null">#{firstRunTime},</if>
+            <if test="eventTime != null">#{eventTime},</if>
+            <if test="retryCount != null">#{retryCount},</if>
+            <if test="rescheduleCount != null">#{rescheduleCount},</if>
+            <if test="nextRetryTime != null">#{nextRetryTime},</if>
+            <if test="isCancelRetry != null">#{isCancelRetry},</if>
+            <if test="runExecutor != null">#{runExecutor},</if>
+            <if test="logPath != null">#{logPath},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="runType != null">#{runType},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertDataflowJobInstance" parameterType="java.util.List">
+        insert into dataflow_job_instance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                job_instance_id,
+                                                                job_id,
+                                                                create_time,
+                                                                start_time,
+                                                                end_time,
+                                                                status,
+                                                                error_message,
+                                                                version_no,
+                                                                first_run_time,
+                                                                event_time,
+                                                                retry_count,
+                                                                reschedule_count,
+                                                                next_retry_time,
+                                                                is_cancel_retry,
+                                                                run_executor,
+                                                                log_path,
+                                                                create_user_id,
+                                                                run_type,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.jobInstanceId},
+                                                                                #{item.jobId},
+                                                                                #{item.createTime},
+                                                                                #{item.startTime},
+                                                                                #{item.endTime},
+                                                                                #{item.status},
+                                                                                #{item.errorMessage},
+                                                                                #{item.versionNo},
+                                                                                #{item.firstRunTime},
+                                                                                #{item.eventTime},
+                                                                                #{item.retryCount},
+                                                                                #{item.rescheduleCount},
+                                                                                #{item.nextRetryTime},
+                                                                                #{item.isCancelRetry},
+                                                                                #{item.runExecutor},
+                                                                                #{item.logPath},
+                                                                                #{item.createUserId},
+                                                                                #{item.runType},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateDataflowJobInstance" parameterType="DataflowJobInstance">
+        update dataflow_job_instance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobId != null and jobId != ''">job_id = #{jobId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="errorMessage != null">error_message = #{errorMessage},</if>
+            <if test="versionNo != null">version_no = #{versionNo},</if>
+            <if test="firstRunTime != null">first_run_time = #{firstRunTime},</if>
+            <if test="eventTime != null">event_time = #{eventTime},</if>
+            <if test="retryCount != null">retry_count = #{retryCount},</if>
+            <if test="rescheduleCount != null">reschedule_count = #{rescheduleCount},</if>
+            <if test="nextRetryTime != null">next_retry_time = #{nextRetryTime},</if>
+            <if test="isCancelRetry != null">is_cancel_retry = #{isCancelRetry},</if>
+            <if test="runExecutor != null">run_executor = #{runExecutor},</if>
+            <if test="logPath != null">log_path = #{logPath},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="runType != null">run_type = #{runType},</if>
+        </trim>
+        where job_instance_id = #{jobInstanceId}
+    </update>
+
+    <delete id="deleteDataflowJobInstanceById" parameterType="String">
+        delete from dataflow_job_instance where job_instance_id = #{jobInstanceId}
+    </delete>
+
+    <delete id="deleteDataflowJobInstanceByIds" parameterType="String">
+        delete from dataflow_job_instance where job_instance_id in 
+        <foreach item="jobInstanceId" collection="array" open="(" separator="," close=")">
+            #{jobInstanceId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.AppAccountMapper">
+
+    <resultMap type="AppAccount" id="AppAccountResult">
+        <result property="accountId"    column="account_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="appId"    column="app_id"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="accesskey"    column="accessKey"    />
+        <result property="secretkey"    column="secretKey"    />
+        <result property="defaultInstanceId"    column="default_instance_id"    />
+        <result property="accountStatus"    column="account_status"    />
+        <result property="accountDesc"    column="account_desc"    />
+        <result property="isAdmin"    column="is_admin"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createUserName"    column="create_user_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="lastUpdateUserId"    column="last_update_user_id"    />
+        <result property="lastUpdateUserName"    column="last_update_user_name"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+        <result property="belongSpaceId"    column="belong_space_id"    />
+        <result property="ownerType"    column="owner_type"    />
+        <result property="ownerId"    column="owner_id"    />
+        <result property="ownerName"    column="owner_name"    />
+        <result property="sortId"    column="sort_id"    />
+    </resultMap>
+
+    <sql id="selectAppAccountVo">
+        select account_id, parent_id, app_id, username, password, accessKey, secretKey, default_instance_id, account_status, account_desc, is_admin, create_user_id, create_user_name, create_time, last_update_user_id, last_update_user_name, last_update_time, belong_space_id, owner_type, owner_id, owner_name, sort_id from app_account
+    </sql>
+
+    <select id="selectAppAccountList" parameterType="AppAccount" resultMap="AppAccountResult">
+        <include refid="selectAppAccountVo"/>
+        <where>
+            <if test="parentId != null  and parentId != ''"> and parent_id = #{parentId}</if>
+            <if test="appId != null  and appId != ''"> and app_id = #{appId}</if>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="accesskey != null  and accesskey != ''"> and accessKey = #{accesskey}</if>
+            <if test="secretkey != null  and secretkey != ''"> and secretKey = #{secretkey}</if>
+            <if test="defaultInstanceId != null  and defaultInstanceId != ''"> and default_instance_id = #{defaultInstanceId}</if>
+            <if test="accountStatus != null  and accountStatus != ''"> and account_status = #{accountStatus}</if>
+            <if test="accountDesc != null  and accountDesc != ''"> and account_desc = #{accountDesc}</if>
+            <if test="isAdmin != null "> and is_admin = #{isAdmin}</if>
+            <if test="createUserId != null  and createUserId != ''"> and create_user_id = #{createUserId}</if>
+            <if test="createUserName != null  and createUserName != ''"> and create_user_name like concat('%', #{createUserName}, '%')</if>
+            <if test="lastUpdateUserId != null  and lastUpdateUserId != ''"> and last_update_user_id = #{lastUpdateUserId}</if>
+            <if test="lastUpdateUserName != null  and lastUpdateUserName != ''"> and last_update_user_name like concat('%', #{lastUpdateUserName}, '%')</if>
+            <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
+            <if test="belongSpaceId != null  and belongSpaceId != ''"> and belong_space_id = #{belongSpaceId}</if>
+            <if test="ownerType != null  and ownerType != ''"> and owner_type = #{ownerType}</if>
+            <if test="ownerId != null  and ownerId != ''"> and owner_id = #{ownerId}</if>
+            <if test="ownerName != null  and ownerName != ''"> and owner_name like concat('%', #{ownerName}, '%')</if>
+            <if test="sortId != null "> and sort_id = #{sortId}</if>
+        </where>
+    </select>
+
+    <select id="selectAppAccountById" parameterType="String" resultMap="AppAccountResult">
+        <include refid="selectAppAccountVo"/>
+        where account_id = #{accountId}
+    </select>
+
+    <insert id="insertAppAccount" parameterType="AppAccount">
+        insert into app_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">account_id,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="appId != null and appId != ''">app_id,</if>
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="accesskey != null">accessKey,</if>
+            <if test="secretkey != null">secretKey,</if>
+            <if test="defaultInstanceId != null">default_instance_id,</if>
+            <if test="accountStatus != null">account_status,</if>
+            <if test="accountDesc != null">account_desc,</if>
+            <if test="isAdmin != null">is_admin,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createUserName != null">create_user_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="lastUpdateUserId != null">last_update_user_id,</if>
+            <if test="lastUpdateUserName != null">last_update_user_name,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+            <if test="belongSpaceId != null">belong_space_id,</if>
+            <if test="ownerType != null">owner_type,</if>
+            <if test="ownerId != null">owner_id,</if>
+            <if test="ownerName != null">owner_name,</if>
+            <if test="sortId != null">sort_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">#{accountId},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="appId != null and appId != ''">#{appId},</if>
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="accesskey != null">#{accesskey},</if>
+            <if test="secretkey != null">#{secretkey},</if>
+            <if test="defaultInstanceId != null">#{defaultInstanceId},</if>
+            <if test="accountStatus != null">#{accountStatus},</if>
+            <if test="accountDesc != null">#{accountDesc},</if>
+            <if test="isAdmin != null">#{isAdmin},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createUserName != null">#{createUserName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="lastUpdateUserId != null">#{lastUpdateUserId},</if>
+            <if test="lastUpdateUserName != null">#{lastUpdateUserName},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+            <if test="belongSpaceId != null">#{belongSpaceId},</if>
+            <if test="ownerType != null">#{ownerType},</if>
+            <if test="ownerId != null">#{ownerId},</if>
+            <if test="ownerName != null">#{ownerName},</if>
+            <if test="sortId != null">#{sortId},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertAppAccount" parameterType="java.util.List">
+        insert into app_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            account_id,
+            parent_id,
+            app_id,
+            username,
+            password,
+            accessKey,
+            secretKey,
+            default_instance_id,
+            account_status,
+            account_desc,
+            is_admin,
+            create_user_id,
+            create_user_name,
+            create_time,
+            last_update_user_id,
+            last_update_user_name,
+            last_update_time,
+            belong_space_id,
+            owner_type,
+            owner_id,
+            owner_name,
+            sort_id,
+        </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.accountId},
+                #{item.parentId},
+                #{item.appId},
+                #{item.username},
+                #{item.password},
+                #{item.accesskey},
+                #{item.secretkey},
+                #{item.defaultInstanceId},
+                #{item.accountStatus},
+                #{item.accountDesc},
+                #{item.isAdmin},
+                #{item.createUserId},
+                #{item.createUserName},
+                #{item.createTime},
+                #{item.lastUpdateUserId},
+                #{item.lastUpdateUserName},
+                #{item.lastUpdateTime},
+                #{item.belongSpaceId},
+                #{item.ownerType},
+                #{item.ownerId},
+                #{item.ownerName},
+                #{item.sortId},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateAppAccount" parameterType="AppAccount">
+        update app_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="appId != null and appId != ''">app_id = #{appId},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="accesskey != null">accessKey = #{accesskey},</if>
+            <if test="secretkey != null">secretKey = #{secretkey},</if>
+            <if test="defaultInstanceId != null">default_instance_id = #{defaultInstanceId},</if>
+            <if test="accountStatus != null">account_status = #{accountStatus},</if>
+            <if test="accountDesc != null">account_desc = #{accountDesc},</if>
+            <if test="isAdmin != null">is_admin = #{isAdmin},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUserName != null">create_user_name = #{createUserName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="lastUpdateUserId != null">last_update_user_id = #{lastUpdateUserId},</if>
+            <if test="lastUpdateUserName != null">last_update_user_name = #{lastUpdateUserName},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="belongSpaceId != null">belong_space_id = #{belongSpaceId},</if>
+            <if test="ownerType != null">owner_type = #{ownerType},</if>
+            <if test="ownerId != null">owner_id = #{ownerId},</if>
+            <if test="ownerName != null">owner_name = #{ownerName},</if>
+            <if test="sortId != null">sort_id = #{sortId},</if>
+        </trim>
+        where account_id = #{accountId}
+    </update>
+
+    <delete id="deleteAppAccountById" parameterType="String">
+        delete from app_account where account_id = #{accountId}
+    </delete>
+
+    <delete id="deleteAppAccountByIds" parameterType="String">
+        delete from app_account where account_id in
+        <foreach item="accountId" collection="array" open="(" separator="," close=")">
+            #{accountId}
+        </foreach>
+    </delete>
+
+</mapper>

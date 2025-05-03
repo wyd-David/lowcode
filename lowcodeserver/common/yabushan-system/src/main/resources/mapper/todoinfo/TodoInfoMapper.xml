@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.TodoInfoMapper">
+
+    <resultMap type="TodoInfo" id="TodoInfoResult">
+        <result property="todoId" column="todo_id"/>
+        <result property="businessKey" column="business_key"/>
+        <result property="todoTitle" column="todo_title"/>
+        <result property="applyId" column="apply_id"/>
+        <result property="todoText" column="todo_text"/>
+        <result property="todoApplicant" column="todo_applicant"/>
+        <result property="todoUrl" column="todo_url"/>
+        <result property="todoHandler" column="todo_handler"/>
+        <result property="todoHandlerName" column="todo_handler_name"/>
+        <result property="todoTpName" column="todo_tp_name"/>
+        <result property="todoTpLink" column="todo_tp_link"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="todoType" column="todo_type"/>
+        <result property="todoDataType" column="todo_data_type"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="taskType" column="task_type"/>
+        <result property="taskId" column="task_id"/>
+        <result property="pcUrl" column="pc_url"/>
+        <result property="realDealUser" column="real_deal_user"/>
+        <result property="realDealUserName" column="real_deal_user_name"/>
+        <result property="applyType" column="apply_type"/>
+        <result property="parentId" column="parent_id"/>
+    </resultMap>
+
+    <resultMap type="TodoInfoVo" id="TodoInfoVoResult">
+        <result property="todoId" column="todo_id"/>
+        <result property="businessKey" column="business_key"/>
+        <result property="todoTitle" column="todo_title"/>
+        <result property="applyId" column="apply_id"/>
+        <result property="applyName" column="apply_name"/>
+        <result property="todoText" column="todo_text"/>
+        <result property="todoApplicant" column="todo_applicant"/>
+        <result property="todoUrl" column="todo_url"/>
+        <result property="todoHandler" column="todo_handler"/>
+        <result property="todoHandlerName" column="todo_handler_name"/>
+        <result property="todoTpName" column="todo_tp_name"/>
+        <result property="todoTpLink" column="todo_tp_link"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="todoType" column="todo_type"/>
+        <result property="todoDataType" column="todo_data_type"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="imgPath" column="IMG_PATH"/>
+        <result property="pcUrl" column="pc_url"/>
+    </resultMap>
+
+    <sql id="selectTodoInfoVo">
+        select t.todo_id, t.business_key, t.todo_title, t.apply_id, t.todo_text, t.todo_applicant, t.todo_url, t.todo_handler, t.todo_handler_name, t.todo_tp_name, t.todo_tp_link, t.create_time,t.CREATE_BY, t.modify_time, t.todo_type, t.todo_data_type, t.push_status,t.pc_url,t.real_deal_user,t.real_deal_user_name,u.nick_name as todoApplicantName,t.task_id from todo_info t left join sys_user u on t.todo_applicant = u.user_name
+    </sql>
+    <sql id="selectTodoInfoOrApplyinfoVo">
+        select todo_id, business_key, todo_title, apply_id, todo_text, todo_applicant, todo_url, todo_handler, todo_handler_name, todo_tp_name, todo_tp_link, create_time,CREATE_BY, modify_time, todo_type,pc_url,real_deal_user,real_deal_user_name, todo_data_type, push_status,B.IMG_PATH from todo_info A,wx_portal_apply_info B
+    </sql>
+    <select id="selectTodoInfoList" parameterType="TodoInfo" resultMap="TodoInfoResult">
+        <include refid="selectTodoInfoVo"/>
+        <where>
+
+            <if test="businessKey != null  and businessKey != ''">and business_key  like concat('%', #{businessKey}, '%') </if>
+            <if test="applyIdList != null  and applyIdList != ''">
+
+                <foreach item="item" index="index" collection="applyIdList" open="(" separator="OR" close=")">
+                    apply_id =#{item}
+                </foreach>
+            </if>
+            <if test="todoTitle != null  and todoTitle != ''">and todo_title like concat('%', #{todoTitle}, '%')</if>
+            <if test="createTimeText != null  and createTimeText != ''">and DATE_FORMAT(t.create_time, '%Y-%m-%d %H:%i:%S'
+                ) > #{createTimeText}
+            </if>
+            <if test="todoText != null  and todoText != ''">and todo_text = #{todoText}</if>
+            <if test="todoApplicant != null  and todoApplicant != ''">and todo_applicant = #{todoApplicant}</if>
+            <if test="todoUrl != null  and todoUrl != ''">and todo_url = #{todoUrl}</if>
+            <if test="todoHandler != null  and todoHandler != ''">and todo_handler = #{todoHandler}</if>
+            <if test="todoHandlerName != null  and todoHandlerName != ''">and todo_handler_name like concat('%',
+                #{todoHandlerName}, '%')
+            </if>
+            <if test="todoType != null  and todoType != ''">and todo_type = #{todoType}</if>
+            <if test="taskId != null">and task_id = #{taskId}</if>
+            <if test="todoDataType != null  and todoDataType != ''">and todo_data_type = #{todoDataType}</if>
+            <if test="applyType != null  and applyType != ''">and apply_id in (select ID from wx_portal_apply_info where
+                APPLY_TYPE=#{applyType})
+            </if>
+            <if test="todoInfoOrS != null  and todoInfoOrS != ''">and (todo_applicant like concat('%',
+                #{todoInfoOrS}, '%') OR todo_handler_name like concat('%',
+                #{todoInfoOrS}, '%') OR todo_title like concat('%',
+                #{todoInfoOrS}, '%') OR todo_text like concat('%',
+                #{todoInfoOrS}, '%'))
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectMyTodoInfoList" parameterType="TodoInfoVo" resultMap="TodoInfoVoResult">
+        SELECT
+        f.business_key,
+        f.todo_handler,
+        f.todo_applicant,
+        f.todo_text,
+        f.todo_url,
+        f.todo_id,
+        f.apply_id,
+        f.create_time,
+        f.todo_title,
+        f.modify_time,
+        f.pc_url,
+        f.real_deal_user,
+        f.real_deal_user_name,
+        f.todo_data_type,
+        f.todo_type,
+        f.todo_tp_name,
+        f.todo_tp_link,
+        f.todo_handler_name,
+        t.IMG_PATH
+        FROM
+        todo_info f,
+        wx_portal_apply_info t
+        <where>
+            t.ID = f.apply_id
+            and t.ID != 'e8285459-8478-49d7-b727-6785d86b9e22'
+            <if test="businessKey != null  and businessKey != ''">and f.business_key = #{businessKey}</if>
+            <if test="applyIdList != null  and applyIdList != ''">
+
+                <foreach item="item" index="index" collection="applyIdList" open="(" separator="OR" close=")">
+                    f.apply_id =#{item}
+                </foreach>
+            </if>
+            <if test="todoTitle != null  and todoTitle != ''">and f.todo_title like concat('%', #{todoTitle}, '%')</if>
+            <!--<if test="createTimeText != null  and createTimeText != ''">and DATE_FORMAT(f.create_time, '%Y-%m-%d
+                %H:%i:%S'
+                ) > #{createTimeText}
+            </if>-->
+            <if test="todoText != null  and todoText != ''">and f.todo_text = #{todoText}</if>
+            <if test="todoApplicant != null  and todoApplicant != ''">and f.todo_applicant = #{todoApplicant}</if>
+            <if test="todoUrl != null  and todoUrl != ''">and f.todo_url = #{todoUrl}</if>
+            <if test="todoHandler != null  and todoHandler != ''">and f.todo_handler = #{todoHandler}</if>
+            <if test="todoHandlerName != null  and todoHandlerName != ''">and f.todo_handler_name like concat('%',
+                #{todoHandlerName}, '%')
+            </if>
+            <if test="todoType != null  and todoType != ''">and f.todo_type = #{todoType}</if>
+           <!-- <if test="taskId != null">and f.task_id = #{taskId}</if>-->
+            <if test="todoDataType != null  and todoDataType != ''">and f.todo_data_type = #{todoDataType}</if>
+            <!--<if test="applyType != null  and applyType != ''">and f.apply_id in (select ID from wx_portal_apply_info
+                where APPLY_TYPE=#{applyType})
+            </if>-->
+            <if test="todoInfoOrS != null  and todoInfoOrS != ''">and (f.todo_applicant like concat('%',
+                #{todoInfoOrS}, '%') OR f.todo_handler_name like concat('%',
+                #{todoInfoOrS}, '%') OR f.todo_title like concat('%',
+                #{todoInfoOrS}, '%') OR f.todo_text like concat('%',
+                #{todoInfoOrS}, '%'))
+            </if>
+            AND f.`task_id` IN (
+            SELECT
+            MAX( t.`task_id` )
+            FROM
+            todo_info t
+            WHERE
+            t.`todo_applicant` = #{todoApplicant}
+            AND t.`real_deal_user` = #{realDealUser}
+            GROUP BY
+            t.`business_key`,
+            t.`apply_id`
+            )
+        </where>
+        ORDER BY f.create_time DESC
+    </select>
+
+    <select id="selectTodoInfoOrApplyinfoList" parameterType="TodoInfoVo" resultMap="TodoInfoVoResult">
+        SELECT
+        `pf`.`NAME_` AS `todo_tp_name`,
+        `pf`.`KEY_` AS `PROCESS_KEY`,
+        `p`.`BUSINESS_KEY_` AS `business_key`,
+        `p`.`PROC_INST_ID_` AS `PROC_INST_ID`,
+        `p`.`START_TIME_` AS `PROC_START_TIME`,
+        `p`.`START_USER_ID_` AS `PROC_START_USER_ID`,
+        `task`.`NAME_` AS `todo_tp_link`,
+        `task`.`ASSIGNEE_` AS `ASSIGNEE`,
+        `task`.`TASK_DEF_KEY_` AS `TASK_DEF_KEY`,
+        `task`.`START_TIME_` AS `create_time`,
+        `task`.`CLAIM_TIME_` AS `TASK_CLAIM_TIME`,
+        `task`.`END_TIME_` AS `modify_time`,
+        `task`.`DELETE_REASON_` AS `todo_type`,
+        `task`.`ID_` AS `todo_id`,
+        `task`.`DURATION_` AS `DURATION_`,
+        `t`.`todo_title` AS `todo_title`,
+        `t`.`todo_text` AS `todo_text`,
+        `t`.`todo_data_type` AS `todo_data_type`,
+        `t`.`todo_applicant` AS `todo_applicant`,
+        `u`.`nick_name` AS `todo_handler_name`,
+        `t`.`todo_url` AS `todo_url`,
+        `t`.`apply_id` AS `apply_id`,
+        (SELECT
+        `var`.`TEXT_`
+        FROM `act_hi_varinst` `var`
+        WHERE ((`var`.`PROC_INST_ID_` = `p`.`PROC_INST_ID_`)
+        AND (`var`.`NAME_` = 'nextDealUser')
+        AND (`var`.`TASK_ID_` = `task`.`ID_`))) AS `nextDealUser`,
+        (SELECT
+        `var`.`TEXT_`
+        FROM `act_hi_varinst` `var`
+        WHERE ((`var`.`PROC_INST_ID_` = `p`.`PROC_INST_ID_`)
+        AND (`var`.`TASK_ID_` = `task`.`ID_`)
+        AND (`var`.`NAME_` = 'option')
+        )) AS `option`,
+        `u`.`user_name` AS `user_name`,
+        `t`.`todo_handler` AS `todo_handler`,
+        (SELECT
+        CONCAT(( SELECT CONFIG_VALUE FROM SYS_CONFIG C WHERE C.`config_key`='S3'),`f`.`IMG_PATH`)
+        FROM `wx_portal_apply_info` `f`
+        WHERE (`f`.`ID` = `t`.`apply_id`)) AS `IMG_PATH`
+        FROM todo_info T ,act_hi_taskinst task,sys_user u ,
+        act_re_procdef pf,act_hi_procinst P
+        WHERE T.task_id=task.ID_
+        AND pf.ID_ = p.PROC_DEF_ID_
+        AND task.PROC_INST_ID_ = p.PROC_INST_ID_
+        AND u.`user_name`=t.`todo_applicant`
+        <if test="businessKey != null  and businessKey != ''">and business_key = #{businessKey}</if>
+        <if test="applyIdList != null  and applyIdList != ''">
+            and
+            <foreach item="item" index="index" collection="applyIdList" open="(" separator="OR" close=")">
+                T.apply_id =#{item}
+            </foreach>
+        </if>
+        <if test="todoTitle != null  and todoTitle != ''">and t.todo_title like concat('%',
+            #{todoTitle}, '%')
+        </if>
+        <if test="todoText != null  and todoText != ''">and t.todo_text = #{todoText}</if>
+        <if test="todoApplicant != null  and todoApplicant != ''">and t.todo_applicant = #{todoApplicant}</if>
+        <if test="todoUrl != null  and todoUrl != ''">and t.todo_url = #{todoUrl}</if>
+        <if test="todoHandler != null  and todoHandler != ''">and t.todo_handler=#{todoHandler}</if>
+        <if test="todoHandlerName != null  and todoHandlerName != ''">and u.nick_name like concat('%',
+            #{todoHandlerName}, '%')
+        </if>
+        <if test="todoInfoOrS != null  and todoInfoOrS != ''">and (t.todo_applicant like concat('%',
+            #{todoInfoOrS}, '%') OR t.todo_handler_name like concat('%',
+            #{todoInfoOrS}, '%') OR t.todo_title like concat('%',
+            #{todoInfoOrS}, '%') OR t.todo_text like concat('%',
+            #{todoInfoOrS}, '%'))
+        </if>
+        <if test="todoType != null  and todoType != ''">and task.delete_reason_ = #{todoType}</if>
+        <if test="todoType == null  or todoType ==''">and task.delete_reason_ is null</if>
+        <if test="todoType == null  or todoType ==''">and task.delete_reason_ is null</if>
+
+        ORDER BY create_time desc
+    </select>
+
+    <select id="selectTodoInfoGetAppName" parameterType="TodoInfoVo" resultMap="TodoInfoVoResult">
+        SELECT
+        distinct `t`.`apply_id`,
+        s.APPLY_NAME AS apply_name
+        FROM
+        todo_info T,
+        act_hi_taskinst task,
+        sys_user u,
+        act_re_procdef pf,
+        act_hi_procinst P ,
+        wx_portal_apply_info s
+        WHERE
+        T.task_id = task.ID_
+        AND pf.ID_ = p.PROC_DEF_ID_
+        AND task.PROC_INST_ID_ = p.PROC_INST_ID_
+        AND u.`user_name` = t.`todo_applicant`
+        AND s.ID=T.apply_id
+        <if test="businessKey != null  and businessKey != ''">and business_key = #{businessKey}</if>
+        <if test="todoTitle != null  and todoTitle != ''">and t.todo_title like concat('%',
+            #{todoTitle}, '%')
+        </if>
+        <if test="todoText != null  and todoText != ''">and t.todo_text = #{todoText}</if>
+        <if test="todoApplicant != null  and todoApplicant != ''">and t.todo_applicant = #{todoApplicant}</if>
+        <if test="todoUrl != null  and todoUrl != ''">and t.todo_url = #{todoUrl}</if>
+        <if test="todoHandler != null  and todoHandler != ''">and t.todo_handler=#{todoHandler}</if>
+        <if test="todoHandlerName != null  and todoHandlerName != ''">and u.nick_name like concat('%',
+            #{todoHandlerName}, '%')
+        </if>
+        <if test="todoInfoOrS != null  and todoInfoOrS != ''">and (t.todo_applicant like concat('%',
+            #{todoInfoOrS}, '%') OR t.todo_handler_name like concat('%',
+            #{todoInfoOrS}, '%') OR t.todo_title like concat('%',
+            #{todoInfoOrS}, '%') OR t.todo_text like concat('%',
+            #{todoInfoOrS}, '%'))
+        </if>
+        <if test="applyIdList != null  and applyIdList != ''">
+
+            <foreach item="item" index="index" collection="applyIdList" open="(" separator="OR" close=")">
+                t.apply_id =#{item}
+            </foreach>
+        </if>
+        <if test="todoType != null  and todoType != ''">and task.delete_reason_ = #{todoType}</if>
+        <if test="todoType == null  or todoType ==''">and task.delete_reason_ is null</if>
+        <if test="todoType == null  or todoType ==''">and task.delete_reason_ is null</if>
+    </select>
+
+
+    <select id="selectTodoInfoById" parameterType="String" resultMap="TodoInfoResult">
+        <include refid="selectTodoInfoVo"/>
+        where todo_id = #{todoId}
+    </select>
+
+    <select id="selectTodoInfoByTaskId" parameterType="String" resultType="com.yabushan.system.domain.vo.TodoInfoVo">
+        SELECT
+        T.`NAME_` AS currentStepName,
+        T.`ASSIGNEE_` AS assignee,
+        T.`START_TIME_` AS startTime,
+        T.`DURATION_` doration,
+        T.`DELETE_REASON_` deleteReason,
+        R.NAME_ AS processName,
+        (SELECT
+        tt.assignee_
+        FROM
+        act_hi_taskinst tt
+        WHERE tt.proc_inst_id_ = t.`PROC_INST_ID_`
+        AND tt.id_ &lt; t.`ID_`
+        ORDER BY tt.id_ DESC
+        LIMIT 1) AS preLoginId,
+        (SELECT
+        tt.NAME_
+        FROM
+        act_hi_taskinst tt
+        WHERE tt.proc_inst_id_ = t.`PROC_INST_ID_`
+        AND tt.id_ &lt;  t.`ID_`
+        ORDER BY tt.id_ DESC
+        LIMIT 1) AS preStepName
+        FROM
+        ACT_HI_TASKINST T,
+        act_re_procdef R
+        WHERE R.ID_ = T.PROC_DEF_ID_
+        AND T.`ID_` = #{taskId} ;
+    </select>
+
+    <select id="selectTodoInfoCount" parameterType="String" resultMap="TodoInfoVoResult">
+        SELECT
+        COUNT(t.todo_id) AS todo_data_type,
+        task.delete_reason_ AS todo_type
+        FROM todo_info T join act_hi_taskinst task on task.id_=t.task_id
+        <where>
+            <if test="todoHandler != null  and todoHandler != ''">and todo_handler=#{todoHandler}</if>
+        </where>
+        GROUP BY
+        delete_reason_
+    </select>
+
+    <insert id="insertTodoInfo" parameterType="TodoInfo">
+        insert into todo_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="todoId != null">todo_id,</if>
+            <if test="businessKey != null and businessKey != ''">business_key,</if>
+            <if test="todoTitle != null and todoTitle != ''">todo_title,</if>
+            <if test="applyId != null and applyId != ''">apply_id,</if>
+            <if test="todoText != null and todoText != ''">todo_text,</if>
+            <if test="todoApplicant != null">todo_applicant,</if>
+            <if test="todoUrl != null">todo_url,</if>
+            <if test="todoHandler != null">todo_handler,</if>
+            <if test="todoHandlerName != null">todo_handler_name,</if>
+            <if test="todoTpName != null">todo_tp_name,</if>
+            <if test="todoTpLink != null">todo_tp_link,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="modifyTime != null">modify_time,</if>
+            <if test="todoType != null and todoType != ''">todo_type,</if>
+            <if test="todoDataType != null">todo_data_type,</if>
+            <if test="pushStatus != null">push_status,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="taskType != null">task_type,</if>
+            <if test="taskId != null">task_id,</if>
+            <if test="pcUrl != null">pc_url,</if>
+            <if test="realDealUser != null">real_deal_user,</if>
+            <if test="realDealUserName != null">real_deal_user_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="todoId != null">#{todoId},</if>
+            <if test="businessKey != null and businessKey != ''">#{businessKey},</if>
+            <if test="todoTitle != null and todoTitle != ''">#{todoTitle},</if>
+            <if test="applyId != null and applyId != ''">#{applyId},</if>
+            <if test="todoText != null and todoText != ''">#{todoText},</if>
+            <if test="todoApplicant != null">#{todoApplicant},</if>
+            <if test="todoUrl != null">#{todoUrl},</if>
+            <if test="todoHandler != null">#{todoHandler},</if>
+            <if test="todoHandlerName != null">#{todoHandlerName},</if>
+            <if test="todoTpName != null">#{todoTpName},</if>
+            <if test="todoTpLink != null">#{todoTpLink},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="modifyTime != null">#{modifyTime},</if>
+            <if test="todoType != null and todoType != ''">#{todoType},</if>
+            <if test="todoDataType != null">#{todoDataType},</if>
+            <if test="pushStatus != null">#{pushStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="taskType != null">#{taskType},</if>
+            <if test="taskId != null">#{taskId},</if>
+            <if test="pcUrl != null">#{pcUrl},</if>
+            <if test="realDealUser != null">#{realDealUser},</if>
+            <if test="realDealUserName != null">#{realDealUserName},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertTodoInfo" parameterType="java.util.List">
+        insert into todo_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            todo_id,
+            business_key,
+            todo_title,
+            apply_id,
+            todo_text,
+            todo_applicant,
+            todo_url,
+            todo_handler,
+            todo_handler_name,
+            todo_tp_name,
+            todo_tp_link,
+            create_time,
+            modify_time,
+            todo_type,
+            todo_data_type,
+            push_status,
+            CREATE_BY,
+            task_type,
+            task_id,
+            pc_url,
+            real_deal_user,
+            real_deal_user_name,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.todoId},
+                #{item.businessKey},
+                #{item.todoTitle},
+                #{item.applyId},
+                #{item.todoText},
+                #{item.todoApplicant},
+                #{item.todoUrl},
+                #{item.todoHandler},
+                #{item.todoHandlerName},
+                #{item.todoTpName},
+                #{item.todoTpLink},
+                #{item.createTime},
+                #{item.modifyTime},
+                #{item.todoType},
+                #{item.todoDataType},
+                #{item.pushStatus},
+                #{item.createBy},
+                #{item.taskType},
+                #{item.taskId},
+                #{item.pcUrl},
+                #{item.realDealUser},
+                #{item.realDealUserName},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateTodoInfo" parameterType="TodoInfo">
+        update todo_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="businessKey != null and businessKey != ''">business_key = #{businessKey},</if>
+            <if test="todoTitle != null and todoTitle != ''">todo_title = #{todoTitle},</if>
+            <if test="applyId != null and applyId != ''">apply_id = #{applyId},</if>
+            <if test="todoText != null and todoText != ''">todo_text = #{todoText},</if>
+            <if test="todoApplicant != null">todo_applicant = #{todoApplicant},</if>
+            <if test="todoUrl != null">todo_url = #{todoUrl},</if>
+            <if test="todoHandler != null">todo_handler = #{todoHandler},</if>
+            <if test="todoHandlerName != null">todo_handler_name = #{todoHandlerName},</if>
+            <if test="todoTpName != null">todo_tp_name = #{todoTpName},</if>
+            <if test="todoTpLink != null">todo_tp_link = #{todoTpLink},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+            <if test="todoType != null and todoType != ''">todo_type = #{todoType},</if>
+            <if test="todoDataType != null">todo_data_type = #{todoDataType},</if>
+            <if test="pushStatus != null">push_status = #{pushStatus},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="taskType != null">task_type = #{taskType},</if>
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="pcUrl != null">pc_url = #{pcUrl},</if>
+            <if test="realDealUser != null">real_deal_user = #{realDealUser},</if>
+            <if test="realDealUserName != null">real_deal_user_name = #{realDealUserName},</if>
+        </trim>
+        where todo_id = #{todoId}
+    </update>
+
+    <update id="updateTodoInfoByTaskIdAndTodoHandler" parameterType="String">
+        update todo_info
+        set
+            todo_type = 1,
+            todo_data_type = 2
+        where task_id = #{taskId}
+        and todo_handler = #{todoHandler}
+
+    </update>
+
+
+    <delete id="deleteTodoInfoById" parameterType="String">
+        delete from todo_info where todo_id = #{todoId}
+    </delete>
+
+    <delete id="deleteTodoInfoByIds" parameterType="String">
+        delete from todo_info where todo_id in
+        <foreach item="todoId" collection="array" open="(" separator="," close=")">
+            #{todoId}
+        </foreach>
+    </delete>
+
+    <select id="getToDoInfoCount" resultType="java.util.HashMap">
+        SELECT
+        w.id as id,
+        w.APPLY_NAME as applyName ,
+        count(t.apply_id) as total
+        FROM
+        wx_portal_apply_info w
+        LEFT JOIN todo_info t ON w.ID = t.apply_id
+        WHERE
+        t.todo_type = '0'
+        AND t.todo_data_type = '1'
+        AND w.APPLY_TYPE = '5'
+        <if test="todoHandler != null  and todoHandler != ''">and todo_handler=#{todoHandler}</if>
+        <if test="applyId != null  and applyId != ''">and apply_id=#{applyId}</if>
+        <if test="applyType != null  and applyType != ''">and w.APPLY_TYPE=#{applyType}</if>
+        GROUP BY
+        w.id
+    </select>
+
+    <select id="getToDoList" parameterType="TodoInfo" resultMap="TodoInfoResult">
+        <include refid="selectTodoInfoVo"/>
+        <where>
+            <if test="businessKey != null  and businessKey != ''">and business_key = #{businessKey}</if>
+            <if test="applyIdList != null  and applyIdList != ''">
+
+                <foreach item="item" index="index" collection="applyIdList" open="(" separator="OR" close=")">
+                    apply_id =#{item}
+                </foreach>
+            </if>
+            <if test="todoTitle != null  and todoTitle != ''">and todo_title like concat('%', #{todoTitle}, '%')</if>
+            <if test="createTimeText != null  and createTimeText != ''">and DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%S'
+                ) > #{createTimeText}
+            </if>
+            <if test="todoText != null  and todoText != ''">and todo_text = #{todoText}</if>
+            <if test="todoApplicant != null  and todoApplicant != ''">and todo_applicant = #{todoApplicant}</if>
+            <if test="todoUrl != null  and todoUrl != ''">and todo_url = #{todoUrl}</if>
+            <if test="todoUrlLike != null  and todoUrlLike != ''">and todo_url like concat(#{todoUrlLike},'%') </if>
+            <if test="todoHandler != null  and todoHandler != ''">and todo_handler = #{todoHandler}</if>
+            <if test="todoHandlerName != null  and todoHandlerName != ''">and todo_handler_name like concat('%',
+                #{todoHandlerName}, '%')
+            </if>
+            <if test="todoType != null  and todoType != ''">and todo_type = #{todoType}</if>
+            <if test="taskId != null">and task_id = #{taskId}</if>
+            <if test="todoDataType != null  and todoDataType != ''">and todo_data_type = #{todoDataType}</if>
+            <if test="applyType != null  and applyType != ''">and apply_id in (select ID from wx_portal_apply_info where
+                APPLY_TYPE=#{applyType})
+            </if>
+            <if test="parentId != null  and parentId != ''">and apply_id in (select ID from wx_portal_apply_info where
+                PARENT_ID=#{parentId})
+            </if>
+            <if test="condition != null  and condition != ''">and ( todo_title like concat('%', #{condition}, '%') or
+                todo_handler_name like concat('%', #{condition}, '%') or real_deal_user_name like concat('%',
+                #{condition}, '%') )
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    <select id="selectTodoInfoByBusinessKeyAndTodoHandler" resultType="com.yabushan.system.domain.TodoInfo">
+        <include refid="selectTodoInfoVo"/>
+        <where>
+            <if test="businessKey != null  and businessKey != ''">and business_key = #{businessKey}</if>
+            <if test="todoHandler != null  and todoHandler != ''">and t.todo_handler=#{todoHandler}</if>
+        </where>
+        LIMIT 0, 1
+    </select>
+
+    <delete id="deleteTodoInfoByBusinesskey" parameterType="String">
+        delete from todo_info where business_key = #{businessKey}
+    </delete>
+
+
+
+    <select id="getAuthorizeToDoList" parameterType="Map" resultMap="TodoInfoResult">
+        <include refid="selectTodoInfoVo"/>
+        <where>
+            <if test="businessKey != null  and businessKey != ''">and business_key = #{businessKey}</if>
+            <if test="todoHandler != null  and todoHandler != ''">
+                and (todo_applicant = #{todoHandler}
+                or todo_handler = #{todoHandler})
+            </if>
+        </where>
+        order by todo_data_type asc,create_time desc limit 1
+    </select>
+
+    <delete id="deleteTodoInfoByBusinesskeys" parameterType="String">
+        delete from todo_info where business_key in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateTodoInfoByBusinessKey" parameterType="TodoInfo">
+        update todo_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="businessKey != null and businessKey != ''">business_key = #{businessKey},</if>
+            <if test="todoTitle != null and todoTitle != ''">todo_title = #{todoTitle},</if>
+            <if test="applyId != null and applyId != ''">apply_id = #{applyId},</if>
+            <if test="todoText != null and todoText != ''">todo_text = #{todoText},</if>
+            <if test="todoApplicant != null">todo_applicant = #{todoApplicant},</if>
+            <if test="todoUrl != null">todo_url = #{todoUrl},</if>
+            <if test="todoHandler != null">todo_handler = #{todoHandler},</if>
+            <if test="todoHandlerName != null">todo_handler_name = #{todoHandlerName},</if>
+            <if test="todoTpName != null">todo_tp_name = #{todoTpName},</if>
+            <if test="todoTpLink != null">todo_tp_link = #{todoTpLink},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+            <if test="todoType != null and todoType != ''">todo_type = #{todoType},</if>
+            <if test="todoDataType != null">todo_data_type = #{todoDataType},</if>
+            <if test="pushStatus != null">push_status = #{pushStatus},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="taskType != null">task_type = #{taskType},</if>
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="pcUrl != null">pc_url = #{pcUrl},</if>
+            <if test="realDealUser != null">real_deal_user = #{realDealUser},</if>
+            <if test="realDealUserName != null">real_deal_user_name = #{realDealUserName},</if>
+        </trim>
+        where business_key = #{businessKey}
+    </update>
+
+    <update id="updateTodoInfoByTaskId" parameterType="TodoInfo">
+        update todo_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="businessKey != null and businessKey != ''">business_key = #{businessKey},</if>
+            <if test="todoTitle != null and todoTitle != ''">todo_title = #{todoTitle},</if>
+            <if test="applyId != null and applyId != ''">apply_id = #{applyId},</if>
+            <if test="todoText != null and todoText != ''">todo_text = #{todoText},</if>
+            <if test="todoApplicant != null">todo_applicant = #{todoApplicant},</if>
+            <if test="todoUrl != null">todo_url = #{todoUrl},</if>
+            <if test="todoHandler != null">todo_handler = #{todoHandler},</if>
+            <if test="todoHandlerName != null">todo_handler_name = #{todoHandlerName},</if>
+            <if test="todoTpName != null">todo_tp_name = #{todoTpName},</if>
+            <if test="todoTpLink != null">todo_tp_link = #{todoTpLink},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+            <if test="todoType != null and todoType != ''">todo_type = #{todoType},</if>
+            <if test="todoDataType != null">todo_data_type = #{todoDataType},</if>
+            <if test="pushStatus != null">push_status = #{pushStatus},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="taskType != null">task_type = #{taskType},</if>
+            <if test="pcUrl != null">pc_url = #{pcUrl},</if>
+            <if test="realDealUser != null">real_deal_user = #{realDealUser},</if>
+            <if test="realDealUserName != null">real_deal_user_name = #{realDealUserName},</if>
+        </trim>
+        where task_id = #{taskId}
+    </update>
+</mapper>

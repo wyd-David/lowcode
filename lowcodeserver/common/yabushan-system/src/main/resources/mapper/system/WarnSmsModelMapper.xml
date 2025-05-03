@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.WarnSmsModelMapper">
+    
+    <resultMap type="WarnSmsModel" id="WarnSmsModelResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="modelId"    column="model_id"    />
+        <result property="content"    column="content"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="status"    column="status"    />
+        <result property="exData"    column="ex_data"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="innerHandler"    column="inner_handler"    />
+        <result property="title"    column="title"    />
+        <result property="innerStatus"    column="inner_status"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+        <result property="orgId"    column="org_id"    />
+    </resultMap>
+
+    <sql id="selectWarnSmsModelVo">
+        select id, name, model_id, content, create_time, status, ex_data, tenant_id, inner_handler, title, inner_status, created_by, updated_by, created_at, updated_at, org_id from warn_sms_model
+    </sql>
+
+    <select id="selectWarnSmsModelList" parameterType="WarnSmsModel" resultMap="WarnSmsModelResult">
+        <include refid="selectWarnSmsModelVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="modelId != null  and modelId != ''"> and model_id = #{modelId}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="exData != null  and exData != ''"> and ex_data = #{exData}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="innerHandler != null  and innerHandler != ''"> and inner_handler = #{innerHandler}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="innerStatus != null  and innerStatus != ''"> and inner_status = #{innerStatus}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by = #{updatedBy}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+            <if test="orgId != null  and orgId != ''"> and org_id = #{orgId}</if>
+        </where>
+    </select>
+    
+    <select id="selectWarnSmsModelById" parameterType="String" resultMap="WarnSmsModelResult">
+        <include refid="selectWarnSmsModelVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectWarnSmsModelByModelId" parameterType="String" resultMap="WarnSmsModelResult">
+        <include refid="selectWarnSmsModelVo"/>
+        where model_id = #{modelId}
+    </select>
+        
+    <insert id="insertWarnSmsModel" parameterType="WarnSmsModel">
+        insert into warn_sms_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="modelId != null">model_id,</if>
+            <if test="content != null">content,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="status != null">status,</if>
+            <if test="exData != null">ex_data,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="innerHandler != null">inner_handler,</if>
+            <if test="title != null">title,</if>
+            <if test="innerStatus != null">inner_status,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+            <if test="orgId != null">org_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="modelId != null">#{modelId},</if>
+            <if test="content != null">#{content},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="exData != null">#{exData},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="innerHandler != null">#{innerHandler},</if>
+            <if test="title != null">#{title},</if>
+            <if test="innerStatus != null">#{innerStatus},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+            <if test="orgId != null">#{orgId},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertWarnSmsModel" parameterType="java.util.List">
+        insert into warn_sms_model
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                id,
+                                                                name,
+                                                                model_id,
+                                                                content,
+                                                                create_time,
+                                                                status,
+                                                                ex_data,
+                                                                tenant_id,
+                                                                inner_handler,
+                                                                title,
+                                                                inner_status,
+                                                                created_by,
+                                                                updated_by,
+                                                                created_at,
+                                                                updated_at,
+                                                                org_id,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.id},
+                                                                                #{item.name},
+                                                                                #{item.modelId},
+                                                                                #{item.content},
+                                                                                #{item.createTime},
+                                                                                #{item.status},
+                                                                                #{item.exData},
+                                                                                #{item.tenantId},
+                                                                                #{item.innerHandler},
+                                                                                #{item.title},
+                                                                                #{item.innerStatus},
+                                                                                #{item.createdBy},
+                                                                                #{item.updatedBy},
+                                                                                #{item.createdAt},
+                                                                                #{item.updatedAt},
+                                                                                #{item.orgId},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateWarnSmsModel" parameterType="WarnSmsModel">
+        update warn_sms_model
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="modelId != null">model_id = #{modelId},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="exData != null">ex_data = #{exData},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="innerHandler != null">inner_handler = #{innerHandler},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="innerStatus != null">inner_status = #{innerStatus},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+            <if test="orgId != null">org_id = #{orgId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWarnSmsModelById" parameterType="String">
+        delete from warn_sms_model where id = #{id}
+    </delete>
+
+    <delete id="deleteWarnSmsModelByIds" parameterType="String">
+        delete from warn_sms_model where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

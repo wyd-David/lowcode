@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.DataflowJobTaskInstanceBadDataMapper">
+    
+    <resultMap type="DataflowJobTaskInstanceBadData" id="DataflowJobTaskInstanceBadDataResult">
+        <result property="badDataId"    column="bad_data_id"    />
+        <result property="taskInstanceId"    column="task_instance_id"    />
+        <result property="ruleId"    column="rule_id"    />
+        <result property="ruleName"    column="rule_name"    />
+        <result property="badDataFilePath"    column="bad_data_file_path"    />
+        <result property="recordCount"    column="record_count"    />
+    </resultMap>
+
+    <sql id="selectDataflowJobTaskInstanceBadDataVo">
+        select bad_data_id, task_instance_id, rule_id, rule_name, bad_data_file_path, record_count from dataflow_job_task_instance_bad_data
+    </sql>
+
+    <select id="selectDataflowJobTaskInstanceBadDataList" parameterType="DataflowJobTaskInstanceBadData" resultMap="DataflowJobTaskInstanceBadDataResult">
+        <include refid="selectDataflowJobTaskInstanceBadDataVo"/>
+        <where>  
+            <if test="taskInstanceId != null  and taskInstanceId != ''"> and task_instance_id = #{taskInstanceId}</if>
+            <if test="ruleId != null  and ruleId != ''"> and rule_id = #{ruleId}</if>
+            <if test="ruleName != null  and ruleName != ''"> and rule_name like concat('%', #{ruleName}, '%')</if>
+            <if test="badDataFilePath != null  and badDataFilePath != ''"> and bad_data_file_path = #{badDataFilePath}</if>
+            <if test="recordCount != null "> and record_count = #{recordCount}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataflowJobTaskInstanceBadDataById" parameterType="String" resultMap="DataflowJobTaskInstanceBadDataResult">
+        <include refid="selectDataflowJobTaskInstanceBadDataVo"/>
+        where bad_data_id = #{badDataId}
+    </select>
+        
+    <insert id="insertDataflowJobTaskInstanceBadData" parameterType="DataflowJobTaskInstanceBadData">
+        insert into dataflow_job_task_instance_bad_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="badDataId != null">bad_data_id,</if>
+            <if test="taskInstanceId != null">task_instance_id,</if>
+            <if test="ruleId != null">rule_id,</if>
+            <if test="ruleName != null">rule_name,</if>
+            <if test="badDataFilePath != null">bad_data_file_path,</if>
+            <if test="recordCount != null">record_count,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="badDataId != null">#{badDataId},</if>
+            <if test="taskInstanceId != null">#{taskInstanceId},</if>
+            <if test="ruleId != null">#{ruleId},</if>
+            <if test="ruleName != null">#{ruleName},</if>
+            <if test="badDataFilePath != null">#{badDataFilePath},</if>
+            <if test="recordCount != null">#{recordCount},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertDataflowJobTaskInstanceBadData" parameterType="java.util.List">
+        insert into dataflow_job_task_instance_bad_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                bad_data_id,
+                                                                task_instance_id,
+                                                                rule_id,
+                                                                rule_name,
+                                                                bad_data_file_path,
+                                                                record_count,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.badDataId},
+                                                                                #{item.taskInstanceId},
+                                                                                #{item.ruleId},
+                                                                                #{item.ruleName},
+                                                                                #{item.badDataFilePath},
+                                                                                #{item.recordCount},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateDataflowJobTaskInstanceBadData" parameterType="DataflowJobTaskInstanceBadData">
+        update dataflow_job_task_instance_bad_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskInstanceId != null">task_instance_id = #{taskInstanceId},</if>
+            <if test="ruleId != null">rule_id = #{ruleId},</if>
+            <if test="ruleName != null">rule_name = #{ruleName},</if>
+            <if test="badDataFilePath != null">bad_data_file_path = #{badDataFilePath},</if>
+            <if test="recordCount != null">record_count = #{recordCount},</if>
+        </trim>
+        where bad_data_id = #{badDataId}
+    </update>
+
+    <delete id="deleteDataflowJobTaskInstanceBadDataById" parameterType="String">
+        delete from dataflow_job_task_instance_bad_data where bad_data_id = #{badDataId}
+    </delete>
+
+    <delete id="deleteDataflowJobTaskInstanceBadDataByIds" parameterType="String">
+        delete from dataflow_job_task_instance_bad_data where bad_data_id in 
+        <foreach item="badDataId" collection="array" open="(" separator="," close=")">
+            #{badDataId}
+        </foreach>
+    </delete>
+    
+</mapper>

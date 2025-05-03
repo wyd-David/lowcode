@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.HtGfRolePersonMapper">
+
+    <resultMap type="HtGfRolePerson" id="HtGfRolePersonResult">
+        <result property="id" column="id"/>
+        <result property="personLoginId" column="person_login_id"/>
+        <result property="personName" column="person_name"/>
+        <result property="bpmPerson" column="bpm_person"/>
+        <result property="bpmPersonCode" column="bpm_person_code"/>
+        <result property="dpName" column="dp_name"/>
+        <result property="dpId" column="dp_id"/>
+        <result property="isAb" column="is_ab"/>
+        <result property="xh" column="xh"/>
+        <result property="orgId" column="org_id"/>
+        <result property="name2" column="name2"/>
+        <result property="loginId2" column="login_id2"/>
+        <result property="bpmPerson2" column="bpm_person2"/>
+        <result property="dpName2" column="dp_name2"/>
+        <result property="dpId2" column="dp_id2"/>
+        <result property="isAb2" column="is_ab2"/>
+        <result property="xh2" column="xh2"/>
+        <result property="orgId2" column="org_id2"/>
+        <result property="synthFlag" column="synth_flag"/>
+    </resultMap>
+
+    <sql id="selectHtGfRolePersonVo">
+        select id, person_login_id, person_name, bpm_person, bpm_person_code, dp_name, dp_id, is_ab, xh, org_id, name2, login_id2, bpm_person2, dp_name2, dp_id2, is_ab2, xh2, org_id2, synth_flag from ht_gf_role_person
+    </sql>
+
+    <select id="selectHtGfRolePersonList" parameterType="HtGfRolePerson" resultMap="HtGfRolePersonResult">
+        <include refid="selectHtGfRolePersonVo"/>
+        <where>
+            <if test="personName != null  and personName != ''">and person_name like concat('%', #{personName}, '%')
+            </if>
+            <if test="bpmPerson != null  and bpmPerson != ''">and bpm_person = #{bpmPerson}</if>
+            <if test="dpName != null  and dpName != ''">and dp_name like concat('%', #{dpName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectHtGfRolePersonById" parameterType="String" resultMap="HtGfRolePersonResult">
+        <include refid="selectHtGfRolePersonVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHtGfRolePerson" parameterType="HtGfRolePerson">
+        insert into ht_gf_role_person
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="personLoginId != null">person_login_id,</if>
+            <if test="personName != null">person_name,</if>
+            <if test="bpmPerson != null">bpm_person,</if>
+            <if test="bpmPersonCode != null">bpm_person_code,</if>
+            <if test="dpName != null">dp_name,</if>
+            <if test="dpId != null">dp_id,</if>
+            <if test="isAb != null">is_ab,</if>
+            <if test="xh != null">xh,</if>
+            <if test="orgId != null">org_id,</if>
+            <if test="name2 != null">name2,</if>
+            <if test="loginId2 != null">login_id2,</if>
+            <if test="bpmPerson2 != null">bpm_person2,</if>
+            <if test="dpName2 != null">dp_name2,</if>
+            <if test="dpId2 != null">dp_id2,</if>
+            <if test="isAb2 != null">is_ab2,</if>
+            <if test="xh2 != null">xh2,</if>
+            <if test="orgId2 != null">org_id2,</if>
+            <if test="synthFlag != null">synth_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="personLoginId != null">#{personLoginId},</if>
+            <if test="personName != null">#{personName},</if>
+            <if test="bpmPerson != null">#{bpmPerson},</if>
+            <if test="bpmPersonCode != null">#{bpmPersonCode},</if>
+            <if test="dpName != null">#{dpName},</if>
+            <if test="dpId != null">#{dpId},</if>
+            <if test="isAb != null">#{isAb},</if>
+            <if test="xh != null">#{xh},</if>
+            <if test="orgId != null">#{orgId},</if>
+            <if test="name2 != null">#{name2},</if>
+            <if test="loginId2 != null">#{loginId2},</if>
+            <if test="bpmPerson2 != null">#{bpmPerson2},</if>
+            <if test="dpName2 != null">#{dpName2},</if>
+            <if test="dpId2 != null">#{dpId2},</if>
+            <if test="isAb2 != null">#{isAb2},</if>
+            <if test="xh2 != null">#{xh2},</if>
+            <if test="orgId2 != null">#{orgId2},</if>
+            <if test="synthFlag != null">#{synthFlag},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertHtGfRolePerson" parameterType="java.util.List">
+        insert into ht_gf_role_person
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            person_login_id,
+            person_name,
+            bpm_person,
+            bpm_person_code,
+            dp_name,
+            dp_id,
+            is_ab,
+            xh,
+            org_id,
+            name2,
+            login_id2,
+            bpm_person2,
+            dp_name2,
+            dp_id2,
+            is_ab2,
+            xh2,
+            org_id2,
+            synth_flag,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.id},
+                #{item.personLoginId},
+                #{item.personName},
+                #{item.bpmPerson},
+                #{item.bpmPersonCode},
+                #{item.dpName},
+                #{item.dpId},
+                #{item.isAb},
+                #{item.xh},
+                #{item.orgId},
+                #{item.name2},
+                #{item.loginId2},
+                #{item.bpmPerson2},
+                #{item.dpName2},
+                #{item.dpId2},
+                #{item.isAb2},
+                #{item.xh2},
+                #{item.orgId2},
+                #{item.synthFlag},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateHtGfRolePerson" parameterType="HtGfRolePerson">
+        update ht_gf_role_person
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personLoginId != null">person_login_id = #{personLoginId},</if>
+            <if test="personName != null">person_name = #{personName},</if>
+            <if test="bpmPerson != null">bpm_person = #{bpmPerson},</if>
+            <if test="bpmPersonCode != null">bpm_person_code = #{bpmPersonCode},</if>
+            <if test="dpName != null">dp_name = #{dpName},</if>
+            <if test="dpId != null">dp_id = #{dpId},</if>
+            <if test="isAb != null">is_ab = #{isAb},</if>
+            <if test="xh != null">xh = #{xh},</if>
+            <if test="orgId != null">org_id = #{orgId},</if>
+            <if test="name2 != null">name2 = #{name2},</if>
+            <if test="loginId2 != null">login_id2 = #{loginId2},</if>
+            <if test="bpmPerson2 != null">bpm_person2 = #{bpmPerson2},</if>
+            <if test="dpName2 != null">dp_name2 = #{dpName2},</if>
+            <if test="dpId2 != null">dp_id2 = #{dpId2},</if>
+            <if test="isAb2 != null">is_ab2 = #{isAb2},</if>
+            <if test="xh2 != null">xh2 = #{xh2},</if>
+            <if test="orgId2 != null">org_id2 = #{orgId2},</if>
+            <if test="synthFlag != null">synth_flag = #{synthFlag},</if>
+        </trim>
+        where person_login_id = #{personLoginId}
+    </update>
+
+    <delete id="deleteHtGfRolePersonById" parameterType="String">
+        delete from ht_gf_role_person where id = #{id}
+    </delete>
+
+    <delete id="deleteHtGfRolePersonByIds" parameterType="String">
+        delete from ht_gf_role_person where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getPersonByLoginId" parameterType="String" resultType="java.lang.Integer">
+        select count(*) from ht_gf_role_person
+        where person_login_id = #{loginId} limit 1
+    </select>
+
+</mapper>

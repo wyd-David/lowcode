@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.quartz.mapper.XunchaResultMapper">
+
+	<resultMap type="com.yabushan.quartz.domain.XunchaCheckedApplyInfoVo" id="XunchaCheckedApplyInfoResult">
+		<result property="createdBy"    column="CREATED_BY"    />
+		<result property="createdTime"    column="CREATED_TIME"    />
+		<result property="updatedBy"    column="UPDATED_BY"    />
+		<result property="updatedTime"    column="UPDATED_TIME"    />
+		<result property="id"    column="ID"    />
+		<result property="type"    column="TYPE"    />
+		<result property="approveStatus"    column="APPROVE_STATUS"    />
+		<result property="applyStatus"    column="APPLY_STATUS"    />
+		<result property="title"    column="TITLE"    />
+		<result property="year"    column="YEAR"    />
+		<result property="applyCode"    column="APPLY_CODE"    />
+		<result property="batchId"    column="BATCH_ID"    />
+		<result property="isDel" column="is_del" />
+		<result property="batchName" column="BATCH_NAME"/>
+		<result property="groupNames" column="groupNames" />
+		<result property="groupIds" column="groupIds" />
+		<result property="groupLeaderNames" column="groupLeaderNames" />
+	</resultMap>
+
+	<select id="getNeedCheckedList" parameterType="map" resultType="map">
+		select distinct a.id applyId , a.type applyType,  d.id detailId ,  d.GROUP_ID groupId, r.FROM_USER_TYPE fromUserType from
+		xuncha_checked_apply_info a
+		join xuncha_checked_apply_detail d on a.id = d.APPLY_ID
+		join xuncha_checked_exam_relation r on (a.id = r.APPLY_ID and d.id = r.DETAIL_ID)
+		where a.is_del = '0' and a.APPROVE_STATUS = '2'
+		and d.GROUP_ID  in(select d.GROUP_ID
+		from xuncha_checked_apply_detail d
+		where r.status='1'
+		and d.ID in (select distinct DETAIL_ID
+		from xuncha_checked_exam_relation
+		where status = '1' and LAST_TIME <![CDATA[ > ]]> now())
+		)
+		<if test="startTime != null and startTime != ''">
+			and DATE_FORMAT( r.LAST_TIME, '%Y%m%d%H%i' ) <![CDATA[ > ]]> #{startTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+			and DATE_FORMAT( r.LAST_TIME, '%Y%m%d%H%i' ) <![CDATA[ <= ]]> #{endTime}
+		</if>
+	</select>
+
+	<select id="getRetionList" parameterType="map" resultType="map">
+
+	</select>
+
+	<select id="getLeaderResultList" parameterType="map" resultType="map">
+		select s.TO_USER_ID toUserId, su.nick_name toUserName , pi.LABEL_KEY userTypeId, convert(IFNULL(sum(s.scope)/count(s.FROM_ID),0),decimal(15,2)) scope
+		from xuncha_checked_apply_detail d
+		join xuncha_checked_exam_relation r on d.id = r.DETAIL_ID
+		join (select es.FROM_ID , es.TO_USER_ID , SUM(es.scope) scope
+			from xuncha_checked_exam_scope es
+			<where>
+				<if test="applyId != null and applyId != ''">
+					and es.APPLY_ID = #{applyId}
+				</if>
+				<if test="fromUserType != null and fromUserType != ''">
+					and es.SCOPE_TYPE_ID = #{fromUserType}
+				</if>
+			</where>
+			group by es.FROM_ID , es.TO_USER_ID
+		) s on r.id = s.FROM_ID
+		join sys_user su on su.user_name = s.TO_USER_ID
+		left join (select gpi.GROUP_ID , gpi.PERSONNEL_ID , gpi.`STATUS` , gpi.LABEL_KEY from xuncha_task_group_person_info gpi
+			<where>
+				<if test="applyType != null and applyType == 1">
+					and gpi.LABEL_KEY in ('0','1')
+				</if>
+				<if test="applyType != null and applyType != 1">
+					and gpi.LABEL_KEY not in ('0','1')
+					union
+					select fgr.CHECK_GROUP_ID GROUP_ID , fpi.PERSONNEL_ID , '1' `STATUS`, '' LABEL_KEY from xuncha_fly_person_info fpi
+					join xuncha_check_fly_group_relation fgr on fpi.FLY_GROUP_ID = fgr.FLY_GROUP_ID
+				</if>
+			</where>
+		)pi on (pi.GROUP_ID = d.GROUP_ID and pi.PERSONNEL_ID = s.TO_USER_ID)
+		<where>
+			pi.`STATUS` = '1'
+			<if test="applyId != null and applyId != ''">
+				and r.APPLY_ID = #{applyId}
+			</if>
+			<if test="detailId != null and detailId != ''">
+				and r.DETAIL_ID = #{detailId}
+			</if>
+			<if test="fromUserType != null and fromUserType != ''">
+				and r.FROM_USER_TYPE = #{fromUserType}
+			</if>
+		</where>
+		group by  s.TO_USER_ID , su.nick_name  , pi.LABEL_KEY
+	</select>
+
+	<select id="getApplyInfoById" parameterType="String" resultMap="XunchaCheckedApplyInfoResult">
+		select CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME, ID, TYPE, APPROVE_STATUS, APPLY_STATUS, TITLE, YEAR, APPLY_CODE, BATCH_ID , is_del
+        , ad.groupIds
+        , ad.groupNames
+        , ad.groupLeaderNames
+        , i.BATCH_NAME
+        from xuncha_checked_apply_info i
+        left join (select d.apply_id , GROUP_CONCAT(ti.GROUP_NAME) groupNames,GROUP_CONCAT(d.GROUP_ID) groupIds , GROUP_CONCAT(su.nick_name) groupLeaderNames from xuncha_checked_apply_detail d
+        join xuncha_task_group_info gi on gi.GROUP_ID = d.GROUP_ID
+        join xuncha_task_info ti on ti.TASK_ID = gi.GROUP_TASK_ID
+        join sys_user su on su.user_name = gi.GROUP_LEADER
+        group by  d.apply_id ) ad on ad.APPLY_ID = i.id
+		where ID = #{applyId}
+	</select>
+
+
+	<insert id="insertXunchaCheckedProResult" parameterType="com.yabushan.quartz.domain.XunchaCheckedProResultVo">
+		insert into xuncha_checked_pro_result
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="createdBy != null">CREATED_BY,</if>
+			<if test="createdTime != null">CREATED_TIME,</if>
+			<if test="updatedBy != null">UPDATED_BY,</if>
+			<if test="updatedTime != null">UPDATED_TIME,</if>
+			<if test="id != null">ID,</if>
+			<if test="toUserId != null">TO_USER_ID,</if>
+			<if test="toUserName != null">TO_USER_NAME,</if>
+			<if test="scope != null">SCOPE,</if>
+			<if test="levelId != null">LEVEL_ID,</if>
+			<if test="groupId != null">GROUP_ID,</if>
+			<if test="toUserTypeId != null" >TO_USER_TYPE_ID,</if>
+			<if test="scopeType != null" >SCOPE_TYPE,</if>
+			<if test="year != null" > year ,</if>
+			<if test="batchId != null">BATCH_ID,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="createdBy != null">#{createdBy},</if>
+			<if test="createdTime != null">#{createdTime},</if>
+			<if test="updatedBy != null">#{updatedBy},</if>
+			<if test="updatedTime != null">#{updatedTime},</if>
+			<if test="id != null">#{id},</if>
+			<if test="toUserId != null">#{toUserId},</if>
+			<if test="toUserName != null">#{toUserName},</if>
+			<if test="scope != null">#{scope},</if>
+			<if test="levelId != null">#{levelId},</if>
+			<if test="groupId != null">#{groupId},</if>
+			<if test="toUserTypeId != null">#{toUserTypeId},</if>
+			<if test="scopeType != null">#{scopeType},</if>
+			<if test="year != null">#{year},</if>
+			<if test="batchId != null">#{batchId},</if>
+		</trim>
+	</insert>
+
+	<update id="updateDetailById" parameterType="map">
+		update xuncha_checked_apply_detail
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+			<if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+			<if test="updatedBy != null">UPDATED_BY = #{updatedBy},</if>
+			<if test="updatedTime != null">UPDATED_TIME = #{updatedTime},</if>
+			<if test="applyId != null">APPLY_ID = #{applyId},</if>
+			<if test="groupId != null">GROUP_ID = #{groupId},</if>
+			<if test="groupLeaderStatus != null">GROUP_LEADER_STATUS = #{groupLeaderStatus},</if>
+			<if test="groupLeaderScope != null">GROUP_LEADER_SCOPE = #{groupLeaderScope},</if>
+			<if test="cruisingStatus != null">CRUISING_STATUS = #{cruisingStatus},</if>
+			<if test="cruisingScope != null">CRUISING_SCOPE = #{cruisingScope},</if>
+			<if test="toCruisingStatus != null">TO_CRUISING_STATUS = #{toCruisingStatus},</if>
+			<if test="toCruisingScope != null">TO_CRUISING_SCOPE = #{toCruisingScope},</if>
+			<if test="groupPerStatus != null">GROUP_PER_STATUS = #{groupPerStatus},</if>
+			<if test="groupLeaderLastTime != null">GROUP_LEADER_LAST_TIME = #{groupLeaderLastTime},</if>
+			<if test="groupLeaderRemark != null">GROUP_LEADER_REMARK = #{groupLeaderRemark},</if>
+			<if test="cruisingLastTime != null">CRUISING_LAST_TIME = #{cruisingLastTime},</if>
+			<if test="cruisingRemark != null">CRUISING_REMARK = #{cruisingRemark},</if>
+			<if test="toCruisingLastTime != null">TO_CRUISING_LAST_TIME = #{toCruisingLastTime},</if>
+			<if test="toCruisinRemark != null">TO_CRUISIN_REMARK = #{toCruisinRemark},</if>
+		</trim>
+		where ID = #{detailId}
+	</update>
+
+	<update id="updateResult" parameterType="com.yabushan.quartz.domain.XunchaCheckedProResultVo">
+		update xuncha_checked_pro_result
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+			<if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+			<if test="updatedBy != null">UPDATED_BY = #{updatedBy},</if>
+			<if test="updatedTime != null">UPDATED_TIME = #{updatedTime},</if>
+			<if test="toUserId != null">TO_USER_ID = #{toUserId},</if>
+			<if test="toUserName != null">TO_USER_NAME = #{toUserName},</if>
+			<if test="scope != null">SCOPE = #{scope},</if>
+			<if test="levelId != null">LEVEL_ID = #{levelId},</if>
+			<if test="groupId != null">GROUP_ID = #{groupId},</if>
+			<if test="toUserTypeId != null">TO_USER_TYPE_ID = #{toUserTypeId},</if>
+			<if test="scopeType != null">SCOPE_TYPE = #{scopeType},</if>
+			<if test="year != null">YEAR = #{year},</if>
+			<if test="batchId != null">BATCH_ID = #{batchId},</if>
+		</trim>
+		where ID = #{id}
+	</update>
+
+	<resultMap type="com.yabushan.quartz.domain.XunchaCheckedProResultVo" id="XunchaCheckedProResultResult">
+		<result property="createdBy"    column="CREATED_BY"    />
+		<result property="createdTime"    column="CREATED_TIME"    />
+		<result property="updatedBy"    column="UPDATED_BY"    />
+		<result property="updatedTime"    column="UPDATED_TIME"    />
+		<result property="id"    column="ID"    />
+		<result property="toUserId"    column="TO_USER_ID"    />
+		<result property="toUserName"    column="TO_USER_NAME"    />
+		<result property="scope"    column="SCOPE"    />
+		<result property="levelId"    column="LEVEL_ID"    />
+		<result property="groupId"    column="GROUP_ID"    />
+		<result property="toUserTypeId"    column="TO_USER_TYPE_ID"    />
+		<result property="scopeType"    column="SCOPE_TYPE"    />
+		<result property="year"    column="YEAR"    />
+		<result property="batchId"    column="BATCH_ID"    />
+	</resultMap>
+
+	<select id="getResult" parameterType="map" resultMap="XunchaCheckedProResultResult">
+		select * from xuncha_checked_pro_result r
+		<where>
+			<if test="groupId != null and groupId != ''">
+				and r.group_id = #{groupId}
+			</if>
+			<if test="scopeType != null and scopeType != ''">
+				and r.scope_type = #{scopeType}
+			</if>
+		</where>
+	</select>
+
+	<select id="getGroupResult" parameterType="map" resultType="map" >
+
+		select convert(IFNULL(sum(a.scope)/count(a.FROM_ID),0),decimal(15,2)) scope from (
+			select s.FROM_ID , sum(s.SCOPE) SCOPE from xuncha_checked_exam_scope s
+			<where>
+				<if test="fromUserType != null and fromUserType != ''">
+					and s.SCOPE_TYPE_ID = #{fromUserType}
+				</if>
+				<if test="groupId != null and groupId != ''">
+					and s.TO_USER_ID = #{groupId}
+				</if>
+				<if test="applyId != null and applyId != ''">
+					and s.APPLY_ID = #{applyId}
+				</if>
+			</where>
+			group by s.FROM_ID
+		) a
+
+	</select>
+
+
+	<insert id="insetFineDetail" parameterType="com.yabushan.quartz.domain.XunchaCheckedFinePerDetailVo">
+		insert into xuncha_checked_fine_per_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="createdBy != null">CREATED_BY,</if>
+			<if test="createdTime != null">CREATED_TIME,</if>
+			<if test="updatedBy != null">UPDATED_BY,</if>
+			<if test="updatedTime != null">UPDATED_TIME,</if>
+			<if test="id != null">ID,</if>
+			<if test="userId != null">USER_ID,</if>
+			<if test="ifOther != null">IF_OTHER,</if>
+			<if test="upTypeId != null">UP_TYPE_ID,</if>
+			<if test="applyId != null">apply_id,</if>
+			<if test="groupId != null">GROUP_ID,</if>
+			<if test="groupName != null">group_name,</if>
+			<if test="batchId != null">batch_id,</if>
+			<if test="batchName != null">BATCH_NAME,</if>
+			<if test="finalResult != null">final_result,</if>
+			<if test="upTypeName != null">up_type_name,</if>
+			<if test="ifSubmit != null">if_submit,</if>
+			<if test="fineTypeId != null">fine_type_id,</if>
+			<if test="fineTypeName != null"> fine_type_name,</if>
+			<if test="delFlag != null" >del_flag,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="createdBy != null">#{createdBy},</if>
+			<if test="createdTime != null">#{createdTime},</if>
+			<if test="updatedBy != null">#{updatedBy},</if>
+			<if test="updatedTime != null">#{updatedTime},</if>
+			<if test="id != null">#{id},</if>
+			<if test="userId != null">#{userId},</if>
+			<if test="ifOther != null">#{ifOther},</if>
+			<if test="upTypeId != null">#{upTypeId},</if>
+			<if test="applyId != null">#{applyId},</if>
+			<if test="groupId != null">#{groupId},</if>
+			<if test="groupName != null">#{groupName},</if>
+			<if test="batchId != null">#{batchId},</if>
+			<if test="batchName != null">#{batchName},</if>
+			<if test="finalResult != null">#{finalResult},</if>
+			<if test="upTypeName != null">#{upTypeName},</if>
+			<if test="ifSubmit != null">#{ifSubmit},</if>
+			<if test="fineTypeId != null" >#{fineTypeId},</if>
+			<if test="fineTypeName != null">#{fineTypeName},</if>
+			<if test="delFlag != null">#{delFlag},</if>
+		</trim>
+	</insert>
+
+	<insert id="insetResult" parameterType="com.yabushan.quartz.domain.XunchaCheckedProResultVo">
+		insert into xuncha_checked_pro_result
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="createdBy != null">CREATED_BY,</if>
+			<if test="createdTime != null">CREATED_TIME,</if>
+			<if test="updatedBy != null">UPDATED_BY,</if>
+			<if test="updatedTime != null">UPDATED_TIME,</if>
+			<if test="id != null">ID,</if>
+			<if test="toUserId != null">TO_USER_ID,</if>
+			<if test="toUserName != null">TO_USER_NAME,</if>
+			<if test="scope != null">SCOPE,</if>
+			<if test="levelId != null">LEVEL_ID,</if>
+			<if test="groupId != null">GROUP_ID,</if>
+			<if test="toUserTypeId != null">TO_USER_TYPE_ID ,</if>
+			<if test="scopeType != null">SCOPE_TYPE ,</if>
+			<if test="year != null">YEAR ,</if>
+			<if test="batchId != null">BATCH_ID ,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="createdBy != null">#{createdBy},</if>
+			<if test="createdTime != null">#{createdTime},</if>
+			<if test="updatedBy != null">#{updatedBy},</if>
+			<if test="updatedTime != null">#{updatedTime},</if>
+			<if test="id != null">#{id},</if>
+			<if test="toUserId != null">#{toUserId},</if>
+			<if test="toUserName != null">#{toUserName},</if>
+			<if test="scope != null">#{scope},</if>
+			<if test="levelId != null">#{levelId},</if>
+			<if test="groupId != null">#{groupId},</if>
+			<if test="toUserTypeId != null">#{toUserTypeId},</if>
+			<if test="scopeType != null"> #{scopeType},</if>
+			<if test="year != null">#{year},</if>
+			<if test="batchId != null"> #{batchId},</if>
+		</trim>
+	</insert>
+	<insert id="deleteResult" >
+		delete from  xuncha_checked_pro_result
+		where GROUP_ID in (select d.GROUP_ID
+		from xuncha_checked_apply_detail d
+		where d.ID in (select DETAIL_ID
+		from xuncha_checked_exam_relation
+		where status = '1' and LAST_TIME <![CDATA[ > ]]> now()))
+        and scope_type!='person'
+	</insert>
+
+	<delete id="deleteFine" >
+		delete from xuncha_checked_fine_per_detail where if_submit = '0' and UP_TYPE_ID ='1'
+	</delete>
+
+	<select id="getByTouserIdAndGroupId" parameterType="com.yabushan.quartz.domain.XunchaCheckedProResultVo" resultMap="XunchaCheckedProResultResult">
+		select * from xuncha_checked_pro_result
+		where GROUP_ID=#{groupId} and TO_USER_ID=#{toUserId} and batch_id=#{batchId}
+	</select>
+
+	<select id="selectCanRecycle" resultType="java.util.Map">
+		select i.ID businessKey,r.FROM_USER_ID userId,r.ID id from xuncha_checked_exam_relation r
+		left join xuncha_checked_apply_info i on r.APPLY_ID=i.ID
+		where r.status='0' and r.LAST_TIME <![CDATA[ < ]]> now()
+	</select>
+
+	<update id="updateExamRelationStatus">
+		update xuncha_checked_exam_relation set status='2'
+        where ID in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="getFileIds" resultType="String">
+		select xpf.id from xuncha_process_file xpf
+		  join xuncha_process_apply xpa on xpa.APPLY_ID = xpf.APPLY_ID
+		  join xuncha_task_group_info tgi on tgi.GROUP_TASK_ID = xpa.XUNCHA_TASK_ID
+			join (
+					select d.GROUP_ID , MAX(d.GROUP_LEADER_STATUS) status1
+					, MAX(d.CRUISING_STATUS) status2 , MAX(d.GROUP_PER_STATUS) status3 , MAX(d.TO_CRUISING_STATUS) status4
+					from xuncha_checked_apply_info i
+					join xuncha_checked_apply_detail d on i.id = d.APPLY_ID
+					where i.is_del = '0' and i.APPROVE_STATUS = '2'
+					group by  d.GROUP_ID
+			) ca on tgi.GROUP_ID =  ca.GROUP_ID
+			where xpa.DEL_FLAG = '0'
+			and tgi.EXAMINE_STATUS = '2'
+			and tgi.`STATUS` = '2'
+			and ca.status1 = '1'
+			and ca.status2 = '1'
+			and ca.status3 = '1'
+			and ca.status4 = '1'
+		    and xpf.DEL_FLAG = '0'
+			and xpf.OUT_DATE = 0
+	</select>
+
+	<update id="updateXunchaProcessFileByIds">
+		update xuncha_process_file set OUT_DATE=1
+		where ID in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+</mapper>

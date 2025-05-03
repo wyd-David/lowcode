@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.YmxUserInfoMapper">
+    
+    <resultMap type="YmxUserInfo" id="YmxUserInfoResult">
+        <result property="userId"    column="USER_ID"    />
+        <result property="userName"    column="USER_NAME"    />
+        <result property="userPassword"    column="USER_PASSWORD"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="lastUpdatedBy"    column="LAST_UPDATED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+    </resultMap>
+
+    <sql id="selectYmxUserInfoVo">
+        select USER_ID, USER_NAME, USER_PASSWORD, CREATED_BY, CREATED_TIME, LAST_UPDATED_BY, LAST_UPDATED_TIME from ymx_user_info
+    </sql>
+
+    <select id="selectYmxUserInfoList" parameterType="YmxUserInfo" resultMap="YmxUserInfoResult">
+        <include refid="selectYmxUserInfoVo"/>
+        <where>  
+            <if test="userName != null  and userName != ''"> and USER_NAME like concat('%', #{userName}, '%')</if>
+            <if test="userPassword != null  and userPassword != ''"> and USER_PASSWORD = #{userPassword}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="lastUpdatedBy != null  and lastUpdatedBy != ''"> and LAST_UPDATED_BY = #{lastUpdatedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectYmxUserInfoById" parameterType="String" resultMap="YmxUserInfoResult">
+        <include refid="selectYmxUserInfoVo"/>
+        where USER_ID = #{userId}
+    </select>
+        
+    <insert id="insertYmxUserInfo" parameterType="YmxUserInfo">
+        insert into ymx_user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">USER_ID,</if>
+            <if test="userName != null">USER_NAME,</if>
+            <if test="userPassword != null">USER_PASSWORD,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="userPassword != null">#{userPassword},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedBy != null">#{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYmxUserInfo" parameterType="YmxUserInfo">
+        update ymx_user_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null">USER_NAME = #{userName},</if>
+            <if test="userPassword != null">USER_PASSWORD = #{userPassword},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY = #{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+        </trim>
+        where USER_ID = #{userId}
+    </update>
+
+    <delete id="deleteYmxUserInfoById" parameterType="String">
+        delete from ymx_user_info where USER_ID = #{userId}
+    </delete>
+
+    <delete id="deleteYmxUserInfoByIds" parameterType="String">
+        delete from ymx_user_info where USER_ID in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.SysNewsTemplateMapper">
+
+    <resultMap type="SysNewsTemplate" id="SysNewsTemplateResult">
+        <result property="id"    column="id"    />
+        <result property="templateText"    column="template_text"    />
+        <result property="templateTitle"    column="template_title"    />
+        <result property="businessType"    column="business_type"    />
+        <result property="appllyId"    column="applly_id"    />
+        <result property="templateUrl"    column="template_url"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="templateIdentification"    column="template_identification"    />
+    </resultMap>
+
+    <sql id="selectSysNewsTemplateVo">
+        select id, template_text, template_title, business_type,template_identification, applly_id, template_url, create_time, create_by, update_time, update_by from sys_news_template
+    </sql>
+
+    <select id="selectSysNewsTemplateList" parameterType="SysNewsTemplate" resultMap="SysNewsTemplateResult">
+        <include refid="selectSysNewsTemplateVo"/>
+        <where>
+            <if test="templateText != null  and templateText != ''"> and template_text like concat('%', #{templateText}, '%')</if>
+            <if test="templateTitle != null  and templateTitle != ''"> and template_title like concat('%', #{templateTitle}, '%')</if>
+            <if test="businessType != null  and businessType != ''"> and business_type = #{businessType}</if>
+            <if test="appllyId != null  and appllyId != ''"> and applly_id = #{appllyId}</if>
+            <if test="templateUrl != null  and templateUrl != ''"> and template_url like concat('%', #{templateUrl}, '%')</if>
+             <if test="templateIdentification != null and templateIdentification != ''"> and template_identification = #{templateIdentification}</if>
+        </where>
+    </select>
+
+    <select id="selectSysNewsTemplateById" parameterType="String" resultMap="SysNewsTemplateResult">
+        <include refid="selectSysNewsTemplateVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysNewsTemplate" parameterType="SysNewsTemplate" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_news_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="templateText != null">template_text,</if>
+            <if test="templateTitle != null">template_title,</if>
+            <if test="businessType != null">business_type,</if>
+            <if test="appllyId != null">applly_id,</if>
+            <if test="templateUrl != null">template_url,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="templateIdentification != null">template_identification,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="templateText != null">#{templateText},</if>
+            <if test="templateTitle != null">#{templateTitle},</if>
+            <if test="businessType != null">#{businessType},</if>
+            <if test="appllyId != null">#{appllyId},</if>
+            <if test="templateUrl != null">#{templateUrl},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="templateIdentification != null">#{templateIdentification},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysNewsTemplate" parameterType="SysNewsTemplate">
+        update sys_news_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="templateText != null">template_text = #{templateText},</if>
+            <if test="templateTitle != null">template_title = #{templateTitle},</if>
+            <if test="businessType != null">business_type = #{businessType},</if>
+            <if test="appllyId != null">applly_id = #{appllyId},</if>
+            <if test="templateUrl != null">template_url = #{templateUrl},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="templateIdentification != null">template_identification = #{templateIdentification},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysNewsTemplateById" parameterType="Long">
+        delete from sys_news_template where id = #{id}
+    </delete>
+
+    <delete id="deleteSysNewsTemplateByIds" parameterType="String">
+        delete from sys_news_template where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="getTemplateByName" parameterType="String" resultMap="SysNewsTemplateResult">
+        <include refid="selectSysNewsTemplateVo"/>
+        where template_title = #{name}
+    </select>
+
+    <select id="getTemplateBytemplateIdentification" parameterType="String" resultMap="SysNewsTemplateResult">
+        <include refid="selectSysNewsTemplateVo"/>
+        where template_identification = #{templateIdentification} limit 1
+    </select>
+</mapper>

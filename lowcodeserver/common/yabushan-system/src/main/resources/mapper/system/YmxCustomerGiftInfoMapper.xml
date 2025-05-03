@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.YmxCustomerGiftInfoMapper">
+    
+    <resultMap type="YmxCustomerGiftInfo" id="YmxCustomerGiftInfoResult">
+        <result property="customerGiftId"    column="CUSTOMER_GIFT_ID"    />
+        <result property="customerInformationId"    column="CUSTOMER_INFORMATION_ID"    />
+        <result property="giftId"    column="GIFT_ID"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="lastUpdatedBy"    column="LAST_UPDATED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+    </resultMap>
+
+    <sql id="selectYmxCustomerGiftInfoVo">
+        select CUSTOMER_GIFT_ID, CUSTOMER_INFORMATION_ID, GIFT_ID, CREATED_BY, CREATED_TIME, LAST_UPDATED_BY, LAST_UPDATED_TIME from ymx_customer_gift_info
+    </sql>
+
+    <select id="selectYmxCustomerGiftInfoList" parameterType="YmxCustomerGiftInfo" resultMap="YmxCustomerGiftInfoResult">
+        <include refid="selectYmxCustomerGiftInfoVo"/>
+        <where>  
+            <if test="customerInformationId != null  and customerInformationId != ''"> and CUSTOMER_INFORMATION_ID = #{customerInformationId}</if>
+            <if test="giftId != null  and giftId != ''"> and GIFT_ID = #{giftId}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="lastUpdatedBy != null  and lastUpdatedBy != ''"> and LAST_UPDATED_BY = #{lastUpdatedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectYmxCustomerGiftInfoById" parameterType="String" resultMap="YmxCustomerGiftInfoResult">
+        <include refid="selectYmxCustomerGiftInfoVo"/>
+        where CUSTOMER_GIFT_ID = #{customerGiftId}
+    </select>
+        
+    <insert id="insertYmxCustomerGiftInfo" parameterType="YmxCustomerGiftInfo">
+        insert into ymx_customer_gift_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerGiftId != null">CUSTOMER_GIFT_ID,</if>
+            <if test="customerInformationId != null">CUSTOMER_INFORMATION_ID,</if>
+            <if test="giftId != null">GIFT_ID,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerGiftId != null">#{customerGiftId},</if>
+            <if test="customerInformationId != null">#{customerInformationId},</if>
+            <if test="giftId != null">#{giftId},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedBy != null">#{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYmxCustomerGiftInfo" parameterType="YmxCustomerGiftInfo">
+        update ymx_customer_gift_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerInformationId != null">CUSTOMER_INFORMATION_ID = #{customerInformationId},</if>
+            <if test="giftId != null">GIFT_ID = #{giftId},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY = #{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+        </trim>
+        where CUSTOMER_GIFT_ID = #{customerGiftId}
+    </update>
+
+    <delete id="deleteYmxCustomerGiftInfoById" parameterType="String">
+        delete from ymx_customer_gift_info where CUSTOMER_GIFT_ID = #{customerGiftId}
+    </delete>
+
+    <delete id="deleteYmxCustomerGiftInfoByIds" parameterType="String">
+        delete from ymx_customer_gift_info where CUSTOMER_GIFT_ID in 
+        <foreach item="customerGiftId" collection="array" open="(" separator="," close=")">
+            #{customerGiftId}
+        </foreach>
+    </delete>
+    
+</mapper>

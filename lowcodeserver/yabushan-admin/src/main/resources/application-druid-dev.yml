@@ -1,0 +1,303 @@
+# 开发环境配置
+server:
+    # 服务器的HTTP端口，默认为8080
+    port: 8087
+    name: 数智平台
+    servlet:
+        # 应用的访问路径
+        context-path: /prod-api
+        name: 数智平台
+    tomcat:
+        # tomcat的URI编码
+        uri-encoding: UTF-8
+        # tomcat最大线程数，默认为200
+        max-threads: 800
+        # Tomcat启动初始化的线程数，默认值25
+        min-spare-threads: 30
+# 数据源配置
+spring:
+    data:
+        solr:
+            host: http:///solr/
+            auth:
+                username:
+                password:
+    mvc.static-path-pattern: /static/**
+    resources.static-locations: classpath:static/
+    thymeleaf:
+        prefix: classpath:/templates/
+        encoding: UTF-8
+        cache: false
+        suffix: .html
+        mode: HTML
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        druid:
+            # 主库数据源
+            master:
+                url: jdbc:mysql://127.0.0.1:3309/lowcode_person?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+                username: root
+                password: 123456
+            # 从库数据源
+            slave:
+                # 从数据源开关/默认关闭
+                enabled: false
+                url:
+                username:
+                password:
+            # 初始连接数
+            initialSize: 5
+            # 最小连接池数量
+            minIdle: 10
+            # 最大连接池数量
+            maxActive: 20
+            #是否启用druid监控
+            web-stat-filter:
+                enabled: false
+            stat-view-servlet:
+                enabled: false
+            # 配置获取连接等待超时的时间
+            maxWait: 60000
+            # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+            timeBetweenEvictionRunsMillis: 60000
+            # 配置一个连接在池中最小生存的时间，单位是毫秒
+            minEvictableIdleTimeMillis: 300000
+            # 配置一个连接在池中最大生存的时间，单位是毫秒
+            maxEvictableIdleTimeMillis: 900000
+            # 配置检测连接是否有效
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            webStatFilter:
+                enabled: true
+            statViewServlet:
+                enabled: true
+                # 设置白名单，不填则允许所有访问
+                allow:
+                url-pattern: /druid/*
+                # 控制台管理用户名和密码
+                login-username:
+                login-password:
+            filter:
+                stat:
+                    enabled: true
+                    # 慢SQL记录
+                    log-slow-sql: true
+                    slow-sql-millis: 500
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true
+    main:
+        allow-bean-definition-overriding: true
+    activiti:
+        database-schema-update: true
+        #Activiti记录历史任务数据级别，full是最全的，方便日后查询使用
+        history-level: full
+        #创建数据库历史数据表
+        db-history-used: true
+        check-process-definitions: false
+    devtools:
+        restart:
+            enabled: true  #设置开启热部署
+    # redis 配置
+    redis:
+        host: 127.0.0.1
+        #port: 6679
+        port: 6379
+        # 密码
+        password:
+        # 连接超时时间
+        timeout: 100s
+        lettuce:
+            pool:
+                # 连接池中的最小空闲连接
+                min-idle: 0
+                # 连接池中的最大空闲连接
+                max-idle: 8
+                # 连接池的最大数据库连接数
+                max-active: 8
+                # #连接池最大阻塞等待时间（使用负值表示没有限制）
+                max-wait: -1ms
+        database: 5
+
+
+#地址链接
+domain:
+    bpm:
+    #后端接口地址
+    xzfw: http://192.168.71.1:8087/dev-api/
+    #前端工程地址(待办前缀)：
+    xunchaApi: http://localhost:80/
+    #PC端 待办打开页面
+    xzfwPc: 1
+    #小程序跳转bui地址
+    xcxPc: 1
+
+
+
+# Swagger配置
+#是否激活 swagger true or false
+swagger:
+    production: true
+    # 是否开启swagger
+    enable: true
+    #enable: ${swagger_enable}
+    # 请求前缀
+    pathMapping: /doc.html
+    basic:
+        enable: true
+        usrname: 1
+        password: 1
+
+
+#文件配置
+oss:
+    enabled: true
+    type: MINIO
+    endpoint: http://10.201.62.254:9000
+    access-key: oPBZmeqfQq69E1gQ
+    secret-key: eP9NslqRCv7vXwnQU58yMxG2fsOj4t3q
+    default-bucket-name: xuncha
+    previewpoint: http://10.201.62.254:8012/data-view
+    downloadpoint: /file/minio/downloadById
+    downloadpoint-zip: /file/minio/downloadZip
+    downloadpoint-zippdf: /file/minio/downloadZipAndConvertPdf
+#
+##minio配置
+minio:
+    url: http://10.201.62.254:9000  #对象存储服务的URL
+    accessKey: 2 #Access key账户
+    secretKey: 1  #Secret key密码
+
+portal:
+    #正式环境：htt
+    #测试环境：ht
+    pushUrl: h
+    #portal分配的应用名
+    appName: 数字化平台
+    #Portal分配用户名
+    userid: xtst
+    #Portal分配密码
+    password: Ax1
+    #重推次数
+    retryCount: 4
+    #指定办理人
+    owner:
+    cityList: "ZS,JM,MZ,FS,QY,GZ"
+    warnLevelList: "19a13f27-f93f-4c4c-a0cd-36814ff9032c,d982d84f-93fd-48d4-8228-57c06bd62995"
+
+sms:
+    uid: sgsqk
+    password: qry
+
+
+
+#动态数据源默认数据源
+autodatasource:
+    mysqldatasourceId: 44ae028873a74335b4cae89fb09fee84
+    postgredatasourceId: e55b723e8b994b1e97db164413d0d93f
+    oracledatasourceId:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#########################################以下配置文件暂未用到，但不能删除  START   ########################################################
+
+#未启用
+OAuth:
+    gf:
+        configs:
+            client_id: 1 #应用ID(必填)
+            client_name: 1 #应用名(必填)
+            client_desc: 1 #应用描述(必填)
+            redirect_uri: 1 #重定向URI(必填)
+            client_secret: 1 #应用密钥(必填)
+            grant_type: 1 #授权类型, 必须是code
+            getaccess_tokenhost: 1 #通过前端传回的code去获得access_token的地址
+            chaccess_tokenhost: 1 #验证access_token是否正确
+            logouthost: 1 #根据access_token退出
+            getuserinfo_by_access_token: 1   #根据access_token 获取用户信息
+            gfxcxGetAccessTokenurl: 1 #小程序OA账号登录获取access_token地址
+            gfxcxGetBDUserInfourl: 1 #小程序获取用户信息OA账号来绑定地址
+            gfxcxGetJBUserInfourl: 1 #OA账号解绑地址
+            gfxcxGetUserInfourl: 1 #小程序获取OA账号信息地址
+            appToken: 1  #appToken解密地址
+
+#同步用户组织信息配置参数
+synProtal:
+    url: 1
+    appId: 1
+    start: 0
+    limit: 40000
+weixin:
+    #生产的企业号小程序
+    token: 1
+    appId: 1
+    appKey: 1
+    secret: 1
+    mchId: 1
+    callback: 1
+
+#公共模块相关配置
+common:
+    #二维码相关配置
+    code:
+        height:
+        width:
+        path:
+
+s3:
+    endpoint: http://10.201.62.103:81
+    accesskey: 1
+    secretKey: 2
+    bucketname: collect
+
+iplist:
+    activityCode: 1
+    s3Image-Echo: 1
+    test-url: 1
+enterpriseWx:
+    agentid: 1
+    corpid: 1
+    corpsecret: 1
+    gettokenUrl: 1
+    sendMessageUrl: 1
+
+image:
+    url: 1
+wx:
+    miniapp:
+        configs:
+            - appid: 1 # 自己的appid
+              secret: 1  # 自己的微信secret
+              token:   # 自己的消息推送token
+              aesKey: 1 # 自己的消息推送aesKey
+              msgDataFormat: JSON
+
+#跳过验证码判断
+yzmCode:
+    code: sxf
+
+
+#小程序上传的语音存储路径
+voice:
+    upload:
+        path: D:/project/ngs/uploadfile/ai_voice/
+        APP_ID: "3"
+        API_SECRET: 1
+        API_KEY: 2
+
+##########################################################END################################################################

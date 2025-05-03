@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.ai.mapper.AiChartBootMapper">
+
+    <resultMap type="AiChartBoot" id="AiChartBootResult">
+        <result property="id" column="ID"/>
+        <result property="chartText"    column="CHART_TEXT"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="lable1"    column="LABLE1"    />
+        <result property="label2"    column="LABEL2"    />
+        <result property="label3"    column="LABEL3"    />
+        <result property="label4"    column="LABEL4"    />
+        <result property="label5"    column="LABEL5"    />
+        <result property="label6"    column="LABEL6"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+    </resultMap>
+
+    <sql id="selectAiChartBootVo">
+        select ID, CHART_TEXT, CREATED_TIME, LABLE1, LABEL2, LABEL3, LABEL4, LABEL5, LABEL6, CREATED_BY from ai_chart_boot1
+    </sql>
+
+    <sql id="selectAiChartBootVo2">
+        select ID, CHART_TEXT, CREATED_TIME, LABLE1, LABEL2, LABEL3, LABEL4, LABEL5, LABEL6, CREATED_BY from ai_chart_boot2
+    </sql>
+
+    <select id="selectAiChartBootList" parameterType="AiChartBoot" resultMap="AiChartBootResult">
+        <include refid="selectAiChartBootVo"/>
+        <where>
+            <if test="chartText != null  and chartText != ''"> and CHART_TEXT = #{chartText}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="lable1 != null  and lable1 != ''"> and ( LABLE1 = #{lable1} or  LABEL2 = #{lable1} or  LABEL3 = #{lable1} or  LABEL4 = #{lable1}  or  LABEL5 = #{lable1} or  LABEL6 = #{lable1}</if>
+            <if test="label2 != null  and label2 != ''"> or LABLE1 = #{label2} or  LABEL2 = #{label2} or  LABEL3 = #{label2} or  LABEL4 = #{label2}  or  LABEL5 = #{label2} or  LABEL6 = #{label2}</if>
+            <if test="label3 != null  and label3 != ''"> or LABLE1 = #{label3} or  LABEL2 = #{label3} or  LABEL3 = #{label3} or  LABEL4 = #{label3}  or  LABEL5 = #{label3} or  LABEL6 = #{label3}</if>
+            <if test="label4 != null  and label4 != ''"> or LABLE1 = #{label4} or  LABEL2 = #{label4} or  LABEL3 = #{label4} or  LABEL4 = #{label4}  or  LABEL5 = #{label4} or  LABEL6 = #{label4}</if>
+            <if test="label5 != null  and label5 != ''"> or LABLE1 = #{label5} or  LABEL2 = #{label5} or  LABEL3 = #{label5} or  LABEL4 = #{label5}  or  LABEL5 = #{label5} or  LABEL6 = #{label5}</if>
+            <if test="label6 != null  and label6 != ''">or LABLE1 = #{label6} or LABEL2 = #{label6} or LABEL3 = #{label6} or LABEL4 = #{label6} or LABEL5 = #{label6} or LABEL6 = #{label6}</if>
+            <if test="createdBy != null  and createdBy != ''"> ) and CREATED_BY = #{createdBy}   AND status48624='启用' AND del_flag ='0'</if>
+        </where>
+    </select>
+
+    <select id="selectAiChartBootList2" parameterType="AiChartBoot" resultMap="AiChartBootResult">
+        <include refid="selectAiChartBootVo2"/>
+        <where>
+            <if test="chartText != null  and chartText != ''"> and CHART_TEXT = #{chartText}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="lable1 != null  and lable1 != ''"> and ( LABLE1 = #{lable1} or  LABEL2 = #{lable1} or  LABEL3 = #{lable1} or  LABEL4 = #{lable1}  or  LABEL5 = #{lable1} or  LABEL6 = #{lable1}</if>
+            <if test="label2 != null  and label2 != ''"> or LABLE1 = #{label2} or  LABEL2 = #{label2} or  LABEL3 = #{label2} or  LABEL4 = #{label2}  or  LABEL5 = #{label2} or  LABEL6 = #{label2}</if>
+            <if test="label3 != null  and label3 != ''"> or LABLE1 = #{label3} or  LABEL2 = #{label3} or  LABEL3 = #{label3} or  LABEL4 = #{label3}  or  LABEL5 = #{label3} or  LABEL6 = #{label3}</if>
+            <if test="label4 != null  and label4 != ''"> or LABLE1 = #{label4} or  LABEL2 = #{label4} or  LABEL3 = #{label4} or  LABEL4 = #{label4}  or  LABEL5 = #{label4} or  LABEL6 = #{label4}</if>
+            <if test="label5 != null  and label5 != ''"> or LABLE1 = #{label5} or  LABEL2 = #{label5} or  LABEL3 = #{label5} or  LABEL4 = #{label5}  or  LABEL5 = #{label5} or  LABEL6 = #{label5}</if>
+            <if test="label6 != null  and label6 != ''">or LABLE1 = #{label6} or LABEL2 = #{label6} or LABEL3 = #{label6} or LABEL4 = #{label6} or LABEL5 = #{label6} or LABEL6 = #{label6}</if>
+            <if test="createdBy != null  and createdBy != ''"> ) and CREATED_BY = #{createdBy}   AND status48624='启用' AND del_flag ='0'</if>
+        </where>
+    </select>
+
+    <select id="selectAiChartBootById" parameterType="Integer" resultMap="AiChartBootResult">
+        <include refid="selectAiChartBootVo"/>
+        where ID = #{Id}
+    </select>
+
+
+    <insert id="insertAiChartBoot" parameterType="AiChartBoot" useGeneratedKeys="true" keyProperty="Id">
+        insert into ai_chart_boot1
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="chartText != null">CHART_TEXT,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="lable1 != null">LABLE1,</if>
+            <if test="label2 != null">LABEL2,</if>
+            <if test="label3 != null">LABEL3,</if>
+            <if test="label4 != null">LABEL4,</if>
+            <if test="label5 != null">LABEL5,</if>
+            <if test="label6 != null">LABEL6,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="chartText != null">#{chartText},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lable1 != null">#{lable1},</if>
+            <if test="label2 != null">#{label2},</if>
+            <if test="label3 != null">#{label3},</if>
+            <if test="label4 != null">#{label4},</if>
+            <if test="label5 != null">#{label5},</if>
+            <if test="label6 != null">#{label6},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertAiChartBoot2" parameterType="AiChartBoot" useGeneratedKeys="true" keyProperty="Id">
+        insert into ai_chart_boot2
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="chartText != null">CHART_TEXT,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="lable1 != null">LABLE1,</if>
+            <if test="label2 != null">LABEL2,</if>
+            <if test="label3 != null">LABEL3,</if>
+            <if test="label4 != null">LABEL4,</if>
+            <if test="label5 != null">LABEL5,</if>
+            <if test="label6 != null">LABEL6,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="chartText != null">#{chartText},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lable1 != null">#{lable1},</if>
+            <if test="label2 != null">#{label2},</if>
+            <if test="label3 != null">#{label3},</if>
+            <if test="label4 != null">#{label4},</if>
+            <if test="label5 != null">#{label5},</if>
+            <if test="label6 != null">#{label6},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+        </trim>
+    </insert>
+    <insert id="bathInsertAiChartBoot" parameterType="java.util.List">
+        insert into ai_chart_boot1
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            CHART_TEXT,
+            CREATED_TIME,
+            LABLE1,
+            LABEL2,
+            LABEL3,
+            LABEL4,
+            LABEL5,
+            LABEL6,
+            CREATED_BY,
+        </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.chartText},
+                #{item.createdTime},
+                #{item.lable1},
+                #{item.label2},
+                #{item.label3},
+                #{item.label4},
+                #{item.label5},
+                #{item.label6},
+                #{item.createdBy},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateAiChartBoot" parameterType="AiChartBoot">
+        update ai_chart_boot1
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="chartText != null">CHART_TEXT = #{chartText},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="lable1 != null">LABLE1 = #{lable1},</if>
+            <if test="label2 != null">LABEL2 = #{label2},</if>
+            <if test="label3 != null">LABEL3 = #{label3},</if>
+            <if test="label4 != null">LABEL4 = #{label4},</if>
+            <if test="label5 != null">LABEL5 = #{label5},</if>
+            <if test="label6 != null">LABEL6 = #{label6},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+        </trim>
+        where ID = #{Id}
+    </update>
+
+    <delete id="deleteAiChartBootById" parameterType="Integer">
+        delete from ai_chart_boot1 where ID = #{Id}
+    </delete>
+
+    <delete id="deleteAiChartBootByIds" parameterType="String">
+        delete from ai_chart_boot1 where ID in
+        <foreach item="Id" collection="array" open="(" separator="," close=")">
+            #{Id}
+        </foreach>
+    </delete>
+
+    <select id="getSendTodoInfo" resultType="java.util.Map">
+        SELECT A.openid,A.content,A.title,A.dateTimeStr FROM ai_todo_info A     WHERE A.is_send=0  AND a.date_time > NOW() - INTERVAL 5 MINUTE
+    </select>
+
+</mapper>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubAbodeMapper">
+    
+    <resultMap type="EmpSubAbode" id="EmpSubAbodeResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="startDate"    column="START_DATE"    />
+        <result property="endDate"    column="END_DATE"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="residenceAddress"    column="RESIDENCE_ADDRESS"    />
+        <result property="zipcode"    column="ZIPCODE"    />
+        <result property="mobilePhone"    column="MOBILE_PHONE"    />
+        <result property="familyPhone"    column="FAMILY_PHONE"    />
+        <result property="workPhone"    column="WORK_PHONE"    />
+        <result property="email"    column="EMAIL"    />
+        <result property="faminlyAddress"    column="FAMINLY_ADDRESS"    />
+        <result property="country"    column="COUNTRY"    />
+        <result property="province"    column="PROVINCE"    />
+        <result property="city"    column="CITY"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectEmpSubAbodeVo">
+        select REC_ID, EMP_ID, START_DATE, END_DATE, SORT_INDEX, RESIDENCE_ADDRESS, ZIPCODE, MOBILE_PHONE, FAMILY_PHONE, WORK_PHONE, EMAIL, FAMINLY_ADDRESS, COUNTRY, PROVINCE, CITY, create_by, create_time, update_by, update_time from emp_sub_abode
+    </sql>
+
+    <select id="selectEmpSubAbodeList" parameterType="EmpSubAbode" resultMap="EmpSubAbodeResult">
+        <include refid="selectEmpSubAbodeVo"/>
+        <where>  
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="startDate != null "> and START_DATE = #{startDate}</if>
+            <if test="endDate != null "> and END_DATE = #{endDate}</if>
+            <if test="sortIndex != null "> and SORT_INDEX = #{sortIndex}</if>
+            <if test="residenceAddress != null  and residenceAddress != ''"> and RESIDENCE_ADDRESS = #{residenceAddress}</if>
+            <if test="zipcode != null  and zipcode != ''"> and ZIPCODE = #{zipcode}</if>
+            <if test="mobilePhone != null  and mobilePhone != ''"> and MOBILE_PHONE = #{mobilePhone}</if>
+            <if test="familyPhone != null  and familyPhone != ''"> and FAMILY_PHONE = #{familyPhone}</if>
+            <if test="workPhone != null  and workPhone != ''"> and WORK_PHONE = #{workPhone}</if>
+            <if test="email != null  and email != ''"> and EMAIL = #{email}</if>
+            <if test="faminlyAddress != null  and faminlyAddress != ''"> and FAMINLY_ADDRESS = #{faminlyAddress}</if>
+            <if test="country != null  and country != ''"> and COUNTRY = #{country}</if>
+            <if test="province != null  and province != ''"> and PROVINCE = #{province}</if>
+            <if test="city != null  and city != ''"> and CITY = #{city}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmpSubAbodeById" parameterType="String" resultMap="EmpSubAbodeResult">
+        <include refid="selectEmpSubAbodeVo"/>
+        where REC_ID = #{recId}
+    </select>
+        
+    <insert id="insertEmpSubAbode" parameterType="EmpSubAbode">
+        insert into emp_sub_abode
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="startDate != null">START_DATE,</if>
+            <if test="endDate != null">END_DATE,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="residenceAddress != null">RESIDENCE_ADDRESS,</if>
+            <if test="zipcode != null">ZIPCODE,</if>
+            <if test="mobilePhone != null">MOBILE_PHONE,</if>
+            <if test="familyPhone != null">FAMILY_PHONE,</if>
+            <if test="workPhone != null">WORK_PHONE,</if>
+            <if test="email != null">EMAIL,</if>
+            <if test="faminlyAddress != null">FAMINLY_ADDRESS,</if>
+            <if test="country != null">COUNTRY,</if>
+            <if test="province != null">PROVINCE,</if>
+            <if test="city != null">CITY,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="residenceAddress != null">#{residenceAddress},</if>
+            <if test="zipcode != null">#{zipcode},</if>
+            <if test="mobilePhone != null">#{mobilePhone},</if>
+            <if test="familyPhone != null">#{familyPhone},</if>
+            <if test="workPhone != null">#{workPhone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="faminlyAddress != null">#{faminlyAddress},</if>
+            <if test="country != null">#{country},</if>
+            <if test="province != null">#{province},</if>
+            <if test="city != null">#{city},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubAbode" parameterType="EmpSubAbode">
+        update emp_sub_abode
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="startDate != null">START_DATE = #{startDate},</if>
+            <if test="endDate != null">END_DATE = #{endDate},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="residenceAddress != null">RESIDENCE_ADDRESS = #{residenceAddress},</if>
+            <if test="zipcode != null">ZIPCODE = #{zipcode},</if>
+            <if test="mobilePhone != null">MOBILE_PHONE = #{mobilePhone},</if>
+            <if test="familyPhone != null">FAMILY_PHONE = #{familyPhone},</if>
+            <if test="workPhone != null">WORK_PHONE = #{workPhone},</if>
+            <if test="email != null">EMAIL = #{email},</if>
+            <if test="faminlyAddress != null">FAMINLY_ADDRESS = #{faminlyAddress},</if>
+            <if test="country != null">COUNTRY = #{country},</if>
+            <if test="province != null">PROVINCE = #{province},</if>
+            <if test="city != null">CITY = #{city},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubAbodeById" parameterType="String">
+        delete from emp_sub_abode where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubAbodeByIds" parameterType="String">
+        delete from emp_sub_abode where REC_ID in 
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+    
+</mapper>

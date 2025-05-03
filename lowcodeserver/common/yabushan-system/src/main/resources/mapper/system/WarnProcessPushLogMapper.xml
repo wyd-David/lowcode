@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.WarnProcessPushLogMapper">
+
+    <resultMap type="WarnProcessPushLog" id="WarnProcessPushLogResult">
+        <result property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="taskId" column="task_id"/>
+        <result property="isDone" column="is_done"/>
+        <result property="isRead" column="is_read"/>
+        <result property="taskName" column="task_name"/>
+        <result property="type" column="type"/>
+        <result property="bussinessName" column="bussiness_name"/>
+        <result property="createdDate" column="created_date"/>
+        <result property="realHandler" column="real_handler"/>
+        <result property="realHandlerName" column="real_handler_name"/>
+        <result property="opinion" column="opinion"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <sql id="selectWarnProcessPushLogVo">
+        select id,
+               order_id,
+               task_id,
+               is_done,
+               is_read,
+               task_name,
+               type,
+               bussiness_name,
+               created_date,
+               real_handler,
+               real_handler_name,
+               opinion,
+               status
+        from warn_process_push_log
+    </sql>
+
+    <select id="selectWarnProcessPushLogList" parameterType="WarnProcessPushLog" resultMap="WarnProcessPushLogResult">
+        <include refid="selectWarnProcessPushLogVo"/>
+        <where>
+            <if test="orderId != null  and orderId != ''">and order_id = #{orderId}</if>
+            <if test="taskId != null  and taskId != ''">and task_id = #{taskId}</if>
+            <if test="isDone != null  and isDone != ''">and is_done = #{isDone}</if>
+            <if test="isRead != null  and isRead != ''">and is_read = #{isRead}</if>
+            <if test="taskName != null  and taskName != ''">and task_name like concat('%', #{taskName}, '%')</if>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+            <if test="bussinessName != null  and bussinessName != ''">and bussiness_name like concat('%',
+                #{bussinessName}, '%')
+            </if>
+            <if test="createdDate != null ">and created_date = #{createdDate}</if>
+            <if test="realHandler != null  and realHandler != ''">and real_handler = #{realHandler}</if>
+            <if test="realHandlerName != null  and realHandlerName != ''">and real_handler_name like concat('%',
+                #{realHandlerName}, '%')
+            </if>
+            <if test="opinion != null  and opinion != ''">and opinion = #{opinion}</if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectWarnProcessPushLogById" parameterType="Long" resultMap="WarnProcessPushLogResult">
+        <include refid="selectWarnProcessPushLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertWarnProcessPushLog" parameterType="WarnProcessPushLog" useGeneratedKeys="true" keyProperty="id">
+        insert into warn_process_push_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="taskId != null">task_id,</if>
+            <if test="isDone != null">is_done,</if>
+            <if test="isRead != null">is_read,</if>
+            <if test="taskName != null">task_name,</if>
+            <if test="type != null">type,</if>
+            <if test="bussinessName != null">bussiness_name,</if>
+            <if test="createdDate != null">created_date,</if>
+            <if test="realHandler != null">real_handler,</if>
+            <if test="realHandlerName != null">real_handler_name,</if>
+            <if test="opinion != null">opinion,</if>
+            <if test="status != null">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="taskId != null">#{taskId},</if>
+            <if test="isDone != null">#{isDone},</if>
+            <if test="isRead != null">#{isRead},</if>
+            <if test="taskName != null">#{taskName},</if>
+            <if test="type != null">#{type},</if>
+            <if test="bussinessName != null">#{bussinessName},</if>
+            <if test="createdDate != null">#{createdDate},</if>
+            <if test="realHandler != null">#{realHandler},</if>
+            <if test="realHandlerName != null">#{realHandlerName},</if>
+            <if test="opinion != null">#{opinion},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertWarnProcessPushLog" parameterType="java.util.List">
+        insert into warn_process_push_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            order_id,
+            task_id,
+            is_done,
+            is_read,
+            task_name,
+            type,
+            bussiness_name,
+            created_date,
+            real_handler,
+            real_handler_name,
+            opinion,
+            status,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.orderId},
+                #{item.taskId},
+                #{item.isDone},
+                #{item.isRead},
+                #{item.taskName},
+                #{item.type},
+                #{item.bussinessName},
+                #{item.createdDate},
+                #{item.realHandler},
+                #{item.realHandlerName},
+                #{item.opinion},
+                #{item.status},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateWarnProcessPushLog" parameterType="WarnProcessPushLog">
+        update warn_process_push_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="isDone != null">is_done = #{isDone},</if>
+            <if test="isRead != null">is_read = #{isRead},</if>
+            <if test="taskName != null">task_name = #{taskName},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="bussinessName != null">bussiness_name = #{bussinessName},</if>
+            <if test="createdDate != null">created_date = #{createdDate},</if>
+            <if test="realHandler != null">real_handler = #{realHandler},</if>
+            <if test="realHandlerName != null">real_handler_name = #{realHandlerName},</if>
+            <if test="opinion != null">opinion = #{opinion},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWarnProcessPushLogById" parameterType="Long">
+        delete
+        from warn_process_push_log
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteWarnProcessPushLogByIds" parameterType="String">
+        delete from warn_process_push_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

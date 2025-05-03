@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.DataApiResourceMapper">
+
+    <resultMap type="DataApiResource" id="DataApiResourceResult">
+        <result property="resourceId"    column="resource_id"    />
+        <result property="apiCode"    column="api_code"    />
+        <result property="apiResultType"    column="api_result_type"    />
+        <result property="apiDefination"    column="api_defination"    />
+        <result property="createType"    column="create_type"    />
+        <result property="visualWhereJson"    column="visual_where_json"    />
+        <result property="visualColumnJson"    column="visual_column_json"    />
+        <result property="visualGroupJson"    column="visual_group_json"    />
+        <result property="isNginxProxy"    column="is_nginx_proxy"    />
+        <result property="callLimit"    column="call_limit"    />
+        <result property="ignoreResourceAuth"    column="ignore_resource_auth"    />
+    </resultMap>
+
+    <sql id="selectDataApiResourceVo">
+        select resource_id, api_code, api_result_type, api_defination, create_type, visual_where_json, visual_column_json, visual_group_json, is_nginx_proxy, call_limit, ignore_resource_auth from data_api_resource
+    </sql>
+
+    <select id="selectDataApiResourceList" parameterType="DataApiResource" resultMap="DataApiResourceResult">
+        <include refid="selectDataApiResourceVo"/>
+        <where>
+            <if test="apiCode != null  and apiCode != ''"> and api_code = #{apiCode}</if>
+            <if test="apiResultType != null  and apiResultType != ''"> and api_result_type = #{apiResultType}</if>
+            <if test="apiDefination != null  and apiDefination != ''"> and api_defination = #{apiDefination}</if>
+            <if test="createType != null  and createType != ''"> and create_type = #{createType}</if>
+            <if test="visualWhereJson != null  and visualWhereJson != ''"> and visual_where_json = #{visualWhereJson}</if>
+            <if test="visualColumnJson != null  and visualColumnJson != ''"> and visual_column_json = #{visualColumnJson}</if>
+            <if test="visualGroupJson != null  and visualGroupJson != ''"> and visual_group_json = #{visualGroupJson}</if>
+            <if test="isNginxProxy != null  and isNginxProxy != ''"> and is_nginx_proxy = #{isNginxProxy}</if>
+            <if test="callLimit != null  and callLimit != ''"> and call_limit = #{callLimit}</if>
+            <if test="ignoreResourceAuth != null  and ignoreResourceAuth != ''"> and ignore_resource_auth = #{ignoreResourceAuth}</if>
+        </where>
+    </select>
+
+    <select id="selectDataApiResourceById" parameterType="String" resultMap="DataApiResourceResult">
+        <include refid="selectDataApiResourceVo"/>
+        where resource_id = #{resourceId}
+    </select>
+
+    <insert id="insertDataApiResource" parameterType="DataApiResource">
+        insert into data_api_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resourceId != null">resource_id,</if>
+            <if test="apiCode != null">api_code,</if>
+            <if test="apiResultType != null">api_result_type,</if>
+            <if test="apiDefination != null">api_defination,</if>
+            <if test="createType != null">create_type,</if>
+            <if test="visualWhereJson != null">visual_where_json,</if>
+            <if test="visualColumnJson != null">visual_column_json,</if>
+            <if test="visualGroupJson != null">visual_group_json,</if>
+            <if test="isNginxProxy != null">is_nginx_proxy,</if>
+            <if test="callLimit != null">call_limit,</if>
+            <if test="ignoreResourceAuth != null">ignore_resource_auth,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resourceId != null">#{resourceId},</if>
+            <if test="apiCode != null">#{apiCode},</if>
+            <if test="apiResultType != null">#{apiResultType},</if>
+            <if test="apiDefination != null">#{apiDefination},</if>
+            <if test="createType != null">#{createType},</if>
+            <if test="visualWhereJson != null">#{visualWhereJson},</if>
+            <if test="visualColumnJson != null">#{visualColumnJson},</if>
+            <if test="visualGroupJson != null">#{visualGroupJson},</if>
+            <if test="isNginxProxy != null">#{isNginxProxy},</if>
+            <if test="callLimit != null">#{callLimit},</if>
+            <if test="ignoreResourceAuth != null">#{ignoreResourceAuth},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertDataApiResource" parameterType="java.util.List">
+        insert into data_api_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            resource_id,
+            api_code,
+            api_result_type,
+            api_defination,
+            create_type,
+            visual_where_json,
+            visual_column_json,
+            visual_group_json,
+            is_nginx_proxy,
+            call_limit,
+            ignore_resource_auth,
+        </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.resourceId},
+                #{item.apiCode},
+                #{item.apiResultType},
+                #{item.apiDefination},
+                #{item.createType},
+                #{item.visualWhereJson},
+                #{item.visualColumnJson},
+                #{item.visualGroupJson},
+                #{item.isNginxProxy},
+                #{item.callLimit},
+                #{item.ignoreResourceAuth},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateDataApiResource" parameterType="DataApiResource">
+        update data_api_resource
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="apiCode != null">api_code = #{apiCode},</if>
+            <if test="apiResultType != null">api_result_type = #{apiResultType},</if>
+            <if test="apiDefination != null">api_defination = #{apiDefination},</if>
+            <if test="createType != null">create_type = #{createType},</if>
+            <if test="visualWhereJson != null">visual_where_json = #{visualWhereJson},</if>
+            <if test="visualColumnJson != null">visual_column_json = #{visualColumnJson},</if>
+            <if test="visualGroupJson != null">visual_group_json = #{visualGroupJson},</if>
+            <if test="isNginxProxy != null">is_nginx_proxy = #{isNginxProxy},</if>
+            <if test="callLimit != null">call_limit = #{callLimit},</if>
+            <if test="ignoreResourceAuth != null">ignore_resource_auth = #{ignoreResourceAuth},</if>
+        </trim>
+        where resource_id = #{resourceId}
+    </update>
+
+    <delete id="deleteDataApiResourceById" parameterType="String">
+        delete from data_api_resource where resource_id = #{resourceId}
+    </delete>
+
+    <delete id="deleteDataApiResourceByIds" parameterType="String">
+        delete from data_api_resource where resource_id in
+        <foreach item="resourceId" collection="array" open="(" separator="," close=")">
+            #{resourceId}
+        </foreach>
+    </delete>
+
+</mapper>

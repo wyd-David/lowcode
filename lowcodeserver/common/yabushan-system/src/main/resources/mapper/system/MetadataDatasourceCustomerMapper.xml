@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.MetadataDatasourceCustomerMapper">
+
+    <resultMap type="MetadataDatasourceCustomer" id="MetadataDatasourceCustomerResult">
+        <result property="customerName"    column="CUSTOMER_NAME"    />
+        <result property="customerId"    column="CUSTOMER_ID"    />
+        <result property="datasourceId"    column="DATASOURCE_ID"    />
+        <result property="datasrouceType"    column="DATASROUCE_TYPE"    />
+        <result property="datasourceName"    column="DATASOURCE_NAME"    />
+        <result property="datasourceIp"    column="DATASOURCE_IP"    />
+        <result property="datasourcePort"    column="DATASOURCE_PORT"    />
+        <result property="datasourceAccount"    column="DATASOURCE_ACCOUNT"    />
+        <result property="datasourcePassword"    column="DATASOURCE_PASSWORD"    />
+        <result property="datasourceUrl"    column="DATASOURCE_URL"    />
+        <result property="datasourceMemo"    column="DATASOURCE_MEMO"    />
+        <result property="createId"    column="CREATE_ID"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="creteTime"    column="CRETE_TIME"    />
+        <result property="datasourceStatus"    column="DATASOURCE_STATUS"    />
+    </resultMap>
+
+    <sql id="selectMetadataDatasourceCustomerVo">
+        select CUSTOMER_NAME, CUSTOMER_ID, DATASOURCE_ID, DATASROUCE_TYPE, DATASOURCE_NAME, DATASOURCE_IP, DATASOURCE_PORT, DATASOURCE_ACCOUNT, DATASOURCE_PASSWORD, DATASOURCE_URL, DATASOURCE_MEMO, CREATE_ID, CREATE_BY, CRETE_TIME, DATASOURCE_STATUS from metadata_datasource_customer u
+    </sql>
+
+    <select id="selectMetadataDatasourceCustomerList" parameterType="MetadataDatasourceCustomer" resultMap="MetadataDatasourceCustomerResult">
+        <include refid="selectMetadataDatasourceCustomerVo"/>
+        <where> 1=1
+            <if test="customerName != null  and customerName != ''"> and CUSTOMER_NAME like concat('%', #{customerName}, '%')</if>
+            <if test="datasourceId != null  and datasourceId != ''"> and DATASOURCE_ID = #{datasourceId}</if>
+            <if test="datasrouceType != null  and datasrouceType != ''"> and DATASROUCE_TYPE = #{datasrouceType}</if>
+            <if test="datasourceName != null  and datasourceName != ''"> and DATASOURCE_NAME like concat('%', #{datasourceName}, '%')</if>
+            <if test="datasourceIp != null  and datasourceIp != ''"> and DATASOURCE_IP like concat('%', #{datasourceIp}, '%')</if>
+            <if test="datasourcePort != null  and datasourcePort != ''"> and DATASOURCE_PORT like concat('%', #{datasourcePort}, '%')</if>
+            <if test="datasourceAccount != null  and datasourceAccount != ''"> and DATASOURCE_ACCOUNT like concat('%', #{datasourceAccount}, '%')</if>
+            <if test="datasourcePassword != null  and datasourcePassword != ''"> and DATASOURCE_PASSWORD like concat('%', #{datasourcePassword}, '%')</if>
+            <if test="datasourceUrl != null  and datasourceUrl != ''"> and DATASOURCE_URL = #{datasourceUrl}</if>
+            <if test="datasourceMemo != null  and datasourceMemo != ''"> and DATASOURCE_MEMO = #{datasourceMemo}</if>
+            <if test="createId != null "> and CREATE_ID = #{createId}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="creteTime != null "> and CRETE_TIME = #{creteTime}</if>
+            <if test="datasourceStatus != null  and datasourceStatus != ''"> and DATASOURCE_STATUS = #{datasourceStatus}</if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope} order by u.CRETE_TIME desc
+        </where>
+    </select>
+
+    <select id="selectMetadataDatasourceCustomerById" parameterType="Long" resultMap="MetadataDatasourceCustomerResult">
+        <include refid="selectMetadataDatasourceCustomerVo"/>
+        where CUSTOMER_ID = #{customerId}
+    </select>
+
+    <insert id="insertMetadataDatasourceCustomer" parameterType="MetadataDatasourceCustomer" useGeneratedKeys="true" keyProperty="customerId">
+        insert into metadata_datasource_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerName != null">CUSTOMER_NAME,</if>
+            <if test="datasourceId != null">DATASOURCE_ID,</if>
+            <if test="datasrouceType != null">DATASROUCE_TYPE,</if>
+            <if test="datasourceName != null">DATASOURCE_NAME,</if>
+            <if test="datasourceIp != null">DATASOURCE_IP,</if>
+            <if test="datasourcePort != null">DATASOURCE_PORT,</if>
+            <if test="datasourceAccount != null">DATASOURCE_ACCOUNT,</if>
+            <if test="datasourcePassword != null">DATASOURCE_PASSWORD,</if>
+            <if test="datasourceUrl != null">DATASOURCE_URL,</if>
+            <if test="datasourceMemo != null">DATASOURCE_MEMO,</if>
+            <if test="createId != null">CREATE_ID,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="creteTime != null">CRETE_TIME,</if>
+            <if test="datasourceStatus != null">DATASOURCE_STATUS,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerName != null">#{customerName},</if>
+            <if test="datasourceId != null">#{datasourceId},</if>
+            <if test="datasrouceType != null">#{datasrouceType},</if>
+            <if test="datasourceName != null">#{datasourceName},</if>
+            <if test="datasourceIp != null">#{datasourceIp},</if>
+            <if test="datasourcePort != null">#{datasourcePort},</if>
+            <if test="datasourceAccount != null">#{datasourceAccount},</if>
+            <if test="datasourcePassword != null">#{datasourcePassword},</if>
+            <if test="datasourceUrl != null">#{datasourceUrl},</if>
+            <if test="datasourceMemo != null">#{datasourceMemo},</if>
+            <if test="createId != null">#{createId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="creteTime != null">#{creteTime},</if>
+            <if test="datasourceStatus != null">#{datasourceStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMetadataDatasourceCustomer" parameterType="MetadataDatasourceCustomer">
+        update metadata_datasource_customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerName != null">CUSTOMER_NAME = #{customerName},</if>
+            <if test="datasourceId != null">DATASOURCE_ID = #{datasourceId},</if>
+            <if test="datasrouceType != null">DATASROUCE_TYPE = #{datasrouceType},</if>
+            <if test="datasourceName != null">DATASOURCE_NAME = #{datasourceName},</if>
+            <if test="datasourceIp != null">DATASOURCE_IP = #{datasourceIp},</if>
+            <if test="datasourcePort != null">DATASOURCE_PORT = #{datasourcePort},</if>
+            <if test="datasourceAccount != null">DATASOURCE_ACCOUNT = #{datasourceAccount},</if>
+            <if test="datasourcePassword != null">DATASOURCE_PASSWORD = #{datasourcePassword},</if>
+            <if test="datasourceUrl != null">DATASOURCE_URL = #{datasourceUrl},</if>
+            <if test="datasourceMemo != null">DATASOURCE_MEMO = #{datasourceMemo},</if>
+            <if test="createId != null">CREATE_ID = #{createId},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="creteTime != null">CRETE_TIME = #{creteTime},</if>
+            <if test="datasourceStatus != null">DATASOURCE_STATUS = #{datasourceStatus},</if>
+        </trim>
+        where CUSTOMER_ID = #{customerId}
+    </update>
+
+    <delete id="deleteMetadataDatasourceCustomerById" parameterType="Long">
+        delete from metadata_datasource_customer where CUSTOMER_ID = #{customerId}
+    </delete>
+
+    <delete id="deleteMetadataDatasourceCustomerByIds" parameterType="String">
+        delete from metadata_datasource_customer where CUSTOMER_ID in
+        <foreach item="customerId" collection="array" open="(" separator="," close=")">
+            #{customerId}
+        </foreach>
+    </delete>
+
+</mapper>

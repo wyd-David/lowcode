@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.DataflowJobInstanceLastStateMapper">
+    
+    <resultMap type="DataflowJobInstanceLastState" id="DataflowJobInstanceLastStateResult">
+        <result property="jobId"    column="job_id"    />
+        <result property="lastJobInstanceId"    column="last_job_instance_id"    />
+        <result property="status"    column="status"    />
+        <result property="maxEventTime"    column="max_event_time"    />
+        <result property="lastExecutionTime"    column="last_execution_time"    />
+    </resultMap>
+
+    <sql id="selectDataflowJobInstanceLastStateVo">
+        select job_id, last_job_instance_id, status, max_event_time, last_execution_time from dataflow_job_instance_last_state
+    </sql>
+
+    <select id="selectDataflowJobInstanceLastStateList" parameterType="DataflowJobInstanceLastState" resultMap="DataflowJobInstanceLastStateResult">
+        <include refid="selectDataflowJobInstanceLastStateVo"/>
+        <where>  
+            <if test="lastJobInstanceId != null  and lastJobInstanceId != ''"> and last_job_instance_id = #{lastJobInstanceId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="maxEventTime != null  and maxEventTime != ''"> and max_event_time = #{maxEventTime}</if>
+            <if test="lastExecutionTime != null "> and last_execution_time = #{lastExecutionTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataflowJobInstanceLastStateById" parameterType="String" resultMap="DataflowJobInstanceLastStateResult">
+        <include refid="selectDataflowJobInstanceLastStateVo"/>
+        where job_id = #{jobId}
+    </select>
+        
+    <insert id="insertDataflowJobInstanceLastState" parameterType="DataflowJobInstanceLastState">
+        insert into dataflow_job_instance_last_state
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">job_id,</if>
+            <if test="lastJobInstanceId != null">last_job_instance_id,</if>
+            <if test="status != null">status,</if>
+            <if test="maxEventTime != null">max_event_time,</if>
+            <if test="lastExecutionTime != null">last_execution_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">#{jobId},</if>
+            <if test="lastJobInstanceId != null">#{lastJobInstanceId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="maxEventTime != null">#{maxEventTime},</if>
+            <if test="lastExecutionTime != null">#{lastExecutionTime},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertDataflowJobInstanceLastState" parameterType="java.util.List">
+        insert into dataflow_job_instance_last_state
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                job_id,
+                                                                last_job_instance_id,
+                                                                status,
+                                                                max_event_time,
+                                                                last_execution_time,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.jobId},
+                                                                                #{item.lastJobInstanceId},
+                                                                                #{item.status},
+                                                                                #{item.maxEventTime},
+                                                                                #{item.lastExecutionTime},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateDataflowJobInstanceLastState" parameterType="DataflowJobInstanceLastState">
+        update dataflow_job_instance_last_state
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="lastJobInstanceId != null">last_job_instance_id = #{lastJobInstanceId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="maxEventTime != null">max_event_time = #{maxEventTime},</if>
+            <if test="lastExecutionTime != null">last_execution_time = #{lastExecutionTime},</if>
+        </trim>
+        where job_id = #{jobId}
+    </update>
+
+    <delete id="deleteDataflowJobInstanceLastStateById" parameterType="String">
+        delete from dataflow_job_instance_last_state where job_id = #{jobId}
+    </delete>
+
+    <delete id="deleteDataflowJobInstanceLastStateByIds" parameterType="String">
+        delete from dataflow_job_instance_last_state where job_id in 
+        <foreach item="jobId" collection="array" open="(" separator="," close=")">
+            #{jobId}
+        </foreach>
+    </delete>
+    
+</mapper>

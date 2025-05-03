@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.ServiceStepConfMapper">
+
+    <resultMap type="ServiceStepConf" id="ServiceStepConfResult">
+        <result property="keyId"    column="KEY_ID"    />
+        <result property="stepId"    column="STEP_ID"    />
+        <result property="procdefId"    column="PROCDEF_ID"    />
+        <result property="stepName"    column="STEP_NAME"    />
+        <result property="stepCode"    column="STEP_CODE"    />
+        <result property="dealType"    column="DEAL_TYPE"    />
+        <result property="dealRoleName"    column="DEAL_ROLE_NAME"    />
+        <result property="dealRoleId"    column="DEAL_ROLE_ID"    />
+        <result property="dealUserName"    column="DEAL_USER_NAME"    />
+        <result property="dealUserId"    column="DEAL_USER_ID"    />
+        <result property="createDate"    column="CREATE_DATE"    />
+        <result property="systemRole"    column="SYSTEM_ROLE"    />
+        <result property="flowRole"    column="FLOW_ROLE"    />
+    </resultMap>
+
+    <sql id="selectServiceStepConfVo">
+        select KEY_ID, STEP_ID,SYSTEM_ROLE, PROCDEF_ID, STEP_NAME, STEP_CODE, DEAL_TYPE, DEAL_ROLE_NAME, DEAL_ROLE_ID, DEAL_USER_NAME, DEAL_USER_ID, CREATE_DATE,FLOW_ROLE from service_step_conf
+    </sql>
+
+    <select id="selectServiceStepConfList" parameterType="ServiceStepConf" resultMap="ServiceStepConfResult">
+        <include refid="selectServiceStepConfVo"/>
+        <where>
+            <if test="stepId != null  and stepId != ''"> and STEP_ID = #{stepId}</if>
+            <if test="procdefId != null  and procdefId != ''"> and PROCDEF_ID like concat(#{procdefId},'%')</if>
+            <if test="stepName != null  and stepName != ''"> and STEP_NAME like concat('%', #{stepName}, '%')</if>
+            <if test="stepCode != null  and stepCode != ''"> and STEP_CODE = #{stepCode}</if>
+            <if test="dealType != null  and dealType != ''"> and DEAL_TYPE = #{dealType}</if>
+            <if test="dealRoleName != null  and dealRoleName != ''"> and DEAL_ROLE_NAME like concat('%', #{dealRoleName}, '%')</if>
+            <if test="dealRoleId != null  and dealRoleId != ''"> and DEAL_ROLE_ID = #{dealRoleId}</if>
+            <if test="dealUserName != null  and dealUserName != ''"> and DEAL_USER_NAME like concat('%', #{dealUserName}, '%')</if>
+            <if test="dealUserId != null  and dealUserId != ''"> and DEAL_USER_ID = #{dealUserId}</if>
+            <if test="createDate != null "> and CREATE_DATE = #{createDate}</if>
+            <if test="flowRole != null "> and FLOW_ROLE = #{flowRole}</if>
+
+        </where>
+        order by CREATE_DATE desc
+    </select>
+
+    <select id="selectServiceStepConfById" parameterType="Long" resultMap="ServiceStepConfResult">
+        <include refid="selectServiceStepConfVo"/>
+        where KEY_ID = #{keyId}
+    </select>
+
+    <insert id="insertServiceStepConf" parameterType="ServiceStepConf" useGeneratedKeys="true" keyProperty="keyId">
+        insert into service_step_conf
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stepId != null">STEP_ID,</if>
+            <if test="procdefId != null">PROCDEF_ID,</if>
+            <if test="stepName != null">STEP_NAME,</if>
+            <if test="systemRole != null">SYSTEM_ROLE,</if>
+            <if test="stepCode != null">STEP_CODE,</if>
+            <if test="dealType != null">DEAL_TYPE,</if>
+            <if test="dealRoleName != null">DEAL_ROLE_NAME,</if>
+            <if test="dealRoleId != null">DEAL_ROLE_ID,</if>
+            <if test="dealUserName != null">DEAL_USER_NAME,</if>
+            <if test="dealUserId != null">DEAL_USER_ID,</if>
+            <if test="createDate != null">CREATE_DATE,</if>
+            <if test="flowRole != null">FLOW_ROLE,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stepId != null">#{stepId},</if>
+            <if test="procdefId != null">#{procdefId},</if>
+            <if test="stepName != null">#{stepName},</if>
+            <if test="stepCode != null">#{stepCode},</if>
+            <if test="dealType != null">#{dealType},</if>
+            <if test="dealRoleName != null">#{dealRoleName},</if>
+            <if test="systemRole != null">#{systemRole},</if>
+            <if test="dealRoleId != null">#{dealRoleId},</if>
+            <if test="dealUserName != null">#{dealUserName},</if>
+            <if test="dealUserId != null">#{dealUserId},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="flowRole != null">#{flowRole},</if>
+        </trim>
+    </insert>
+
+    <update id="updateServiceStepConf" parameterType="ServiceStepConf">
+        update service_step_conf
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stepId != null">STEP_ID = #{stepId},</if>
+            <if test="procdefId != null">PROCDEF_ID = #{procdefId},</if>
+            <if test="stepName != null">STEP_NAME = #{stepName},</if>
+            <if test="stepCode != null">STEP_CODE = #{stepCode},</if>
+            <if test="systemRole != null">SYSTEM_ROLE = #{systemRole},</if>
+            <if test="dealType != null">DEAL_TYPE = #{dealType},</if>
+            <if test="dealRoleName != null">DEAL_ROLE_NAME = #{dealRoleName},</if>
+            <if test="dealRoleId != null">DEAL_ROLE_ID = #{dealRoleId},</if>
+            <if test="dealUserName != null">DEAL_USER_NAME = #{dealUserName},</if>
+            <if test="dealUserId != null">DEAL_USER_ID = #{dealUserId},</if>
+            <if test="createDate != null">CREATE_DATE = #{createDate},</if>
+            <if test="flowRole != null">FLOW_ROLE = #{flowRole},</if>
+        </trim>
+        where KEY_ID = #{keyId}
+    </update>
+
+    <delete id="deleteServiceStepConfById" parameterType="Long">
+        delete from service_step_conf where KEY_ID = #{keyId}
+    </delete>
+
+    <delete id="deleteServiceStepConfByIds" parameterType="String">
+        delete from service_step_conf where KEY_ID in
+        <foreach item="keyId" collection="array" open="(" separator="," close=")">
+            #{keyId}
+        </foreach>
+    </delete>
+
+</mapper>

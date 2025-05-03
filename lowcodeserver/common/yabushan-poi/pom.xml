@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>yabushan</artifactId>
+        <groupId>com.yabushan</groupId>
+        <version>3.1.0</version>
+        <relativePath>../..</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>yabushan-poi</artifactId>
+
+    <dependencies>
+        <!--excel操作-->
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-spring-boot-starter</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
+
+        <!-- 工作流-->
+        <dependency>
+            <groupId>com.yabushan</groupId>
+            <artifactId>yabushan-activiti</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <!-- 通用工具-->
+        <dependency>
+            <groupId>com.yabushan</groupId>
+            <artifactId>yabushan-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.yabushan</groupId>
+            <artifactId>yabushan-framework</artifactId>
+        </dependency>
+
+        <!--<dependency>
+            <groupId> e-iceblue </groupId>
+            <artifactId>spire.office</artifactId>
+            <version>5.4.2</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>e-iceblue</groupId>
+            <artifactId>spire.office.free</artifactId>
+            <version>3.9.0</version>
+        </dependency>
+
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>com.e-iceblue</id>
+            <name>e-iceblue</name>
+            <url>https://repo.e-iceblue.cn/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+
+</project>

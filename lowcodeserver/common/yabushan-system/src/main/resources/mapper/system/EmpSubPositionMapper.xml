@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubPositionMapper">
+    
+    <resultMap type="EmpSubPosition" id="EmpSubPositionResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="jobKind"    column="JOB_KIND"    />
+        <result property="positionName"    column="POSITION_NAME"    />
+        <result property="positionId"    column="POSITION_ID"    />
+        <result property="positionFromDate"    column="POSITION_FROM_DATE"    />
+        <result property="positionToDate"    column="POSITION_TO_DATE"    />
+        <result property="deptName"    column="DEPT_NAME"    />
+        <result property="positionLevelName"    column="POSITION_LEVEL_NAME"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectEmpSubPositionVo">
+        select REC_ID, EMP_ID, SORT_INDEX, JOB_KIND, POSITION_NAME, POSITION_ID, POSITION_FROM_DATE, POSITION_TO_DATE, DEPT_NAME, POSITION_LEVEL_NAME, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME from emp_sub_position
+    </sql>
+
+    <select id="selectEmpSubPositionList" parameterType="EmpSubPosition" resultMap="EmpSubPositionResult">
+        <include refid="selectEmpSubPositionVo"/>
+        <where>  
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="sortIndex != null  and sortIndex != ''"> and SORT_INDEX = #{sortIndex}</if>
+            <if test="jobKind != null  and jobKind != ''"> and JOB_KIND = #{jobKind}</if>
+            <if test="positionName != null  and positionName != ''"> and POSITION_NAME like concat('%', #{positionName}, '%')</if>
+            <if test="positionId != null  and positionId != ''"> and POSITION_ID = #{positionId}</if>
+            <if test="positionFromDate != null "> and POSITION_FROM_DATE = #{positionFromDate}</if>
+            <if test="positionToDate != null "> and POSITION_TO_DATE = #{positionToDate}</if>
+            <if test="deptName != null  and deptName != ''"> and DEPT_NAME like concat('%', #{deptName}, '%')</if>
+            <if test="positionLevelName != null  and positionLevelName != ''"> and POSITION_LEVEL_NAME like concat('%', #{positionLevelName}, '%')</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmpSubPositionById" parameterType="String" resultMap="EmpSubPositionResult">
+        <include refid="selectEmpSubPositionVo"/>
+        where REC_ID = #{recId}
+    </select>
+        
+    <insert id="insertEmpSubPosition" parameterType="EmpSubPosition">
+        insert into emp_sub_position
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="jobKind != null">JOB_KIND,</if>
+            <if test="positionName != null">POSITION_NAME,</if>
+            <if test="positionId != null">POSITION_ID,</if>
+            <if test="positionFromDate != null">POSITION_FROM_DATE,</if>
+            <if test="positionToDate != null">POSITION_TO_DATE,</if>
+            <if test="deptName != null">DEPT_NAME,</if>
+            <if test="positionLevelName != null">POSITION_LEVEL_NAME,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="jobKind != null">#{jobKind},</if>
+            <if test="positionName != null">#{positionName},</if>
+            <if test="positionId != null">#{positionId},</if>
+            <if test="positionFromDate != null">#{positionFromDate},</if>
+            <if test="positionToDate != null">#{positionToDate},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="positionLevelName != null">#{positionLevelName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubPosition" parameterType="EmpSubPosition">
+        update emp_sub_position
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="jobKind != null">JOB_KIND = #{jobKind},</if>
+            <if test="positionName != null">POSITION_NAME = #{positionName},</if>
+            <if test="positionId != null">POSITION_ID = #{positionId},</if>
+            <if test="positionFromDate != null">POSITION_FROM_DATE = #{positionFromDate},</if>
+            <if test="positionToDate != null">POSITION_TO_DATE = #{positionToDate},</if>
+            <if test="deptName != null">DEPT_NAME = #{deptName},</if>
+            <if test="positionLevelName != null">POSITION_LEVEL_NAME = #{positionLevelName},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubPositionById" parameterType="String">
+        delete from emp_sub_position where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubPositionByIds" parameterType="String">
+        delete from emp_sub_position where REC_ID in 
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+    
+</mapper>

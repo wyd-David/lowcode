@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.SysFlowMainMapper">
+
+    <resultMap type="SysFlowMain" id="SysFlowMainResult">
+        <result property="id" column="id"/>
+        <result property="docId" column="doc_id"/>
+        <result property="mainId" column="main_id"/>
+        <result property="activityId" column="activity_id"/>
+        <result property="currentDealUser" column="current_deal_user"/>
+        <result property="currentActivity" column="current_activity"/>
+        <result property="service" column="service"/>
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+
+    </resultMap>
+
+    <sql id="selectSysFlowMainVo">
+        select id, doc_id, main_id, activity_id, current_deal_user, current_activity,service,create_time,create_user from sys_flow_main
+    </sql>
+
+    <select id="selectSysFlowMainList" parameterType="SysFlowMain" resultMap="SysFlowMainResult">
+        <include refid="selectSysFlowMainVo"/>
+        <where>
+            <if test="docId != null  and docId != ''">and doc_id = #{docId}</if>
+            <if test="mainId != null  and mainId != ''">and main_id = #{mainId}</if>
+            <if test="activityId != null  and activityId != ''">and activity_id = #{activityId}</if>
+            <if test="currentDealUser != null  and currentDealUser != ''">and current_deal_user = #{currentDealUser}</if>
+            <if test="currentActivity != null  and currentActivity != ''">and current_activity = #{currentActivity}</if>
+            <if test="service != null  and service != ''">and service = #{service}</if>
+        </where>
+    </select>
+
+    <select id="selectSysFlowMainById" parameterType="String" resultMap="SysFlowMainResult">
+        <include refid="selectSysFlowMainVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysFlowMain" parameterType="SysFlowMain">
+        insert into sys_flow_main
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="docId != null">doc_id,</if>
+            <if test="mainId != null">main_id,</if>
+            <if test="activityId != null">activity_id,</if>
+            <if test="currentDealUser != null">current_deal_user,</if>
+            <if test="currentActivity != null">current_activity,</if>
+            <if test="service != null">service,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="docId != null">#{docId},</if>
+            <if test="mainId != null">#{mainId},</if>
+            <if test="activityId != null">#{activityId},</if>
+            <if test="currentDealUser != null">#{currentDealUser},</if>
+            <if test="currentActivity != null">#{currentActivity},</if>
+            <if test="service != null">#{service},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertSysFlowMain" parameterType="java.util.List">
+        insert into sys_flow_main
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            doc_id,
+            main_id,
+            activity_id,
+            current_deal_user,
+            current_activity,
+            service,
+            create_time,
+            create_user,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.id},
+                #{item.docId},
+                #{item.mainId},
+                #{item.activityId},
+                #{item.currentDealUser},
+                #{item.currentActivity},
+                #{item.service},
+                #{item.createTime},
+                #{item.createUser},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateSysFlowMain" parameterType="SysFlowMain">
+        update sys_flow_main
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="docId != null">doc_id = #{docId},</if>
+            <if test="mainId != null">main_id = #{mainId},</if>
+            <if test="activityId != null">activity_id = #{activityId},</if>
+            <if test="currentDealUser != null">current_deal_user = #{currentDealUser},</if>
+            <if test="currentActivity != null">current_activity = #{currentActivity},</if>
+            <if test="service != null">service = #{service},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysFlowMainById" parameterType="String">
+        delete from sys_flow_main where id = #{id}
+    </delete>
+
+    <delete id="deleteSysFlowMainByIds" parameterType="String">
+        delete from sys_flow_main where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateSysFlowMainByDocId" parameterType="SysFlowMain">
+        update sys_flow_main
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="activityId != null">activity_id = #{activityId},</if>
+            <if test="currentDealUser != null">current_deal_user = #{currentDealUser},</if>
+            <if test="currentActivity != null">current_activity = #{currentActivity},</if>
+            <if test="mainId != null">main_id = #{mainId},</if>
+        </trim>
+        where doc_id=#{docId}
+    </update>
+
+    <select id="selectByDocId" parameterType="String" resultMap="SysFlowMainResult">
+        <include refid="selectSysFlowMainVo"/>
+        where doc_id = #{docId}
+    </select>
+
+
+</mapper>

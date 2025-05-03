@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.SysSyncDepMapper">
+
+    <resultMap type="SysSyncDep" id="SysSyncDepResult">
+        <result property="id" column="id"/>
+        <result property="sysDepId" column="sys_dep_id"/>
+        <result property="syncDepId" column="sync_dep_id"/>
+        <result property="depAcset" column="dep_acset"/>
+        <result property="depEnglishName" column="dep_english_name"/>
+        <result property="isDept" column="is_dept"/>
+        <result property="extendedField1" column="extended_field1"/>
+        <result property="extendedField2" column="extended_field2"/>
+        <result property="extendedField3" column="extended_field3"/>
+    </resultMap>
+
+    <sql id="selectSysSyncDepVo">
+        select id, sys_dep_id, sync_dep_id,dep_acset,dep_english_name, is_dept, extended_field2, extended_field3 from sys_sync_dep
+    </sql>
+
+    <select id="selectSysSyncDepList" parameterType="SysSyncDep" resultMap="SysSyncDepResult">
+        <include refid="selectSysSyncDepVo"/>
+        <where>
+            <if test="sysDepId != null">and sys_dep_id = #{sysDepId}</if>
+            <if test="syncDepId != null">and sync_dep_id = #{syncDepId}</if>
+            <if test="depAcset != null  and depAcset != ''">and dep_acset = #{depAcset}</if>
+            <if test="depEnglishName != null  and depEnglishName != ''">and dep_english_name like concat('%',#{depEnglishName}, '%')</if>
+            <if test="isDept != null  and isDept != ''">and is_dept = #{isDept}</if>
+            <if test="extendedField2 != null  and extendedField2 != ''">and extended_field2 = #{extendedField2}</if>
+            <if test="extendedField3 != null  and extendedField3 != ''">and extended_field3 = #{extendedField3}</if>
+        </where>
+    </select>
+
+    <select id="selectSysSyncDepById" parameterType="Long" resultMap="SysSyncDepResult">
+        <include refid="selectSysSyncDepVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysSyncDep" parameterType="SysSyncDep" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_sync_dep
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sysDepId != null">sys_dep_id,</if>
+            <if test="syncDepId != null">sync_dep_id,</if>
+            <if test="depAcset != null">dep_acset,</if>
+            <if test="depEnglishName != null">dep_english_name,</if>
+            <if test="isDept != null">is_dept,</if>
+
+            <if test="extendedField2 != null">extended_field2,</if>
+            <if test="extendedField3 != null">extended_field3,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sysDepId != null">#{sysDepId},</if>
+            <if test="syncDepId != null">#{syncDepId},</if>
+            <if test="depAcset != null">#{depAcset},</if>
+            <if test="depEnglishName != null">#{depEnglishName},</if>
+            <if test="isDept != null">#{isDept},</if>
+
+            <if test="extendedField2 != null">#{extendedField2},</if>
+            <if test="extendedField3 != null">#{extendedField3},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysSyncDep" parameterType="SysSyncDep">
+        update sys_sync_dep
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sysDepId != null">sys_dep_id = #{sysDepId},</if>
+            <if test="syncDepId != null">sync_dep_id = #{syncDepId},</if>
+            <if test="depAcset != null">dep_acset = #{depAcset},</if>
+            <if test="depEnglishName != null">dep_english_name = #{depEnglishName},</if>
+            <if test="isDept != null">is_dept = #{isDept},</if>
+
+            <if test="extendedField2 != null">extended_field2 = #{extendedField2},</if>
+            <if test="extendedField3 != null">extended_field3 = #{extendedField3},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysSyncDepById" parameterType="Long">
+        delete from sys_sync_dep where id = #{id}
+    </delete>
+
+    <delete id="deleteSysSyncDepByIds" parameterType="String">
+        delete from sys_sync_dep where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectDepIdBySync" parameterType="String" resultType="String">
+        select sys_dep_id from sys_sync_dep
+        where sync_dep_id = #{syncDepId}
+    </select>
+
+    <select id="selectSysSyncDep" parameterType="SysSyncDep" resultMap="SysSyncDepResult">
+        <include refid="selectSysSyncDepVo"/>
+        <where>
+            <if test="sysDepId != null">and sys_dep_id = #{sysDepId}</if>
+            <if test="syncDepId != null">and sync_dep_id = #{syncDepId},</if>
+        </where>
+    </select>
+
+    <select id="selectSysSyncBydept"  resultMap="SysSyncDepResult">
+        <include refid="selectSysSyncDepVo"/>
+        where sys_dep_id=#{deptId} or sync_dep_id=#{deptId}
+    </select>
+
+    <select id="setlecDealUserByDept"  resultMap="SysSyncDepResult">
+        SELECT
+        id,
+        sys_dep_id,
+        sync_dep_id,
+        dep_acset,
+        dep_english_name,
+        is_dept,
+        extended_field2,
+        extended_field3
+        FROM
+        sync_user U
+        WHERE
+	    U.`DPID` IN ( SELECT G.`DPID` FROM sync_org g WHERE G.`DPCODE` like #{dpid} )
+	    AND U.`POSITIONCAT` = '部门负责人'
+    </select>
+
+</mapper>

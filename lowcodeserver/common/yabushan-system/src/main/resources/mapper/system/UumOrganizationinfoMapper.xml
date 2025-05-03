@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.UumOrganizationinfoMapper">
+
+    <resultMap type="UumOrganizationinfo" id="UumOrganizationinfoResult">
+        <result property="ouguid"    column="OUGUID"    />
+        <result property="parentouguid"    column="PARENTOUGUID"    />
+        <result property="parentouid"    column="PARENTOUID"    />
+        <result property="ouid"    column="OUID"    />
+        <result property="orgtypeid"    column="ORGTYPEID"    />
+        <result property="orgstate"    column="ORGSTATE"    />
+        <result property="ouname"    column="OUNAME"    />
+        <result property="oufullname"    column="OUFULLNAME"    />
+        <result property="oulevel"    column="OULEVEL"    />
+        <result property="ouorder"    column="OUORDER"    />
+        <result property="orgdn"    column="ORGDN"    />
+        <result property="region"    column="REGION"    />
+        <result property="regionid"    column="REGIONID"    />
+        <result property="company"    column="COMPANY"    />
+        <result property="companyid"    column="COMPANYID"    />
+        <result property="branch"    column="BRANCH"    />
+        <result property="branchid"    column="BRANCHID"    />
+        <result property="department"    column="DEPARTMENT"    />
+        <result property="departmentid"    column="DEPARTMENTID"    />
+        <result property="usergroup"    column="USERGROUP"    />
+        <result property="usergroupid"    column="USERGROUPID"    />
+        <result property="hall"    column="HALL"    />
+        <result property="hallid"    column="HALLID"    />
+        <result property="salepoint"    column="SALEPOINT"    />
+        <result property="salepointid"    column="SALEPOINTID"    />
+        <result property="teams"    column="TEAMS"    />
+        <result property="createtime"    column="CREATETIME"    />
+        <result property="lastmodifytime"    column="LASTMODIFYTIME"    />
+        <result property="orgfullname"    column="ORGFULLNAME"    />
+        <result property="orgtypeidnum"    column="ORGTYPEIDNUM"    />
+        <result property="orgstarttime"    column="ORGSTARTTIME"    />
+        <result property="cmccorgcode"    column="CMCCORGCODE"    />
+        <result property="orgmainleader"    column="ORGMAINLEADER"    />
+        <result property="supervisor"    column="SUPERVISOR"    />
+        <result property="orgotherleader"    column="ORGOTHERLEADER"    />
+        <result property="parentcmccorgcode"    column="PARENTCMCCORGCODE"    />
+        <result property="innerHandler"    column="inner_handler"    />
+        <result property="exData"    column="ex_data"    />
+        <result property="title"    column="title"    />
+        <result property="innerStatus"    column="inner_status"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+        <result property="orgId"    column="org_id"    />
+        <result property="tenantId"    column="tenant_id"    />
+    </resultMap>
+
+    <sql id="selectUumOrganizationinfoVo">
+        select OUGUID, PARENTOUGUID, PARENTOUID, OUID, ORGTYPEID, ORGSTATE, OUNAME, OUFULLNAME, OULEVEL, OUORDER, ORGDN, REGION, REGIONID, COMPANY, COMPANYID, BRANCH, BRANCHID, DEPARTMENT, DEPARTMENTID, USERGROUP, USERGROUPID, HALL, HALLID, SALEPOINT, SALEPOINTID, TEAMS, CREATETIME, LASTMODIFYTIME, ORGFULLNAME, ORGTYPEIDNUM, ORGSTARTTIME, CMCCORGCODE, ORGMAINLEADER, SUPERVISOR, ORGOTHERLEADER, PARENTCMCCORGCODE, inner_handler, ex_data, title, inner_status, created_by, updated_by, created_at, updated_at, org_id, tenant_id from uum_organizationinfo
+    </sql>
+
+    <select id="selectUumOrganizationinfoList" parameterType="UumOrganizationinfo" resultMap="UumOrganizationinfoResult">
+        <include refid="selectUumOrganizationinfoVo"/>
+        <where>
+            <if test="parentouguid != null  and parentouguid != ''"> and PARENTOUGUID = #{parentouguid}</if>
+            <if test="parentouid != null  and parentouid != ''"> and PARENTOUID = #{parentouid}</if>
+            <if test="ouid != null  and ouid != ''"> and OUID = #{ouid}</if>
+            <if test="orgtypeid != null  and orgtypeid != ''"> and ORGTYPEID = #{orgtypeid}</if>
+            <if test="orgstate != null  and orgstate != ''"> and ORGSTATE = #{orgstate}</if>
+            <if test="ouname != null  and ouname != ''"> and OUNAME like concat('%', #{ouname}, '%')</if>
+            <if test="oufullname != null  and oufullname != ''"> and OUFULLNAME like concat('%', #{oufullname}, '%')</if>
+            <if test="oulevel != null "> and OULEVEL = #{oulevel}</if>
+            <if test="ouorder != null  and ouorder != ''"> and OUORDER = #{ouorder}</if>
+            <if test="orgdn != null  and orgdn != ''"> and ORGDN = #{orgdn}</if>
+            <if test="region != null  and region != ''"> and REGION = #{region}</if>
+            <if test="regionid != null  and regionid != ''"> and REGIONID = #{regionid}</if>
+            <if test="company != null  and company != ''"> and COMPANY = #{company}</if>
+            <if test="companyid != null  and companyid != ''"> and COMPANYID = #{companyid}</if>
+            <if test="branch != null  and branch != ''"> and BRANCH = #{branch}</if>
+            <if test="branchid != null  and branchid != ''"> and BRANCHID = #{branchid}</if>
+            <if test="department != null  and department != ''"> and DEPARTMENT = #{department}</if>
+            <if test="departmentid != null  and departmentid != ''"> and DEPARTMENTID = #{departmentid}</if>
+            <if test="usergroup != null  and usergroup != ''"> and USERGROUP = #{usergroup}</if>
+            <if test="usergroupid != null  and usergroupid != ''"> and USERGROUPID = #{usergroupid}</if>
+            <if test="hall != null  and hall != ''"> and HALL = #{hall}</if>
+            <if test="hallid != null  and hallid != ''"> and HALLID = #{hallid}</if>
+            <if test="salepoint != null  and salepoint != ''"> and SALEPOINT = #{salepoint}</if>
+            <if test="salepointid != null  and salepointid != ''"> and SALEPOINTID = #{salepointid}</if>
+            <if test="teams != null  and teams != ''"> and TEAMS = #{teams}</if>
+            <if test="createtime != null "> and CREATETIME = #{createtime}</if>
+            <if test="lastmodifytime != null "> and LASTMODIFYTIME > #{lastmodifytime}</if>
+            <if test="orgfullname != null  and orgfullname != ''"> and ORGFULLNAME like concat('%', #{orgfullname}, '%')</if>
+            <if test="orgtypeidnum != null  and orgtypeidnum != ''"> and ORGTYPEIDNUM = #{orgtypeidnum}</if>
+            <if test="orgstarttime != null  and orgstarttime != ''"> and ORGSTARTTIME = #{orgstarttime}</if>
+            <if test="cmccorgcode != null  and cmccorgcode != ''"> and CMCCORGCODE = #{cmccorgcode}</if>
+            <if test="orgmainleader != null  and orgmainleader != ''"> and ORGMAINLEADER = #{orgmainleader}</if>
+            <if test="supervisor != null  and supervisor != ''"> and SUPERVISOR = #{supervisor}</if>
+            <if test="orgotherleader != null  and orgotherleader != ''"> and ORGOTHERLEADER = #{orgotherleader}</if>
+            <if test="parentcmccorgcode != null  and parentcmccorgcode != ''"> and PARENTCMCCORGCODE = #{parentcmccorgcode}</if>
+            <if test="innerHandler != null  and innerHandler != ''"> and inner_handler = #{innerHandler}</if>
+            <if test="exData != null  and exData != ''"> and ex_data = #{exData}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="innerStatus != null  and innerStatus != ''"> and inner_status = #{innerStatus}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by = #{updatedBy}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+            <if test="orgId != null  and orgId != ''"> and org_id = #{orgId}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+        </where>
+        <if test="sortField !=null and sortField != ''">
+            ORDER BY ${sortField}
+            <if test="sortOrder !=null and sortOrder != ''">
+                ${sortOrder}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectUumOrganizationinfoById" parameterType="String" resultMap="UumOrganizationinfoResult">
+        <include refid="selectUumOrganizationinfoVo"/>
+        where OUGUID = #{ouguid}
+    </select>
+
+    <insert id="insertUumOrganizationinfo" parameterType="UumOrganizationinfo">
+        insert into uum_organizationinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ouguid != null">OUGUID,</if>
+            <if test="parentouguid != null">PARENTOUGUID,</if>
+            <if test="parentouid != null">PARENTOUID,</if>
+            <if test="ouid != null">OUID,</if>
+            <if test="orgtypeid != null">ORGTYPEID,</if>
+            <if test="orgstate != null">ORGSTATE,</if>
+            <if test="ouname != null">OUNAME,</if>
+            <if test="oufullname != null">OUFULLNAME,</if>
+            <if test="oulevel != null">OULEVEL,</if>
+            <if test="ouorder != null">OUORDER,</if>
+            <if test="orgdn != null">ORGDN,</if>
+            <if test="region != null">REGION,</if>
+            <if test="regionid != null">REGIONID,</if>
+            <if test="company != null">COMPANY,</if>
+            <if test="companyid != null">COMPANYID,</if>
+            <if test="branch != null">BRANCH,</if>
+            <if test="branchid != null">BRANCHID,</if>
+            <if test="department != null">DEPARTMENT,</if>
+            <if test="departmentid != null">DEPARTMENTID,</if>
+            <if test="usergroup != null">USERGROUP,</if>
+            <if test="usergroupid != null">USERGROUPID,</if>
+            <if test="hall != null">HALL,</if>
+            <if test="hallid != null">HALLID,</if>
+            <if test="salepoint != null">SALEPOINT,</if>
+            <if test="salepointid != null">SALEPOINTID,</if>
+            <if test="teams != null">TEAMS,</if>
+            <if test="createtime != null">CREATETIME,</if>
+            <if test="lastmodifytime != null">LASTMODIFYTIME,</if>
+            <if test="orgfullname != null">ORGFULLNAME,</if>
+            <if test="orgtypeidnum != null">ORGTYPEIDNUM,</if>
+            <if test="orgstarttime != null">ORGSTARTTIME,</if>
+            <if test="cmccorgcode != null">CMCCORGCODE,</if>
+            <if test="orgmainleader != null">ORGMAINLEADER,</if>
+            <if test="supervisor != null">SUPERVISOR,</if>
+            <if test="orgotherleader != null">ORGOTHERLEADER,</if>
+            <if test="parentcmccorgcode != null">PARENTCMCCORGCODE,</if>
+            <if test="innerHandler != null">inner_handler,</if>
+            <if test="exData != null">ex_data,</if>
+            <if test="title != null">title,</if>
+            <if test="innerStatus != null">inner_status,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+            <if test="orgId != null">org_id,</if>
+            <if test="tenantId != null">tenant_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ouguid != null">#{ouguid},</if>
+            <if test="parentouguid != null">#{parentouguid},</if>
+            <if test="parentouid != null">#{parentouid},</if>
+            <if test="ouid != null">#{ouid},</if>
+            <if test="orgtypeid != null">#{orgtypeid},</if>
+            <if test="orgstate != null">#{orgstate},</if>
+            <if test="ouname != null">#{ouname},</if>
+            <if test="oufullname != null">#{oufullname},</if>
+            <if test="oulevel != null">#{oulevel},</if>
+            <if test="ouorder != null">#{ouorder},</if>
+            <if test="orgdn != null">#{orgdn},</if>
+            <if test="region != null">#{region},</if>
+            <if test="regionid != null">#{regionid},</if>
+            <if test="company != null">#{company},</if>
+            <if test="companyid != null">#{companyid},</if>
+            <if test="branch != null">#{branch},</if>
+            <if test="branchid != null">#{branchid},</if>
+            <if test="department != null">#{department},</if>
+            <if test="departmentid != null">#{departmentid},</if>
+            <if test="usergroup != null">#{usergroup},</if>
+            <if test="usergroupid != null">#{usergroupid},</if>
+            <if test="hall != null">#{hall},</if>
+            <if test="hallid != null">#{hallid},</if>
+            <if test="salepoint != null">#{salepoint},</if>
+            <if test="salepointid != null">#{salepointid},</if>
+            <if test="teams != null">#{teams},</if>
+            <if test="createtime != null">#{createtime},</if>
+            <if test="lastmodifytime != null">#{lastmodifytime},</if>
+            <if test="orgfullname != null">#{orgfullname},</if>
+            <if test="orgtypeidnum != null">#{orgtypeidnum},</if>
+            <if test="orgstarttime != null">#{orgstarttime},</if>
+            <if test="cmccorgcode != null">#{cmccorgcode},</if>
+            <if test="orgmainleader != null">#{orgmainleader},</if>
+            <if test="supervisor != null">#{supervisor},</if>
+            <if test="orgotherleader != null">#{orgotherleader},</if>
+            <if test="parentcmccorgcode != null">#{parentcmccorgcode},</if>
+            <if test="innerHandler != null">#{innerHandler},</if>
+            <if test="exData != null">#{exData},</if>
+            <if test="title != null">#{title},</if>
+            <if test="innerStatus != null">#{innerStatus},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+            <if test="orgId != null">#{orgId},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertUumOrganizationinfo" parameterType="java.util.List">
+        insert into uum_organizationinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            OUGUID,
+            PARENTOUGUID,
+            PARENTOUID,
+            OUID,
+            ORGTYPEID,
+            ORGSTATE,
+            OUNAME,
+            OUFULLNAME,
+            OULEVEL,
+            OUORDER,
+            ORGDN,
+            REGION,
+            REGIONID,
+            COMPANY,
+            COMPANYID,
+            BRANCH,
+            BRANCHID,
+            DEPARTMENT,
+            DEPARTMENTID,
+            USERGROUP,
+            USERGROUPID,
+            HALL,
+            HALLID,
+            SALEPOINT,
+            SALEPOINTID,
+            TEAMS,
+            CREATETIME,
+            LASTMODIFYTIME,
+            ORGFULLNAME,
+            ORGTYPEIDNUM,
+            ORGSTARTTIME,
+            CMCCORGCODE,
+            ORGMAINLEADER,
+            SUPERVISOR,
+            ORGOTHERLEADER,
+            PARENTCMCCORGCODE,
+            inner_handler,
+            ex_data,
+            title,
+            inner_status,
+            created_by,
+            updated_by,
+            created_at,
+            updated_at,
+            org_id,
+            tenant_id,
+        </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.ouguid},
+                #{item.parentouguid},
+                #{item.parentouid},
+                #{item.ouid},
+                #{item.orgtypeid},
+                #{item.orgstate},
+                #{item.ouname},
+                #{item.oufullname},
+                #{item.oulevel},
+                #{item.ouorder},
+                #{item.orgdn},
+                #{item.region},
+                #{item.regionid},
+                #{item.company},
+                #{item.companyid},
+                #{item.branch},
+                #{item.branchid},
+                #{item.department},
+                #{item.departmentid},
+                #{item.usergroup},
+                #{item.usergroupid},
+                #{item.hall},
+                #{item.hallid},
+                #{item.salepoint},
+                #{item.salepointid},
+                #{item.teams},
+                #{item.createtime},
+                #{item.lastmodifytime},
+                #{item.orgfullname},
+                #{item.orgtypeidnum},
+                #{item.orgstarttime},
+                #{item.cmccorgcode},
+                #{item.orgmainleader},
+                #{item.supervisor},
+                #{item.orgotherleader},
+                #{item.parentcmccorgcode},
+                #{item.innerHandler},
+                #{item.exData},
+                #{item.title},
+                #{item.innerStatus},
+                #{item.createdBy},
+                #{item.updatedBy},
+                #{item.createdAt},
+                #{item.updatedAt},
+                #{item.orgId},
+                #{item.tenantId},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateUumOrganizationinfo" parameterType="UumOrganizationinfo">
+        update uum_organizationinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentouguid != null">PARENTOUGUID = #{parentouguid},</if>
+            <if test="parentouid != null">PARENTOUID = #{parentouid},</if>
+            <if test="ouid != null">OUID = #{ouid},</if>
+            <if test="orgtypeid != null">ORGTYPEID = #{orgtypeid},</if>
+            <if test="orgstate != null">ORGSTATE = #{orgstate},</if>
+            <if test="ouname != null">OUNAME = #{ouname},</if>
+            <if test="oufullname != null">OUFULLNAME = #{oufullname},</if>
+            <if test="oulevel != null">OULEVEL = #{oulevel},</if>
+            <if test="ouorder != null">OUORDER = #{ouorder},</if>
+            <if test="orgdn != null">ORGDN = #{orgdn},</if>
+            <if test="region != null">REGION = #{region},</if>
+            <if test="regionid != null">REGIONID = #{regionid},</if>
+            <if test="company != null">COMPANY = #{company},</if>
+            <if test="companyid != null">COMPANYID = #{companyid},</if>
+            <if test="branch != null">BRANCH = #{branch},</if>
+            <if test="branchid != null">BRANCHID = #{branchid},</if>
+            <if test="department != null">DEPARTMENT = #{department},</if>
+            <if test="departmentid != null">DEPARTMENTID = #{departmentid},</if>
+            <if test="usergroup != null">USERGROUP = #{usergroup},</if>
+            <if test="usergroupid != null">USERGROUPID = #{usergroupid},</if>
+            <if test="hall != null">HALL = #{hall},</if>
+            <if test="hallid != null">HALLID = #{hallid},</if>
+            <if test="salepoint != null">SALEPOINT = #{salepoint},</if>
+            <if test="salepointid != null">SALEPOINTID = #{salepointid},</if>
+            <if test="teams != null">TEAMS = #{teams},</if>
+            <if test="createtime != null">CREATETIME = #{createtime},</if>
+            <if test="lastmodifytime != null">LASTMODIFYTIME = #{lastmodifytime},</if>
+            <if test="orgfullname != null">ORGFULLNAME = #{orgfullname},</if>
+            <if test="orgtypeidnum != null">ORGTYPEIDNUM = #{orgtypeidnum},</if>
+            <if test="orgstarttime != null">ORGSTARTTIME = #{orgstarttime},</if>
+            <if test="cmccorgcode != null">CMCCORGCODE = #{cmccorgcode},</if>
+            <if test="orgmainleader != null">ORGMAINLEADER = #{orgmainleader},</if>
+            <if test="supervisor != null">SUPERVISOR = #{supervisor},</if>
+            <if test="orgotherleader != null">ORGOTHERLEADER = #{orgotherleader},</if>
+            <if test="parentcmccorgcode != null">PARENTCMCCORGCODE = #{parentcmccorgcode},</if>
+            <if test="innerHandler != null">inner_handler = #{innerHandler},</if>
+            <if test="exData != null">ex_data = #{exData},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="innerStatus != null">inner_status = #{innerStatus},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+            <if test="orgId != null">org_id = #{orgId},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where OUGUID = #{ouguid}
+    </update>
+
+    <delete id="deleteUumOrganizationinfoById" parameterType="String">
+        delete from uum_organizationinfo where OUGUID = #{ouguid}
+    </delete>
+
+    <delete id="deleteUumOrganizationinfoByIds" parameterType="String">
+        delete from uum_organizationinfo where OUGUID in
+        <foreach item="ouguid" collection="array" open="(" separator="," close=")">
+            #{ouguid}
+        </foreach>
+    </delete>
+
+    <select id="selectOrgByParentId" parameterType="String" resultType="java.lang.Integer">
+        select count(*) from uum_organizationinfo where PARENTOUGUID = #{parentOuguid}
+    </select>
+
+    <select id="selectCompanyinfoList" parameterType="java.util.Map" resultMap="UumOrganizationinfoResult">
+        select COMPANY,COMPANYID from uum_organizationinfo
+        <where>
+            COMPANYID IN(
+                SELECT u.COMPANYID  FROM xuncha_talent_person_info p
+                LEFT JOIN uum_userinfo u ON p.USER_ID = u.USERID
+                left join sys_dict_data xdd on p.FIELD_TYPE = xdd.dict_value
+                where xdd.dict_type = 'field_type'
+                and xdd.dict_label = #{fieldKey}
+                AND USER_ID IN (
+                    SELECT USER_ID  FROM xuncha_talent_label_result
+                    WHERE LABEL_ID = #{labelKey}
+                )
+            )
+            <if test="company != null  and company != ''"> and COMPANY like concat('%', #{company}, '%')</if>
+            <if test="companyids != null  and companyids != ''"> and COMPANYID NOT IN
+                <foreach item="key" collection="companyids.split(',')" open="(" separator="," close=")">
+                    #{key}
+                </foreach>
+            </if>
+        </where>
+        group by COMPANY,COMPANYID
+        order by RAND()
+    </select>
+
+    <select id="getYjxtUumOrgInfo" parameterType="java.util.Map" resultMap="UumOrganizationinfoResult">
+        SELECT * FROM yj_xt.uum_organizationinfo f
+            WHERE f.LASTMODIFYTIME>(SELECT MAX(ff.LASTMODIFYTIME) FROM uum_organizationinfo ff)
+
+    </select>
+
+    <select id="getCompanyInfo" resultType="java.util.Map">
+        select COMPANY_NAME companyName,COMPANY_ID companyId
+        from view_company_info
+        <where>
+            <if test="companyName != null  and companyName != ''"> and COMPANY_NAME=#{companyName}</if>
+            <if test="companyId != null  and companyId != ''"> and COMPANY_ID=#{companyId}</if>
+        </where>
+    </select>
+
+    <select id="getDeptInfo" resultType="java.util.Map">
+        select distinct DEPARTMENT deptName,DEPARTMENTID deptId
+        from  uum_organizationinfo
+        <where>
+            <if test="deptName != null  and deptName != ''"> and DEPARTMENT like concat(#{deptName}, '%')</if>
+            <if test="companyName != null  and companyName != ''">and COMPANY=#{companyName}</if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,15 @@
+server:
+    port: 8090
+
+spring:
+  mail:
+    host: smtp.163.com
+    ####以下千万要注意写的时候不要空格
+    #邮箱的用户名
+    username: jing1016Vip@163.com
+    #获取到的授权码FDBWZXJFZLBBJGYV
+    password: WZTF
+    protocol: smtp
+    default-encoding: UTF-8
+
+

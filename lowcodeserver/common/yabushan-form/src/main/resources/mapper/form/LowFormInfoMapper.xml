@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.form.mapper.LowFormInfoMapper">
+
+    <resultMap type="LowFormInfo" id="LowFormInfoResult">
+        <result property="formUuid"    column="FORM_UUID"    />
+        <result property="formName"    column="FORM_NAME"    />
+        <result property="formJson"    column="FORM_JSON"    />
+        <result property="formEntityName"    column="FORM_ENTITY_NAME"    />
+        <result property="formStatus"    column="FORM_STATUS"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="updatedBy"    column="UPDATED_BY"    />
+        <result property="updatedTime"    column="UPDATED_TIME"    />
+        <result property="tenantId"    column="TENANT_ID"    />
+        <result property="isSingleUser"    column="IS_SINGLE_USER"    />
+        <result property="bindDataWay"    column="BIND_DATA_WAY"    />
+        <result property="apiInfo"    column="API_INFO"    />
+    </resultMap>
+
+    <sql id="selectLowFormInfoVo">
+        select FORM_UUID, FORM_NAME, FORM_JSON, FORM_ENTITY_NAME, FORM_STATUS, CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME, TENANT_ID, IS_SINGLE_USER, BIND_DATA_WAY, API_INFO from low_form_info
+    </sql>
+
+    <select id="selectLowFormInfoList" parameterType="LowFormInfo" resultMap="LowFormInfoResult">
+        <include refid="selectLowFormInfoVo"/>
+        <where>
+            <if test="formName != null  and formName != ''"> and FORM_NAME like concat('%', #{formName}, '%')</if>
+            <if test="formJson != null  and formJson != ''"> and FORM_JSON = #{formJson}</if>
+            <if test="formEntityName != null  and formEntityName != ''"> and FORM_ENTITY_NAME like concat('%', #{formName}, '%')</if>
+            <if test="formStatus != null  and formStatus != ''"> and FORM_STATUS = #{formStatus}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and UPDATED_BY = #{updatedBy}</if>
+            <if test="updatedTime != null "> and UPDATED_TIME = #{updatedTime}</if>
+            <if test="tenantId != null  and tenantId != ''"> and TENANT_ID = #{tenantId}</if>
+            <if test="isSingleUser != null  and isSingleUser != ''"> and IS_SINGLE_USER = #{isSingleUser}</if>
+            <if test="bindDataWay != null  and bindDataWay != ''"> and BIND_DATA_WAY = #{bindDataWay}</if>
+            <if test="apiInfo != null  and apiInfo != ''"> and API_INFO like concat('%', #{apiInfo}, '%') </if>
+        </where>
+        order by CREATED_TIME desc
+    </select>
+
+    <select id="selectLowFormInfoById" parameterType="String" resultMap="LowFormInfoResult">
+        <include refid="selectLowFormInfoVo"/>
+        where FORM_UUID = #{formUuid}
+    </select>
+
+    <insert id="insertLowFormInfo" parameterType="LowFormInfo">
+        insert into low_form_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="formUuid != null">FORM_UUID,</if>
+            <if test="formName != null">FORM_NAME,</if>
+            <if test="formJson != null">FORM_JSON,</if>
+            <if test="formEntityName != null">FORM_ENTITY_NAME,</if>
+            <if test="formStatus != null">FORM_STATUS,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="updatedBy != null">UPDATED_BY,</if>
+            <if test="updatedTime != null">UPDATED_TIME,</if>
+            <if test="tenantId != null">TENANT_ID,</if>
+            <if test="isSingleUser != null">IS_SINGLE_USER,</if>
+            <if test="bindDataWay != null">BIND_DATA_WAY,</if>
+            <if test="apiInfo != null">API_INFO,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="formUuid != null">#{formUuid},</if>
+            <if test="formName != null">#{formName},</if>
+            <if test="formJson != null">#{formJson},</if>
+            <if test="formEntityName != null">#{formEntityName},</if>
+            <if test="formStatus != null">#{formStatus},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="isSingleUser != null">#{isSingleUser},</if>
+            <if test="bindDataWay != null">#{bindDataWay},</if>
+            <if test="apiInfo != null">#{apiInfo},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertLowFormInfo" parameterType="java.util.List">
+        insert into low_form_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                FORM_UUID,
+                                                                FORM_NAME,
+                                                                FORM_JSON,
+                                                                FORM_ENTITY_NAME,
+                                                                FORM_STATUS,
+                                                                CREATED_BY,
+                                                                CREATED_TIME,
+                                                                UPDATED_BY,
+                                                                UPDATED_TIME,
+                                                                TENANT_ID,
+                                                                IS_SINGLE_USER,
+                                                                BIND_DATA_WAY,
+                                                                API_INFO,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.formUuid},
+                                                                                #{item.formName},
+                                                                                #{item.formJson},
+                                                                                #{item.formEntityName},
+                                                                                #{item.formStatus},
+                                                                                #{item.createdBy},
+                                                                                #{item.createdTime},
+                                                                                #{item.updatedBy},
+                                                                                #{item.updatedTime},
+                                                                                #{item.tenantId},
+                                                                                #{item.isSingleUser},
+                                                                                #{item.bindDataWay},
+                                                                                #{item.apiInfo},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateLowFormInfo" parameterType="LowFormInfo">
+        update low_form_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="formName != null">FORM_NAME = #{formName},</if>
+            <if test="formJson != null">FORM_JSON = #{formJson},</if>
+            <if test="formEntityName != null">FORM_ENTITY_NAME = #{formEntityName},</if>
+            <if test="formStatus != null">FORM_STATUS = #{formStatus},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="updatedBy != null">UPDATED_BY = #{updatedBy},</if>
+            <if test="updatedTime != null">UPDATED_TIME = #{updatedTime},</if>
+            <if test="tenantId != null">TENANT_ID = #{tenantId},</if>
+            <if test="isSingleUser != null">IS_SINGLE_USER = #{isSingleUser},</if>
+            <if test="bindDataWay != null">BIND_DATA_WAY = #{bindDataWay},</if>
+            <if test="apiInfo != null">API_INFO = #{apiInfo},</if>
+        </trim>
+        where FORM_UUID = #{formUuid}
+    </update>
+
+    <delete id="deleteLowFormInfoById" parameterType="String">
+        delete from low_form_info where FORM_UUID = #{formUuid}
+    </delete>
+
+    <delete id="deleteLowFormInfoByIds" parameterType="String">
+        delete from low_form_info where FORM_UUID in
+        <foreach item="formUuid" collection="array" open="(" separator="," close=")">
+            #{formUuid}
+        </foreach>
+    </delete>
+
+
+    <select id="tableDataInfo" parameterType="com.yabushan.form.vo.AutoParamVo" resultType="java.util.HashMap">
+        <![CDATA[
+        select * from ${tableName} where id=#{key} or order_number=#{orderNumber}
+        ]]>
+    </select>
+    
+    <select id="selectLowFormInfoByFormEntityName" parameterType="java.lang.String" resultType="LowFormInfo">
+        select * from low_form_info f where f.FORM_ENTITY_NAME=#{formEntityName}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.DepartmentInfoMapper">
+
+    <resultMap type="DepartmentInfo" id="DepartmentInfoResult">
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="deptNameEn"    column="dept_name_en"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delSign"    column="del_sign"    />
+        <result property="type"    column="type"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="syncDeptId" column="sync_dept_id"/>
+    </resultMap>
+
+    <sql id="selectDepartmentInfoVo">
+        select dept_id, dept_name, dept_name_en, create_time, update_time, del_sign, type,  parent_id, sync_dept_id from department_info
+    </sql>
+
+    <select id="selectDepartmentInfoList" parameterType="DepartmentInfo" resultMap="DepartmentInfoResult">
+        <include refid="selectDepartmentInfoVo"/>
+        <where>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat('%', #{deptName}, '%')</if>
+            <if test="deptNameEn != null  and deptNameEn != ''"> and dept_name_en = #{deptNameEn}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="delSign != null "> and del_sign = #{delSign}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="syncDeptId">and sync_dept_id=#{syncDeptId}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+        </where>
+    </select>
+
+    <select id="selectDepartmentInfoById" parameterType="Integer" resultMap="DepartmentInfoResult">
+        <include refid="selectDepartmentInfoVo"/>
+        where dept_id = #{deptId}
+    </select>
+
+    <insert id="insertDepartmentInfo" parameterType="DepartmentInfo" useGeneratedKeys="true" keyProperty="deptId">
+        insert into department_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptName != null and deptName != ''">dept_name,</if>
+            <if test="deptNameEn != null and deptNameEn != ''">dept_name_en,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delSign != null">del_sign,</if>
+            <if test="type != null">type,</if>
+
+            <if test="parentId != null">parent_id,</if>
+            <if test="syncDeptId !=null">sync_dept_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptName != null and deptName != ''">#{deptName},</if>
+            <if test="deptNameEn != null and deptNameEn != ''">#{deptNameEn},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delSign != null">#{delSign},</if>
+            <if test="type != null">#{type},</if>
+
+            <if test="parentId != null">#{parentId},</if>
+            <if test="syncDeptId !=null">#{syncDeptId},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertDepartmentInfo" parameterType="java.util.List">
+        insert into department_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                                            dept_name,
+                                                                dept_name_en,
+                                                                create_time,
+                                                                update_time,
+                                                                del_sign,
+                                                                type,
+
+                                                                parent_id,
+            sync_dept_id,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                                                                #{item.deptName},
+                                                                                #{item.deptNameEn},
+                                                                                #{item.createTime},
+                                                                                #{item.updateTime},
+                                                                                #{item.delSign},
+                                                                                #{item.type},
+
+                                                                                #{item.parentId},
+                                                                                #{item.syncDeptId},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateDepartmentInfo" parameterType="DepartmentInfo">
+        update department_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptName != null and deptName != ''">dept_name = #{deptName},</if>
+            <if test="deptNameEn != null and deptNameEn != ''">dept_name_en = #{deptNameEn},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="delSign != null">del_sign = #{delSign},</if>
+            <if test="type != null">type = #{type},</if>
+
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="syncDeptId !=null">sync_dept_id=#{syncDeptId}</if>
+        </trim>
+        where dept_id = #{deptId}
+    </update>
+
+    <delete id="deleteDepartmentInfoById" parameterType="Integer">
+        delete from department_info where dept_id = #{deptId}
+    </delete>
+
+    <delete id="deleteDepartmentInfoByIds" parameterType="String">
+        delete from department_info where dept_id in
+        <foreach item="deptId" collection="array" open="(" separator="," close=")">
+            #{deptId}
+        </foreach>
+    </delete>
+
+</mapper>

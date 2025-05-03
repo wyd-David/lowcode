@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.capacity.mapper.NgsTextVoidInfoMapper">
+    
+    <resultMap type="NgsTextVoidInfo" id="NgsTextVoidInfoResult">
+        <result property="textId"    column="TEXT_ID"    />
+        <result property="textTitle"    column="TEXT_TITLE"    />
+        <result property="textValue"    column="TEXT_VALUE"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="updatedTime"    column="UPDATED_TIME"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="updatedBy"    column="UPDATED_BY"    />
+        <result property="dowmloadNumber"    column="DOWMLOAD_NUMBER"    />
+    </resultMap>
+
+    <sql id="selectNgsTextVoidInfoVo">
+        select TEXT_ID, TEXT_TITLE, TEXT_VALUE, CREATED_TIME, UPDATED_TIME, CREATED_BY, UPDATED_BY, DOWMLOAD_NUMBER from ngs_text_void_info
+    </sql>
+
+    <select id="selectNgsTextVoidInfoList" parameterType="NgsTextVoidInfo" resultMap="NgsTextVoidInfoResult">
+        <include refid="selectNgsTextVoidInfoVo"/>
+        <where>  
+            <if test="textTitle != null  and textTitle != ''"> and TEXT_TITLE = #{textTitle}</if>
+            <if test="textValue != null  and textValue != ''"> and TEXT_VALUE = #{textValue}</if>
+        </where>
+    </select>
+    
+    <select id="selectNgsTextVoidInfoById" parameterType="String" resultMap="NgsTextVoidInfoResult">
+        <include refid="selectNgsTextVoidInfoVo"/>
+        where TEXT_ID = #{textId}
+    </select>
+        
+    <insert id="insertNgsTextVoidInfo" parameterType="NgsTextVoidInfo">
+        insert into ngs_text_void_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="textId != null">TEXT_ID,</if>
+            <if test="textTitle != null">TEXT_TITLE,</if>
+            <if test="textValue != null">TEXT_VALUE,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="updatedTime != null">UPDATED_TIME,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="updatedBy != null">UPDATED_BY,</if>
+            <if test="dowmloadNumber != null">DOWMLOAD_NUMBER,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="textId != null">#{textId},</if>
+            <if test="textTitle != null">#{textTitle},</if>
+            <if test="textValue != null">#{textValue},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="dowmloadNumber != null">#{dowmloadNumber},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertNgsTextVoidInfo" parameterType="java.util.List">
+        insert into ngs_text_void_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                TEXT_ID,
+                                                                TEXT_TITLE,
+                                                                TEXT_VALUE,
+                                                                CREATED_TIME,
+                                                                UPDATED_TIME,
+                                                                CREATED_BY,
+                                                                UPDATED_BY,
+                                                                DOWMLOAD_NUMBER,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.textId},
+                                                                                #{item.textTitle},
+                                                                                #{item.textValue},
+                                                                                #{item.createdTime},
+                                                                                #{item.updatedTime},
+                                                                                #{item.createdBy},
+                                                                                #{item.updatedBy},
+                                                                                #{item.dowmloadNumber},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateNgsTextVoidInfo" parameterType="NgsTextVoidInfo">
+        update ngs_text_void_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="textTitle != null">TEXT_TITLE = #{textTitle},</if>
+            <if test="textValue != null">TEXT_VALUE = #{textValue},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="updatedTime != null">UPDATED_TIME = #{updatedTime},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="updatedBy != null">UPDATED_BY = #{updatedBy},</if>
+            <if test="dowmloadNumber != null">DOWMLOAD_NUMBER = #{dowmloadNumber},</if>
+        </trim>
+        where TEXT_ID = #{textId}
+    </update>
+
+    <delete id="deleteNgsTextVoidInfoById" parameterType="String">
+        delete from ngs_text_void_info where TEXT_ID = #{textId}
+    </delete>
+
+    <delete id="deleteNgsTextVoidInfoByIds" parameterType="String">
+        delete from ngs_text_void_info where TEXT_ID in 
+        <foreach item="textId" collection="array" open="(" separator="," close=")">
+            #{textId}
+        </foreach>
+    </delete>
+    
+</mapper>

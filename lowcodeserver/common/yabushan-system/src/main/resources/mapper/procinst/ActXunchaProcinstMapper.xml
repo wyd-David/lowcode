@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.ActXunchaProcinstMapper">
+
+    <resultMap type="ActXunchaProcinst" id="ActXunchaProcinstResult">
+        <result property="procinstId" column="procinst_id"/>
+        <result property="businessKey" column="business_key"/>
+        <result property="businessType" column="business_type"/>
+        <result property="businessTypeName" column="business_type_name"/>
+        <result property="businessName" column="business_name"/>
+        <result property="status" column="status"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="createdByName" column="created_by_name"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="updatedByName" column="updated_by_name"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <sql id="selectActXunchaProcinstVo">
+        select procinst_id, business_key, business_type,business_type_name, business_name, status, created_by, created_time,created_by_name, updated_by, updated_time,updated_by_name ,del_flag from act_xuncha_procinst
+    </sql>
+
+    <select id="selectActXunchaProcinstList" parameterType="ActXunchaProcinst" resultMap="ActXunchaProcinstResult">
+        <include refid="selectActXunchaProcinstVo"/>
+        <where>
+            <if test="businessKey != null  and businessKey != ''">and business_key = #{businessKey}</if>
+            <if test="businessType != null  and businessType != ''">and business_type = #{businessType}</if>
+            <if test="businessName != null  and businessName != ''">and business_name like concat('%', #{businessName},
+                '%')
+            </if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
+            <if test="createdBy != null  and createdBy != ''">and created_by = #{createdBy}</if>
+            <if test="createdTime != null ">and created_time = #{createdTime}</if>
+            <if test="createdByName != null and createdByName !=''">and created_by_name like concat('%',
+                #{createdByName},'%')
+            </if>
+            <if test="updatedBy != null  and updatedBy != ''">and updated_by = #{updatedBy}</if>
+            <if test="updatedTime != null ">and updated_time = #{updatedTime}</if>
+            <if test="updatedByName != null and updatedByName != ''">and updated_by_name like concat('%',
+                #{updatedByName},'%')
+            </if>
+            <if test="delFlag != null">and del_flag = #{delFlag}</if>
+        </where>
+        order by created_time desc
+    </select>
+
+    <select id="selectActXunchaProcinstById" parameterType="String" resultMap="ActXunchaProcinstResult">
+        <include refid="selectActXunchaProcinstVo"/>
+        where procinst_id = #{procinstId}
+    </select>
+
+    <insert id="insertActXunchaProcinst" parameterType="ActXunchaProcinst">
+        insert into act_xuncha_procinst
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="procinstId != null">procinst_id,</if>
+            <if test="businessKey != null and businessKey != ''">business_key,</if>
+            <if test="businessType != null">business_type,</if>
+            <if test="businessTypeName != null">business_type_name,</if>
+            <if test="businessName != null">business_name,</if>
+            <if test="status != null">status,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="createdByName != null and createdByName != ''">created_by_name,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="updatedTime != null">updated_time,</if>
+            <if test="updatedByName != null and updatedByName != ''">updated_by_name,</if>
+            <if test="delFlag != null">del_flag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="procinstId != null">#{procinstId},</if>
+            <if test="businessKey != null and businessKey != ''">#{businessKey},</if>
+            <if test="businessType != null">#{businessType},</if>
+            <if test="businessTypeName != null">#{businessTypeName},</if>
+            <if test="businessName != null">#{businessName},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdByName != null and createdByName != ''">#{createdByName},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="updatedByName != null and updatedByName != ''">#{updatedByName},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertActXunchaProcinst" parameterType="java.util.List">
+        insert into act_xuncha_procinst
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            procinst_id,
+            business_key,
+            business_type,
+            business_type_name,
+            business_name,
+            status,
+            created_by,
+            created_time,
+            created_by_name,
+            updated_by,
+            updated_time,
+            updated_by_name,
+            del_flag,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.procinstId},
+                #{item.businessKey},
+                #{item.businessType},
+                #{item.businessTypeName},
+                #{item.businessName},
+                #{item.status},
+                #{item.createdBy},
+                #{item.createdTime},
+                #{item.createdByName},
+                #{item.updatedBy},
+                #{item.updatedTime},
+                #{item.updatedByName},
+                #{item.delFlag},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateActXunchaProcinst" parameterType="ActXunchaProcinst">
+        update act_xuncha_procinst
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="businessKey != null and businessKey != ''">business_key = #{businessKey},</if>
+            <if test="businessType != null">business_type = #{businessType},</if>
+            <if test="businessTypeName != null">business_Type_Name = #{businessTypeName},</if>
+            <if test="businessName != null">business_name = #{businessName},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="createdByName != null and createdByName != ''">created_By_Name = #{createdByName},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime},</if>
+            <if test="updatedByName != null and updatedByName != ''">updated_By_Name = #{updatedByName},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where procinst_id = #{procinstId}
+    </update>
+
+    <delete id="deleteActXunchaProcinstById" parameterType="Long">
+        delete from  where procinst_id = #{procinstId}
+    </delete>
+    <delete id="deleteActXunchaProcinstByBusinessKey" parameterType="String">
+        update act_xuncha_procinst set del_flag=1 where  business_key = #{businessKey}
+    </delete>
+
+    <delete id="deleteActXunchaProcinstByIds" parameterType="Long">
+        delete from act_xuncha_procinst where procinst_id in
+        <foreach item="procinstId" collection="array" open="(" separator="," close=")">
+            #{procinstId}
+        </foreach>
+    </delete>
+
+    <resultMap type="ActXunchaProcinstVO" id="ActXunchaProcinstMap">
+        <result property="procinstId" column="procinst_id"/>
+        <result property="businessKey" column="business_key"/>
+        <result property="businessType" column="business_type"/>
+        <result property="businessTypeName" column="business_type_name"/>
+        <result property="businessName" column="business_name"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="status" column="todo_tp_link"/>
+        <result property="todoType" column="todo_type"/>
+        <result property="todoHandlerName" column="todo_handler_name"/>
+        <result property="todoUrl" column="todo_url"/>
+        <result property="lastUpdateTime" column="lastUpdateTime"/>
+        <result property="countNum" column="countNum"/>
+    </resultMap>
+
+    <select id="myWorkList" parameterType="ActXunchaProcinst" resultMap="ActXunchaProcinstMap">
+        SELECT
+            axp.procinst_id,
+            axp.business_key,
+            axp.business_type,
+            axp.business_type_name,
+            axp.business_name,
+            axp.created_time,
+            axp.created_by,
+            ti.todo_tp_link,
+            ti.todo_handler_name,
+            ti.todo_type,
+            ti.todo_url,
+            ti.create_time lastUpdateTime,
+            t2.countNum
+        FROM
+            act_xuncha_procinst axp
+        LEFT JOIN (
+            SELECT
+                todo_tp_link
+                ,todo_handler_name
+                ,create_time,
+                business_key,
+                todo_url,
+                todo_type,
+                todo_handler
+            FROM todo_info WHERE task_type=1) ti ON axp.business_key = ti.business_key
+        LEFT JOIN (SELECT COUNT(todo_id) countNum,business_key FROM todo_info WHERE task_type=1 GROUP BY business_key) t2
+        ON t2.business_key=ti.business_key
+        WHERE
+            axp.del_flag = 0
+        <if test="businessKey != null  and businessKey != ''">and axp.business_key like concat('%', #{businessKey},'%')</if>
+        <if test="businessType != null  and businessType != ''">and axp.business_type like concat('%', #{businessType},'%')</if>
+        <if test="businessName != null  and businessName != ''">and axp.business_name like concat('%', #{businessName},'%')</if>
+        <if test="status != null  and status != ''">and ti.todo_type = #{status}</if>
+        <if test="createdBy != null  and createdBy != ''">and axp.created_by = #{createdBy}</if>
+        <if test="params.beginTime != null">
+            and axp.created_time &gt;= #{params.beginTime}
+        </if>
+        <if test="params.endTime != null">
+            and axp.created_time &lt;= #{params.endTime}
+        </if>
+        ORDER BY
+            axp.created_time DESC
+    </select>
+</mapper>

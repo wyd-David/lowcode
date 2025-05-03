@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.RoleControlMapper">
+    
+    <resultMap type="RoleControl" id="RoleControlResult">
+        <result property="roleControlId"    column="role_control_id"    />
+        <result property="roleName"    column="role_name"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="updatedTime"    column="UPDATED_TIME"    />
+        <result property="delSign"    column="del_sign"    />
+    </resultMap>
+
+    <sql id="selectRoleControlVo">
+        select role_control_id, role_name, CREATED_TIME, UPDATED_TIME, del_sign from role_control
+    </sql>
+
+    <select id="selectRoleControlList" parameterType="RoleControl" resultMap="RoleControlResult">
+        <include refid="selectRoleControlVo"/>
+        <where>  
+            <if test="roleControlId != null  and roleControlId != ''"> and role_control_id = #{roleControlId}</if>
+            <if test="roleName != null  and roleName != ''"> and role_name like concat('%', #{roleName}, '%')</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="updatedTime != null "> and UPDATED_TIME = #{updatedTime}</if>
+            <if test="delSign != null "> and del_sign = #{delSign}</if>
+        </where>
+    </select>
+    
+    <select id="selectRoleControlById" parameterType="String" resultMap="RoleControlResult">
+        <include refid="selectRoleControlVo"/>
+        where role_control_id = #{roleControlId}
+    </select>
+        
+    <insert id="insertRoleControl" parameterType="RoleControl">
+        insert into role_control
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleControlId != null">role_control_id,</if>
+            <if test="roleName != null and roleName != ''">role_name,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="updatedTime != null">UPDATED_TIME,</if>
+            <if test="delSign != null">del_sign,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleControlId != null">#{roleControlId},</if>
+            <if test="roleName != null and roleName != ''">#{roleName},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="delSign != null">#{delSign},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertRoleControl" parameterType="java.util.List">
+        insert into role_control
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                role_control_id,
+                                                                role_name,
+                                                                CREATED_TIME,
+                                                                UPDATED_TIME,
+                                                                del_sign,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.roleControlId},
+                                                                                #{item.roleName},
+                                                                                #{item.createdTime},
+                                                                                #{item.updatedTime},
+                                                                                #{item.delSign},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateRoleControl" parameterType="RoleControl">
+        update role_control
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="roleName != null and roleName != ''">role_name = #{roleName},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="updatedTime != null">UPDATED_TIME = #{updatedTime},</if>
+            <if test="delSign != null">del_sign = #{delSign},</if>
+        </trim>
+        where role_control_id = #{roleControlId}
+    </update>
+
+    <delete id="deleteRoleControlById" parameterType="String">
+        delete from role_control where role_control_id = #{roleControlId}
+    </delete>
+
+    <delete id="deleteRoleControlByIds" parameterType="String">
+        delete from role_control where role_control_id in 
+        <foreach item="roleControlId" collection="array" open="(" separator="," close=")">
+            #{roleControlId}
+        </foreach>
+    </delete>
+    
+</mapper>

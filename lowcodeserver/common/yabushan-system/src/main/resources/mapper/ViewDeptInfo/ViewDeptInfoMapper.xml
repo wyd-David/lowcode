@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.ViewDeptInfoMapper">
+
+    <resultMap type="ViewDeptInfo" id="ViewDeptInfoResult">
+        <result property="companyName" column="COMPANY"/>
+        <result property="companyId" column="COMPANYID"/>
+        <result property="deptName" column="OUNAME"/>
+        <result property="deptId" column="OUGUID"/>
+        <result property="ouOrder" column="OUORDER"/>
+    </resultMap>
+
+    <sql id="selectViewDeptInfoVo">
+        select * from view_dept_info
+    </sql>
+
+    <select id="selectViewDeptInfoList" parameterType="ViewDeptInfo" resultMap="ViewDeptInfoResult">
+        <include refid="selectViewDeptInfoVo"/>
+        <where>
+            <if test="companyName != null  and companyName != ''">and COMPANY  like concat('%', #{companyName}, '%')</if>
+            <if test="companyId != null  and companyId != ''">and COMPANYID=#{companyId}</if>
+            <if test="deptName != null  and deptName != ''">and  OUNAME  like concat('%', #{deptName}, '%')</if>
+            <if test="deptId != null and deptId!=''">and OUGUID=#{deptId}</if>
+            <if test="ouOrder != null  and ouOrder != ''">and OUORDER = #{ouOrder}</if>
+        </where>
+    </select>
+
+    <select id="selectViewPostLevelInfo" resultType="java.util.Map">
+        SELECT
+        DISTINCT i.`USERID` userId,
+        i.`FULLNAME` userName,
+        i.`EMPLOYEE` employee,
+        i.`COMPANY` companyName,
+        i.`COMPANYID` companyId,
+        i.`DEPARTMENT` departmentName,
+        i.`DEPARTMENTID` departmentId,
+        i.`TITLE` postName,
+        i.`USERPOSILEVEL` postLevel,
+        i.`EMAIL` email,
+        i.`TELEPHONE` telephone,
+        concat(year(i.LASTMODIFYTIME),'年') as lastYear,
+        i.`USERBIRTHDAY` userBirthday,
+        i.`USERJOININDATE` userJoinInWorkDate,
+        i.`USERRELIGION` userReligion,
+        r.DEPT_REMARK deptRemark,
+        r.FILE_KEY fileKey,
+        r.FILE_NAME fileName,
+        case when
+        (select count(t.PERSON_ID) from xuncha_task_group_person_info t where i.USERID=t.PERSONNEL_ID)
+        =0 then r.INSPECTION_YEAR  else
+        (select group_concat(distinct year(t.CREATED_TIME)) from xuncha_task_group_person_info t where i.USERID=t.PERSONNEL_ID)
+        end   as inspectionYear,
+        (SELECT count(t.PERSONNEL_ID) FROM xuncha_task_group_person_info t WHERE i.USERID=t.PERSONNEL_ID) as inspectionTimes
+         FROM uum_userinfo i
+         LEFT JOIN xuncha_talent_person_info r ON r.USER_ID=i.USERID
+        <where>
+            <if test="userId != null  and userId != ''">and i.USERID =#{userId}</if>
+            <if test="userName != null  and userName != ''">and i.FULLNAME like concat('%', #{userName}, '%')</if>
+            <if test="employee != null  and employee != ''">and i.EMPLOYEE like concat('%', #{employee}, '%')</if>
+            <if test="companyId != null  and companyId != ''">and i.COMPANYID =#{companyId}</if>
+            <if test="departmentName != null  and departmentName != ''">and i.DEPARTMENT like concat('%', #{departmentName}, '%')</if>
+            <if test="departmentId != null  and departmentId != ''">and i.DEPARTMENTID =#{departmentId}</if>
+            <if test="postLevel != null  and postLevel != ''">and i.USERPOSILEVEL =#{postLevel}</if>
+            <if test="companyName != null  and companyName != ''">and i.COMPANY like concat('%', #{companyName}, '%')</if>
+            <if test="userReligion != null  and userReligion != ''">and i.USERRELIGION =#{userReligion}</if>
+            <if test="userReligionName != null  and userReligionName != ''">and i.USERRELIGION_NAME like concat('%', #{userReligionName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="getCompanyList" parameterType="ViewDeptInfo" resultType="java.util.Map">
+        SELECT COMPANY_ID AS companyId, COMPANY_NAME as companyName FROM view_company_info
+        <where>
+            <if test="companyName != null  and companyName != ''">and COMPANY_NAME  like concat('%', #{companyName}, '%')</if>
+            <if test="companyId != null  and companyId != ''">and COMPANY_ID=#{companyId}</if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.form.mapper.LowBusinessListMapper">
+
+    <resultMap type="LowBusinessList" id="LowBusinessListResult">
+        <result property="listId"    column="LIST_ID"    />
+        <result property="listName"    column="LIST_NAME"    />
+        <result property="listCode"    column="LIST_CODE"    />
+        <result property="needQeuryBtn"    column="NEED_QEURY_BTN"    />
+        <result property="needExportBtn"    column="NEED_EXPORT_BTN"    />
+        <result property="needInportBtn"    column="NEED_INPORT_BTN"    />
+        <result property="needUpdateBtn"    column="NEED_UPDATE_BTN"    />
+        <result property="needDeleteBtn"    column="NEED_DELETE_BTN"    />
+        <result property="needViewBtn"    column="NEED_VIEW_BTN"    />
+        <result property="listFlowProcdefId"    column="LIST_FLOW_PROCDEF_ID"    />
+        <result property="formUuid"    column="FORM_UUID"    />
+        <result property="listStatus"    column="LIST_STATUS"    />
+        <result property="listMemo"    column="LIST_MEMO"    />
+        <result property="dataResourceid"    column="DATA_RESOURCEID"    />
+        <result property="dataApi"    column="DATA_API"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="updatedBy"    column="UPDATED_BY"    />
+        <result property="updatedTime"    column="UPDATED_TIME"    />
+        <result property="tenantId"    column="TENANT_ID"    />
+        <result property="listMemoChild"    column="LIST_MEMO_CHILD"    />
+        
+    </resultMap>
+
+    <sql id="selectLowBusinessListVo">
+        select LIST_ID, LIST_NAME, LIST_CODE, NEED_QEURY_BTN, NEED_EXPORT_BTN, NEED_INPORT_BTN, NEED_UPDATE_BTN, NEED_DELETE_BTN, NEED_VIEW_BTN, LIST_FLOW_PROCDEF_ID, FORM_UUID, LIST_STATUS, LIST_MEMO,LIST_MEMO_CHILD, DATA_RESOURCEID, DATA_API, CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME, TENANT_ID from low_business_list
+    </sql>
+
+    <select id="selectLowBusinessListList" parameterType="LowBusinessList" resultMap="LowBusinessListResult">
+        <include refid="selectLowBusinessListVo"/>
+        <where>
+            <if test="listName != null  and listName != ''"> and LIST_NAME like concat('%', #{listName}, '%')</if>
+            <if test="listCode != null  and listCode != ''"> and LIST_CODE = #{listCode}</if>
+            <if test="listId != null  and listId != ''"> and LIST_ID   like concat('%',#{listId},'%')</if>
+            <if test="needQeuryBtn != null  and needQeuryBtn != ''"> and NEED_QEURY_BTN = #{needQeuryBtn}</if>
+            <if test="needExportBtn != null  and needExportBtn != ''"> and NEED_EXPORT_BTN = #{needExportBtn}</if>
+            <if test="needInportBtn != null  and needInportBtn != ''"> and NEED_INPORT_BTN = #{needInportBtn}</if>
+            <if test="needUpdateBtn != null  and needUpdateBtn != ''"> and NEED_UPDATE_BTN = #{needUpdateBtn}</if>
+            <if test="needDeleteBtn != null  and needDeleteBtn != ''"> and NEED_DELETE_BTN = #{needDeleteBtn}</if>
+            <if test="needViewBtn != null  and needViewBtn != ''"> and NEED_VIEW_BTN = #{needViewBtn}</if>
+            <if test="listFlowProcdefId != null  and listFlowProcdefId != ''"> and LIST_FLOW_PROCDEF_ID = #{listFlowProcdefId}</if>
+            <if test="formUuid != null  and formUuid != ''"> and FORM_UUID = #{formUuid}</if>
+            <if test="listStatus != null  and listStatus != ''"> and LIST_STATUS = #{listStatus}</if>
+            <if test="listMemo != null  and listMemo != ''"> and LIST_MEMO = #{listMemo}</if>
+            <if test="listMemoChild != null  and listMemoChild != ''"> and LIST_MEMO_CHILD = #{listMemoChild}</if>
+            
+            <if test="dataResourceid != null  and dataResourceid != ''"> and DATA_RESOURCEID = #{dataResourceid}</if>
+            <if test="dataApi != null  and dataApi != ''"> and DATA_API = #{dataApi}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and UPDATED_BY = #{updatedBy}</if>
+            <if test="updatedTime != null "> and UPDATED_TIME = #{updatedTime}</if>
+            <if test="tenantId != null  and tenantId != ''"> and TENANT_ID = #{tenantId}</if>
+        </where>
+        order by CREATED_TIME desc
+    </select>
+
+    <select id="selectLowBusinessListById" parameterType="String" resultMap="LowBusinessListResult">
+        <include refid="selectLowBusinessListVo"/>
+        where LIST_ID = #{listId}
+    </select>
+
+    <insert id="insertLowBusinessList" parameterType="LowBusinessList">
+        insert into low_business_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="listId != null">LIST_ID,</if>
+            <if test="listName != null">LIST_NAME,</if>
+            <if test="listCode != null">LIST_CODE,</if>
+            <if test="needQeuryBtn != null">NEED_QEURY_BTN,</if>
+            <if test="needExportBtn != null">NEED_EXPORT_BTN,</if>
+            <if test="needInportBtn != null">NEED_INPORT_BTN,</if>
+            <if test="needUpdateBtn != null">NEED_UPDATE_BTN,</if>
+            <if test="needDeleteBtn != null">NEED_DELETE_BTN,</if>
+            <if test="needViewBtn != null">NEED_VIEW_BTN,</if>
+            <if test="listFlowProcdefId != null">LIST_FLOW_PROCDEF_ID,</if>
+            <if test="formUuid != null">FORM_UUID,</if>
+            <if test="listStatus != null">LIST_STATUS,</if>
+            <if test="listMemo != null">LIST_MEMO,</if>
+            <if test="listMemoChild != null">LIST_MEMO_CHILD,</if>
+            <if test="dataResourceid != null">DATA_RESOURCEID,</if>
+            <if test="dataApi != null">DATA_API,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="updatedBy != null">UPDATED_BY,</if>
+            <if test="updatedTime != null">UPDATED_TIME,</if>
+            <if test="tenantId != null">TENANT_ID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="listId != null">#{listId},</if>
+            <if test="listName != null">#{listName},</if>
+            <if test="listCode != null">#{listCode},</if>
+            <if test="needQeuryBtn != null">#{needQeuryBtn},</if>
+            <if test="needExportBtn != null">#{needExportBtn},</if>
+            <if test="needInportBtn != null">#{needInportBtn},</if>
+            <if test="needUpdateBtn != null">#{needUpdateBtn},</if>
+            <if test="needDeleteBtn != null">#{needDeleteBtn},</if>
+            <if test="needViewBtn != null">#{needViewBtn},</if>
+            <if test="listFlowProcdefId != null">#{listFlowProcdefId},</if>
+            <if test="formUuid != null">#{formUuid},</if>
+            <if test="listStatus != null">#{listStatus},</if>
+            <if test="listMemo != null">#{listMemo},</if>
+            <if test="listMemoChild != null">#{listMemoChild},</if>
+            <if test="dataResourceid != null">#{dataResourceid},</if>
+            <if test="dataApi != null">#{dataApi},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertLowBusinessList" parameterType="java.util.List">
+        insert into low_business_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                LIST_ID,
+                                                                LIST_NAME,
+                                                                LIST_CODE,
+                                                                NEED_QEURY_BTN,
+                                                                NEED_EXPORT_BTN,
+                                                                NEED_INPORT_BTN,
+                                                                NEED_UPDATE_BTN,
+                                                                NEED_DELETE_BTN,
+                                                                NEED_VIEW_BTN,
+                                                                LIST_FLOW_PROCDEF_ID,
+                                                                FORM_UUID,
+                                                                LIST_STATUS,
+                                                                LIST_MEMO,
+                                                                LIST_MEMO_CHILD,
+                                                                DATA_RESOURCEID,
+                                                                DATA_API,
+                                                                CREATED_BY,
+                                                                CREATED_TIME,
+                                                                UPDATED_BY,
+                                                                UPDATED_TIME,
+                                                                TENANT_ID,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.listId},
+                                                                                #{item.listName},
+                                                                                #{item.listCode},
+                                                                                #{item.needQeuryBtn},
+                                                                                #{item.needExportBtn},
+                                                                                #{item.needInportBtn},
+                                                                                #{item.needUpdateBtn},
+                                                                                #{item.needDeleteBtn},
+                                                                                #{item.needViewBtn},
+                                                                                #{item.listFlowProcdefId},
+                                                                                #{item.formUuid},
+                                                                                #{item.listStatus},
+                                                                                #{item.listMemo},
+                                                                                #{item.listMemoChild},
+                                                                                #{item.dataResourceid},
+                                                                                #{item.dataApi},
+                                                                                #{item.createdBy},
+                                                                                #{item.createdTime},
+                                                                                #{item.updatedBy},
+                                                                                #{item.updatedTime},
+                                                                                #{item.tenantId},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateLowBusinessList" parameterType="LowBusinessList">
+        update low_business_list
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="listName != null">LIST_NAME = #{listName},</if>
+            <if test="listCode != null">LIST_CODE = #{listCode},</if>
+            <if test="needQeuryBtn != null">NEED_QEURY_BTN = #{needQeuryBtn},</if>
+            <if test="needExportBtn != null">NEED_EXPORT_BTN = #{needExportBtn},</if>
+            <if test="needInportBtn != null">NEED_INPORT_BTN = #{needInportBtn},</if>
+            <if test="needUpdateBtn != null">NEED_UPDATE_BTN = #{needUpdateBtn},</if>
+            <if test="needDeleteBtn != null">NEED_DELETE_BTN = #{needDeleteBtn},</if>
+            <if test="needViewBtn != null">NEED_VIEW_BTN = #{needViewBtn},</if>
+            <if test="listFlowProcdefId != null">LIST_FLOW_PROCDEF_ID = #{listFlowProcdefId},</if>
+            <if test="formUuid != null">FORM_UUID = #{formUuid},</if>
+            <if test="listStatus != null">LIST_STATUS = #{listStatus},</if>
+            <if test="listMemo != null">LIST_MEMO = #{listMemo},</if>
+            <if test="listMemoChild != null">LIST_MEMO_CHILD = #{listMemoChild},</if>
+            <if test="dataResourceid != null">DATA_RESOURCEID = #{dataResourceid},</if>
+            <if test="dataApi != null">DATA_API = #{dataApi},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="updatedBy != null">UPDATED_BY = #{updatedBy},</if>
+            <if test="updatedTime != null">UPDATED_TIME = #{updatedTime},</if>
+            <if test="tenantId != null">TENANT_ID = #{tenantId},</if>
+        </trim>
+        where LIST_ID = #{listId}
+    </update>
+
+    <delete id="deleteLowBusinessListById" parameterType="String">
+        delete from low_business_list where LIST_ID = #{listId}
+    </delete>
+
+    <delete id="deleteLowBusinessListByIds" parameterType="String">
+        delete from low_business_list where LIST_ID in
+        <foreach item="listId" collection="array" open="(" separator="," close=")">
+            #{listId}
+        </foreach>
+    </delete>
+
+</mapper>

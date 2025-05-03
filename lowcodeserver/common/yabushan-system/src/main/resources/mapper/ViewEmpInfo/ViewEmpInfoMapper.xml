@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.ViewEmpInfoMapper">
+
+    <resultMap type="ViewEmpInfo" id="ViewEmpInfoResult">
+        <result property="loginid" column="LOGINID"/>
+        <result property="username" column="USERNAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="birthday" column="BIRTHDAY"/>
+        <result property="position" column="POSITION"/>
+        <result property="positioncat" column="POSITIONCAT"/>
+        <result property="erpid" column="ERPID"/>
+        <result property="mobile" column="MOBILE"/>
+        <result property="sex" column="SEX"/>
+        <result property="workingplace" column="WORKINGPLACE"/>
+        <result property="qqormsn" column="QQORMSN"/>
+        <result property="employeddate" column="EMPLOYEDDATE"/>
+        <result property="superiorleader" column="SUPERIORLEADER"/>
+        <result property="stafftype" column="STAFFTYPE"/>
+        <result property="pUsername" column="P_USERNAME"/>
+        <result property="pLoginid" column="P_LOGINID"/>
+        <result property="dpid" column="DPID"/>
+        <result property="dpfullname" column="DPFULLNAME"/>
+        <result property="dpname" column="DPNAME"/>
+        <result property="companyDpid" column="COMPANY_DPID"/>
+        <result property="companyDpname" column="COMPANY_DPNAME"/>
+        <result property="email" column="EMAIL"/>
+        <result property="userposilevel" column="USERPOSILEVEL"/>
+    </resultMap>
+
+    <sql id="selectViewEmpInfoVo">
+        select * from view_emp_info
+    </sql>
+
+    <select id="selectViewEmpInfoList" parameterType="ViewEmpInfo" resultMap="ViewEmpInfoResult">
+        <include refid="selectViewEmpInfoVo"/>
+        <where>
+            <if test="loginid != null  and loginid != ''">and LOGINID = #{loginid}</if>
+            <if test="username != null  and username != ''">and (USERNAME like concat('%', #{username}, '%') or LOGINID = #{username})</if>
+            <if test="phone != null  and phone != ''">and PHONE = #{phone}</if>
+            <if test="birthday != null ">and BIRTHDAY = #{birthday}</if>
+            <if test="position != null  and position != ''">and POSITION = #{position}</if>
+            <if test="positioncat != null  and positioncat != ''">and POSITIONCAT = #{positioncat}</if>
+            <if test="erpid != null  and erpid != ''">and ERPID = #{erpid}</if>
+            <if test="mobile != null  and mobile != ''">and MOBILE = #{mobile}</if>
+            <if test="sex != null  and sex != ''">and SEX = #{sex}</if>
+            <if test="workingplace != null  and workingplace != ''">and WORKINGPLACE = #{workingplace}</if>
+            <if test="qqormsn != null  and qqormsn != ''">and QQORMSN = #{qqormsn}</if>
+            <if test="employeddate != null ">and EMPLOYEDDATE = #{employeddate}</if>
+            <if test="superiorleader != null  and superiorleader != ''">and SUPERIORLEADER = #{superiorleader}</if>
+            <if test="stafftype != null  and stafftype != ''">and STAFFTYPE = #{stafftype}</if>
+            <if test="pUsername != null  and pUsername != ''">and P_USERNAME like concat('%', #{pUsername}, '%')</if>
+            <if test="pLoginid != null  and pLoginid != ''">and P_LOGINID = #{pLoginid}</if>
+            <if test="dpid != null  and dpid != ''">and DPID = #{dpid}</if>
+            <if test="dpfullname != null  and dpfullname != ''">and DPFULLNAME like concat('%', #{dpfullname}, '%')</if>
+            <if test="dpname != null  and dpname != ''">and DPNAME like concat('%', #{dpname}, '%')</if>
+            <if test="companyDpid != null  and companyDpid != ''">and COMPANY_DPID = #{companyDpid}</if>
+            <if test="companyDpname != null  and companyDpname != ''">and COMPANY_DPNAME like concat('%',
+                #{companyDpname}, '%')
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND create_by =#{createBy}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectViewEmpInfoById" parameterType="String" resultMap="ViewEmpInfoResult">
+        <include refid="selectViewEmpInfoVo"/>
+        where LOGINID = #{loginid}
+    </select>
+
+    <select id="selectViewEmpInfoByIdAndErpID" parameterType="String" resultMap="ViewEmpInfoResult">
+        <include refid="selectViewEmpInfoVo"/>
+        where LOGINID = #{loginid} AND ERPID = #{erpid} LIMIT 1
+    </select>
+
+    <insert id="insertViewEmpInfo" parameterType="ViewEmpInfo">
+        insert into view_emp_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="loginid != null">LOGINID,</if>
+            <if test="username != null">USERNAME,</if>
+            <if test="phone != null">PHONE,</if>
+            <if test="birthday != null">BIRTHDAY,</if>
+            <if test="position != null">POSITION,</if>
+            <if test="positioncat != null">POSITIONCAT,</if>
+            <if test="erpid != null">ERPID,</if>
+            <if test="mobile != null">MOBILE,</if>
+            <if test="sex != null">SEX,</if>
+            <if test="workingplace != null">WORKINGPLACE,</if>
+            <if test="qqormsn != null">QQORMSN,</if>
+            <if test="employeddate != null">EMPLOYEDDATE,</if>
+            <if test="superiorleader != null">SUPERIORLEADER,</if>
+            <if test="stafftype != null">STAFFTYPE,</if>
+            <if test="pUsername != null">P_USERNAME,</if>
+            <if test="pLoginid != null">P_LOGINID,</if>
+            <if test="dpid != null">DPID,</if>
+            <if test="dpfullname != null">DPFULLNAME,</if>
+            <if test="dpname != null">DPNAME,</if>
+            <if test="companyDpid != null">COMPANY_DPID,</if>
+            <if test="companyDpname != null">COMPANY_DPNAME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="loginid != null">#{loginid},</if>
+            <if test="username != null">#{username},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="position != null">#{position},</if>
+            <if test="positioncat != null">#{positioncat},</if>
+            <if test="erpid != null">#{erpid},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="workingplace != null">#{workingplace},</if>
+            <if test="qqormsn != null">#{qqormsn},</if>
+            <if test="employeddate != null">#{employeddate},</if>
+            <if test="superiorleader != null">#{superiorleader},</if>
+            <if test="stafftype != null">#{stafftype},</if>
+            <if test="pUsername != null">#{pUsername},</if>
+            <if test="pLoginid != null">#{pLoginid},</if>
+            <if test="dpid != null">#{dpid},</if>
+            <if test="dpfullname != null">#{dpfullname},</if>
+            <if test="dpname != null">#{dpname},</if>
+            <if test="companyDpid != null">#{companyDpid},</if>
+            <if test="companyDpname != null">#{companyDpname},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertViewEmpInfo" parameterType="java.util.List">
+        insert into view_emp_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            LOGINID,
+            USERNAME,
+            PHONE,
+            BIRTHDAY,
+            POSITION,
+            POSITIONCAT,
+            ERPID,
+            MOBILE,
+            SEX,
+            WORKINGPLACE,
+            QQORMSN,
+            EMPLOYEDDATE,
+            SUPERIORLEADER,
+            STAFFTYPE,
+            P_USERNAME,
+            P_LOGINID,
+            DPID,
+            DPFULLNAME,
+            DPNAME,
+            COMPANY_DPID,
+            COMPANY_DPNAME,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.loginid},
+                #{item.username},
+                #{item.phone},
+                #{item.birthday},
+                #{item.position},
+                #{item.positioncat},
+                #{item.erpid},
+                #{item.mobile},
+                #{item.sex},
+                #{item.workingplace},
+                #{item.qqormsn},
+                #{item.employeddate},
+                #{item.superiorleader},
+                #{item.stafftype},
+                #{item.pUsername},
+                #{item.pLoginid},
+                #{item.dpid},
+                #{item.dpfullname},
+                #{item.dpname},
+                #{item.companyDpid},
+                #{item.companyDpname},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateViewEmpInfo" parameterType="ViewEmpInfo">
+        update view_emp_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="username != null">USERNAME = #{username},</if>
+            <if test="phone != null">PHONE = #{phone},</if>
+            <if test="birthday != null">BIRTHDAY = #{birthday},</if>
+            <if test="position != null">POSITION = #{position},</if>
+            <if test="positioncat != null">POSITIONCAT = #{positioncat},</if>
+            <if test="erpid != null">ERPID = #{erpid},</if>
+            <if test="mobile != null">MOBILE = #{mobile},</if>
+            <if test="sex != null">SEX = #{sex},</if>
+            <if test="workingplace != null">WORKINGPLACE = #{workingplace},</if>
+            <if test="qqormsn != null">QQORMSN = #{qqormsn},</if>
+            <if test="employeddate != null">EMPLOYEDDATE = #{employeddate},</if>
+            <if test="superiorleader != null">SUPERIORLEADER = #{superiorleader},</if>
+            <if test="stafftype != null">STAFFTYPE = #{stafftype},</if>
+            <if test="pUsername != null">P_USERNAME = #{pUsername},</if>
+            <if test="pLoginid != null">P_LOGINID = #{pLoginid},</if>
+            <if test="dpid != null">DPID = #{dpid},</if>
+            <if test="dpfullname != null">DPFULLNAME = #{dpfullname},</if>
+            <if test="dpname != null">DPNAME = #{dpname},</if>
+            <if test="companyDpid != null">COMPANY_DPID = #{companyDpid},</if>
+            <if test="companyDpname != null">COMPANY_DPNAME = #{companyDpname},</if>
+        </trim>
+        where LOGINID = #{loginid}
+    </update>
+
+    <delete id="deleteViewEmpInfoById" parameterType="String">
+        delete from view_emp_info where LOGINID = #{loginid}
+    </delete>
+
+    <delete id="deleteViewEmpInfoByIds" parameterType="String">
+        delete from view_emp_info where LOGINID in
+        <foreach item="loginid" collection="array" open="(" separator="," close=")">
+            #{loginid}
+        </foreach>
+    </delete>
+
+    <select id="getViewEmpInfoListByloginIds" parameterType="String" resultMap="ViewEmpInfoResult">
+        <include refid="selectViewEmpInfoVo"/>
+        <where>
+            <if test="loginId !=null and loginId !=''">
+                LOGINID in
+                <foreach item="key" collection="loginId.split(',')" open="(" separator="," close=")">
+                    #{key}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="getViewCompanyInfo" parameterType="String" resultType="java.util.Map">
+        SELECT COMPANY_ID AS companyId, COMPANY_NAME as companyName FROM view_company_info
+        <where>
+            and COMPANY_NAME!='省公司'
+        <if test="companyId !=null and companyId !=''">
+            and   COMPANY_ID=#{companyId}
+        </if>
+        </where>
+    </select>
+
+    <select id="selectLiaisonsData" resultType="java.util.Map">
+        select
+        vei.FULLNAME  as username,
+        vei.USERID as userId,
+        vei.COMPANY as company,
+        vei.TELEPHONE  as phone,
+        vei.EMAIL as email,
+        vei.DEPARTMENT  as dpname,
+        vei.USERPOSILEVEL postLevel,
+        vei.TITLE postName
+        from uum_userinfo vei
+        where 1=1
+        <if test="username != null and username != ''">
+            and (vei.FULLNAME like concat('%', #{username}, '%') or vei.USERID like concat('%', #{username}, '%'))
+        </if>
+        <if test="companyId != null and companyId != ''">
+            and vei.COMPANYID=#{companyId}
+        </if>
+        <if test="deptId != null and deptId != ''">
+            and vei.DEPARTMENTID =#{deptId}
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.DataStructuredColumnMapper">
+
+    <resultMap type="DataStructuredColumn" id="DataStructuredColumnResult">
+        <result property="columnId"    column="column_id"    />
+        <result property="columnCode"    column="column_code"    />
+        <result property="resourceId"    column="resource_id"    />
+        <result property="name"    column="name"    />
+        <result property="displayName"    column="display_name"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="length"    column="length"    />
+        <result property="precision"    column="precision"    />
+        <result property="defaultValue"    column="default_value"    />
+        <result property="isForeignKey"    column="is_foreign_key"    />
+        <result property="isPrimaryKey"    column="is_primary_key"    />
+        <result property="isNullable"    column="is_nullable"    />
+        <result property="comment"    column="comment"    />
+        <result property="order"    column="order"    />
+        <result property="visible"    column="visible"    />
+        <result property="valueType"    column="value_type"    />
+        <result property="defaultAggFuncation"    column="default_agg_funcation"    />
+        <result property="dataAnalysisType"    column="data_analysis_type"    />
+        <result property="unit"    column="unit"    />
+        <result property="isSearchCondition"    column="is_search_condition"    />
+        <result property="searchFormat"    column="search_format"    />
+        <result property="securityGradeId"    column="security_grade_id"    />
+        <result property="encryptRuleId"    column="encrypt_rule_id"    />
+        <result property="desensitizedRuleId"    column="desensitized_rule_id"    />
+        <result property="standardCodeId"    column="standard_code_id"    />
+        <result property="displayFormat"    column="display_format"    />
+        <result property="typeClassify"    column="type_classify"    />
+        <result property="sameName"    column="same_name"    />
+        <result property="dictResourceId"    column="dict_resource_id"    />
+        <result property="dictResourceName"    column="dict_resource_name"    />
+        <result property="dictRelationId"    column="dict_relation_id"    />
+        <result property="columnType"    column="column_type"    />
+        <result property="externalLink"    column="external_link"    />
+        <result property="showOrder"    column="show_order"    />
+        <result property="choiceMode"    column="choice_mode"    />
+        <result property="increment"    column="increment"    />
+        <result property="logicDefault"    column="logic_default"    />
+        <result property="logicValue"    column="logic_value"    />
+        <result property="updatable"    column="updatable"    />
+        <result property="persist"    column="persist"    />
+        <result property="internal"    column="internal"    />
+        <result property="sortable"    column="sortable"    />
+        <result property="filterable"    column="filterable"    />
+        <result property="options"    column="options"    />
+        <result property="format"    column="format"    />
+        <result property="validate"    column="validate"    />
+        <result property="input"    column="input"    />
+        <result property="from"    column="from"    />
+        <result property="extension"    column="extension"    />
+        <result property="camelName"    column="camel_name"    />
+        <result property="defaultPermission"    column="default_permission"    />
+        <result property="secretLevel"    column="secret_level"    />
+        <result property="oldColumnName"    column="old_column_name"    />
+        <result property="isExtractKg"    column="is_extract_kg"    />
+        <result property="isGraphHidden"    column="is_graph_hidden"    />
+        <result property="status"    column="status"    />
+        <result property="mappingColumnId"    column="mapping_column_id"    />
+        <result property="columnExistenceType"    column="column_existence_type"    />
+        <result property="columnUseType"    column="column_use_type"    />
+        <result property="physicalColumnId"    column="physical_column_id"    />
+        <result property="extendFrom"    column="extend_from"    />
+        <result property="appId"    column="app_id"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="sharingType"    column="sharing_type"    />
+        <result property="fineType"    column="fine_type"    />
+        <result property="functionExpression"    column="function_expression"    />
+        <result property="funt"    column="funt"    />
+    </resultMap>
+
+    <sql id="selectDataStructuredColumnVo">
+        select column_id, column_code, resource_id, `name`, display_name, type_name, `length`, `precision`, default_value, is_foreign_key, is_primary_key, is_nullable, comment, `order`, visible, value_type, default_agg_funcation, data_analysis_type, unit, is_search_condition, search_format, security_grade_id, encrypt_rule_id, desensitized_rule_id, standard_code_id, display_format, type_classify, same_name, dict_resource_id, dict_resource_name, dict_relation_id, column_type, external_link, show_order, choice_mode, `increment`, logic_default, logic_value, updatable, persist, internal, sortable, filterable, `options`, format, validate, `input`, `from`, extension, camel_name, default_permission, secret_level, old_column_name, is_extract_kg, is_graph_hidden, status, mapping_column_id, column_existence_type, column_use_type, physical_column_id, extend_from, app_id, category_id, sharing_type, fine_type, function_expression, funt from data_structured_column
+    </sql>
+
+    <select id="selectDataStructuredColumnList" parameterType="DataStructuredColumn" resultMap="DataStructuredColumnResult">
+        <include refid="selectDataStructuredColumnVo"/>
+        <where>
+            <if test="columnCode != null  and columnCode != ''"> and column_code = #{columnCode}</if>
+            <if test="resourceId != null  and resourceId != ''"> and resource_id = #{resourceId}</if>
+            <if test="name != null  and name != ''"> and `name` like concat('%', #{name}, '%')</if>
+            <if test="displayName != null  and displayName != ''"> and display_name like concat('%', #{displayName}, '%')</if>
+            <if test="typeName != null  and typeName != ''"> and type_name like concat('%', #{typeName}, '%')</if>
+            <if test="length != null "> and `length` = #{length}</if>
+            <if test="precision != null  and precision != ''"> and `precision` = #{precision}</if>
+            <if test="defaultValue != null  and defaultValue != ''"> and default_value = #{defaultValue}</if>
+            <if test="isForeignKey != null  and isForeignKey != ''"> and is_foreign_key = #{isForeignKey}</if>
+            <if test="isPrimaryKey != null  and isPrimaryKey != ''"> and is_primary_key = #{isPrimaryKey}</if>
+            <if test="isNullable != null  and isNullable != ''"> and is_nullable = #{isNullable}</if>
+            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
+            <if test="order != null "> and `order` = #{order}</if>
+            <if test="visible != null  and visible != ''"> and visible = #{visible}</if>
+            <if test="valueType != null  and valueType != ''"> and value_type = #{valueType}</if>
+            <if test="defaultAggFuncation != null  and defaultAggFuncation != ''"> and default_agg_funcation = #{defaultAggFuncation}</if>
+            <if test="dataAnalysisType != null  and dataAnalysisType != ''"> and data_analysis_type = #{dataAnalysisType}</if>
+            <if test="unit != null  and unit != ''"> and unit = #{unit}</if>
+            <if test="isSearchCondition != null  and isSearchCondition != ''"> and is_search_condition = #{isSearchCondition}</if>
+            <if test="searchFormat != null  and searchFormat != ''"> and search_format = #{searchFormat}</if>
+            <if test="securityGradeId != null  and securityGradeId != ''"> and security_grade_id = #{securityGradeId}</if>
+            <if test="encryptRuleId != null  and encryptRuleId != ''"> and encrypt_rule_id = #{encryptRuleId}</if>
+            <if test="desensitizedRuleId != null  and desensitizedRuleId != ''"> and desensitized_rule_id = #{desensitizedRuleId}</if>
+            <if test="standardCodeId != null  and standardCodeId != ''"> and standard_code_id = #{standardCodeId}</if>
+            <if test="displayFormat != null  and displayFormat != ''"> and display_format = #{displayFormat}</if>
+            <if test="typeClassify != null  and typeClassify != ''"> and type_classify = #{typeClassify}</if>
+            <if test="sameName != null  and sameName != ''"> and same_name like concat('%', #{sameName}, '%')</if>
+            <if test="dictResourceId != null  and dictResourceId != ''"> and dict_resource_id = #{dictResourceId}</if>
+            <if test="dictResourceName != null  and dictResourceName != ''"> and dict_resource_name like concat('%', #{dictResourceName}, '%')</if>
+            <if test="dictRelationId != null  and dictRelationId != ''"> and dict_relation_id = #{dictRelationId}</if>
+            <if test="columnType != null  and columnType != ''"> and column_type = #{columnType}</if>
+            <if test="externalLink != null  and externalLink != ''"> and external_link = #{externalLink}</if>
+            <if test="showOrder != null "> and show_order = #{showOrder}</if>
+            <if test="choiceMode != null  and choiceMode != ''"> and choice_mode = #{choiceMode}</if>
+            <if test="increment != null  and increment != ''"> and increment = #{increment}</if>
+            <if test="logicDefault != null  and logicDefault != ''"> and logic_default = #{logicDefault}</if>
+            <if test="logicValue != null  and logicValue != ''"> and logic_value = #{logicValue}</if>
+            <if test="updatable != null  and updatable != ''"> and updatable = #{updatable}</if>
+            <if test="persist != null  and persist != ''"> and persist = #{persist}</if>
+            <if test="internal != null  and internal != ''"> and internal = #{internal}</if>
+            <if test="sortable != null  and sortable != ''"> and sortable = #{sortable}</if>
+            <if test="filterable != null  and filterable != ''"> and filterable = #{filterable}</if>
+            <if test="options != null  and options != ''"> and options = #{options}</if>
+            <if test="format != null  and format != ''"> and format = #{format}</if>
+            <if test="validate != null  and validate != ''"> and validate = #{validate}</if>
+            <if test="input != null  and input != ''"> and input = #{input}</if>
+            <if test="from != null  and from != ''"> and from = #{from}</if>
+            <if test="extension != null  and extension != ''"> and extension = #{extension}</if>
+            <if test="camelName != null  and camelName != ''"> and camel_name like concat('%', #{camelName}, '%')</if>
+            <if test="defaultPermission != null  and defaultPermission != ''"> and default_permission = #{defaultPermission}</if>
+            <if test="secretLevel != null "> and secret_level = #{secretLevel}</if>
+            <if test="oldColumnName != null  and oldColumnName != ''"> and old_column_name like concat('%', #{oldColumnName}, '%')</if>
+            <if test="isExtractKg != null  and isExtractKg != ''"> and is_extract_kg = #{isExtractKg}</if>
+            <if test="isGraphHidden != null  and isGraphHidden != ''"> and is_graph_hidden = #{isGraphHidden}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="mappingColumnId != null  and mappingColumnId != ''"> and mapping_column_id = #{mappingColumnId}</if>
+            <if test="columnExistenceType != null  and columnExistenceType != ''"> and column_existence_type = #{columnExistenceType}</if>
+            <if test="columnUseType != null  and columnUseType != ''"> and column_use_type = #{columnUseType}</if>
+            <if test="physicalColumnId != null  and physicalColumnId != ''"> and physical_column_id = #{physicalColumnId}</if>
+            <if test="extendFrom != null  and extendFrom != ''"> and extend_from = #{extendFrom}</if>
+            <if test="appId != null  and appId != ''"> and app_id = #{appId}</if>
+            <if test="categoryId != null  and categoryId != ''"> and category_id = #{categoryId}</if>
+            <if test="sharingType != null  and sharingType != ''"> and sharing_type = #{sharingType}</if>
+            <if test="fineType != null  and fineType != ''"> and fine_type = #{fineType}</if>
+            <if test="functionExpression != null  and functionExpression != ''"> and function_expression = #{functionExpression}</if>
+            <if test="funt != null  and funt != ''"> and funt = #{funt}</if>
+            <if test="createBy != null  and createBy != ''">
+              and  resource_id IN(
+                SELECT r.resource_id FROM `data_resource` r WHERE r.create_user_name=#{createBy}
+                )
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDataStructuredColumnById" parameterType="String" resultMap="DataStructuredColumnResult">
+        <include refid="selectDataStructuredColumnVo"/>
+        where column_id = #{columnId}
+    </select>
+
+    <insert id="insertDataStructuredColumn" parameterType="DataStructuredColumn">
+        insert into data_structured_column
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="columnId != null">column_id,</if>
+            <if test="columnCode != null">column_code,</if>
+            <if test="resourceId != null and resourceId != ''">resource_id,</if>
+            <if test="name != null">`name`,</if>
+            <if test="displayName != null">display_name,</if>
+            <if test="typeName != null">type_name,</if>
+            <if test="length != null">`length`,</if>
+            <if test="precision != null">`precision`,</if>
+            <if test="defaultValue != null">default_value,</if>
+            <if test="isForeignKey != null">is_foreign_key,</if>
+            <if test="isPrimaryKey != null">is_primary_key,</if>
+            <if test="isNullable != null">is_nullable,</if>
+            <if test="comment != null">comment,</if>
+            <if test="order != null">`order`,</if>
+            <if test="visible != null">visible,</if>
+            <if test="valueType != null">value_type,</if>
+            <if test="defaultAggFuncation != null">default_agg_funcation,</if>
+            <if test="dataAnalysisType != null">data_analysis_type,</if>
+            <if test="unit != null">unit,</if>
+            <if test="isSearchCondition != null">is_search_condition,</if>
+            <if test="searchFormat != null">search_format,</if>
+            <if test="securityGradeId != null">security_grade_id,</if>
+            <if test="encryptRuleId != null">encrypt_rule_id,</if>
+            <if test="desensitizedRuleId != null">desensitized_rule_id,</if>
+            <if test="standardCodeId != null">standard_code_id,</if>
+            <if test="displayFormat != null">display_format,</if>
+            <if test="typeClassify != null">type_classify,</if>
+            <if test="sameName != null">same_name,</if>
+            <if test="dictResourceId != null">dict_resource_id,</if>
+            <if test="dictResourceName != null">dict_resource_name,</if>
+            <if test="dictRelationId != null">dict_relation_id,</if>
+            <if test="columnType != null">column_type,</if>
+            <if test="externalLink != null">external_link,</if>
+            <if test="showOrder != null">show_order,</if>
+            <if test="choiceMode != null">choice_mode,</if>
+            <if test="increment != null">`increment`,</if>
+            <if test="logicDefault != null">logic_default,</if>
+            <if test="logicValue != null">logic_value,</if>
+            <if test="updatable != null">updatable,</if>
+            <if test="persist != null">persist,</if>
+            <if test="internal != null">internal,</if>
+            <if test="sortable != null">sortable,</if>
+            <if test="filterable != null">filterable,</if>
+            <if test="options != null">`options`,</if>
+            <if test="format != null">format,</if>
+            <if test="validate != null">validate,</if>
+            <if test="input != null">`input`,</if>
+            <if test="from != null">`from`,</if>
+            <if test="extension != null">extension,</if>
+            <if test="camelName != null">camel_name,</if>
+            <if test="defaultPermission != null">default_permission,</if>
+            <if test="secretLevel != null">secret_level,</if>
+            <if test="oldColumnName != null">old_column_name,</if>
+            <if test="isExtractKg != null">is_extract_kg,</if>
+            <if test="isGraphHidden != null">is_graph_hidden,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="mappingColumnId != null">mapping_column_id,</if>
+            <if test="columnExistenceType != null">column_existence_type,</if>
+            <if test="columnUseType != null">column_use_type,</if>
+            <if test="physicalColumnId != null">physical_column_id,</if>
+            <if test="extendFrom != null">extend_from,</if>
+            <if test="appId != null">app_id,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="sharingType != null">sharing_type,</if>
+            <if test="fineType != null">fine_type,</if>
+            <if test="functionExpression != null">function_expression,</if>
+            <if test="funt != null">funt,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="columnId != null">#{columnId},</if>
+            <if test="columnCode != null">#{columnCode},</if>
+            <if test="resourceId != null and resourceId != ''">#{resourceId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="displayName != null">#{displayName},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="length != null">#{length},</if>
+            <if test="precision != null">#{precision},</if>
+            <if test="defaultValue != null">#{defaultValue},</if>
+            <if test="isForeignKey != null">#{isForeignKey},</if>
+            <if test="isPrimaryKey != null">#{isPrimaryKey},</if>
+            <if test="isNullable != null">#{isNullable},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="order != null">#{order},</if>
+            <if test="visible != null">#{visible},</if>
+            <if test="valueType != null">#{valueType},</if>
+            <if test="defaultAggFuncation != null">#{defaultAggFuncation},</if>
+            <if test="dataAnalysisType != null">#{dataAnalysisType},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="isSearchCondition != null">#{isSearchCondition},</if>
+            <if test="searchFormat != null">#{searchFormat},</if>
+            <if test="securityGradeId != null">#{securityGradeId},</if>
+            <if test="encryptRuleId != null">#{encryptRuleId},</if>
+            <if test="desensitizedRuleId != null">#{desensitizedRuleId},</if>
+            <if test="standardCodeId != null">#{standardCodeId},</if>
+            <if test="displayFormat != null">#{displayFormat},</if>
+            <if test="typeClassify != null">#{typeClassify},</if>
+            <if test="sameName != null">#{sameName},</if>
+            <if test="dictResourceId != null">#{dictResourceId},</if>
+            <if test="dictResourceName != null">#{dictResourceName},</if>
+            <if test="dictRelationId != null">#{dictRelationId},</if>
+            <if test="columnType != null">#{columnType},</if>
+            <if test="externalLink != null">#{externalLink},</if>
+            <if test="showOrder != null">#{showOrder},</if>
+            <if test="choiceMode != null">#{choiceMode},</if>
+            <if test="increment != null">#{increment},</if>
+            <if test="logicDefault != null">#{logicDefault},</if>
+            <if test="logicValue != null">#{logicValue},</if>
+            <if test="updatable != null">#{updatable},</if>
+            <if test="persist != null">#{persist},</if>
+            <if test="internal != null">#{internal},</if>
+            <if test="sortable != null">#{sortable},</if>
+            <if test="filterable != null">#{filterable},</if>
+            <if test="options != null">#{options},</if>
+            <if test="format != null">#{format},</if>
+            <if test="validate != null">#{validate},</if>
+            <if test="input != null">#{input},</if>
+            <if test="from != null">#{from},</if>
+            <if test="extension != null">#{extension},</if>
+            <if test="camelName != null">#{camelName},</if>
+            <if test="defaultPermission != null">#{defaultPermission},</if>
+            <if test="secretLevel != null">#{secretLevel},</if>
+            <if test="oldColumnName != null">#{oldColumnName},</if>
+            <if test="isExtractKg != null">#{isExtractKg},</if>
+            <if test="isGraphHidden != null">#{isGraphHidden},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="mappingColumnId != null">#{mappingColumnId},</if>
+            <if test="columnExistenceType != null">#{columnExistenceType},</if>
+            <if test="columnUseType != null">#{columnUseType},</if>
+            <if test="physicalColumnId != null">#{physicalColumnId},</if>
+            <if test="extendFrom != null">#{extendFrom},</if>
+            <if test="appId != null">#{appId},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="sharingType != null">#{sharingType},</if>
+            <if test="fineType != null">#{fineType},</if>
+            <if test="functionExpression != null">#{functionExpression},</if>
+            <if test="funt != null">#{funt},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertDataStructuredColumn" parameterType="java.util.List">
+        insert into data_structured_column
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            column_id,
+            column_code,
+            resource_id,
+            `name`,
+            display_name,
+            type_name,
+            `length`,
+            `precision`,
+            default_value,
+            is_foreign_key,
+            is_primary_key,
+            is_nullable,
+            comment,
+            `order`,
+            visible,
+            value_type,
+            default_agg_funcation,
+            data_analysis_type,
+            unit,
+            is_search_condition,
+            search_format,
+            security_grade_id,
+            encrypt_rule_id,
+            desensitized_rule_id,
+            standard_code_id,
+            display_format,
+            type_classify,
+            same_name,
+            dict_resource_id,
+            dict_resource_name,
+            dict_relation_id,
+            column_type,
+            external_link,
+            show_order,
+            choice_mode,
+            `increment`,
+            logic_default,
+            logic_value,
+            updatable,
+            persist,
+            internal,
+            sortable,
+            filterable,
+            `options`,
+            `format`,
+            validate,
+            `input`,
+            `from`,
+            extension,
+            camel_name,
+            default_permission,
+            secret_level,
+            old_column_name,
+            is_extract_kg,
+            is_graph_hidden,
+            status,
+            mapping_column_id,
+            column_existence_type,
+            column_use_type,
+            physical_column_id,
+            extend_from,
+            app_id,
+            category_id,
+            sharing_type,
+            fine_type,
+            function_expression,
+            funt,
+        </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.columnId},
+                #{item.columnCode},
+                #{item.resourceId},
+                #{item.name},
+                #{item.displayName},
+                #{item.typeName},
+                #{item.length},
+                #{item.precision},
+                #{item.defaultValue},
+                #{item.isForeignKey},
+                #{item.isPrimaryKey},
+                #{item.isNullable},
+                #{item.comment},
+                #{item.order},
+                #{item.visible},
+                #{item.valueType},
+                #{item.defaultAggFuncation},
+                #{item.dataAnalysisType},
+                #{item.unit},
+                #{item.isSearchCondition},
+                #{item.searchFormat},
+                #{item.securityGradeId},
+                #{item.encryptRuleId},
+                #{item.desensitizedRuleId},
+                #{item.standardCodeId},
+                #{item.displayFormat},
+                #{item.typeClassify},
+                #{item.sameName},
+                #{item.dictResourceId},
+                #{item.dictResourceName},
+                #{item.dictRelationId},
+                #{item.columnType},
+                #{item.externalLink},
+                #{item.showOrder},
+                #{item.choiceMode},
+                #{item.increment},
+                #{item.logicDefault},
+                #{item.logicValue},
+                #{item.updatable},
+                #{item.persist},
+                #{item.internal},
+                #{item.sortable},
+                #{item.filterable},
+                #{item.options},
+                #{item.format},
+                #{item.validate},
+                #{item.input},
+                #{item.from},
+                #{item.extension},
+                #{item.camelName},
+                #{item.defaultPermission},
+                #{item.secretLevel},
+                #{item.oldColumnName},
+                #{item.isExtractKg},
+                #{item.isGraphHidden},
+                #{item.status},
+                #{item.mappingColumnId},
+                #{item.columnExistenceType},
+                #{item.columnUseType},
+                #{item.physicalColumnId},
+                #{item.extendFrom},
+                #{item.appId},
+                #{item.categoryId},
+                #{item.sharingType},
+                #{item.fineType},
+                #{item.functionExpression},
+                #{item.funt},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateDataStructuredColumn" parameterType="DataStructuredColumn">
+        update data_structured_column
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="columnCode != null">column_code = #{columnCode},</if>
+            <if test="resourceId != null and resourceId != ''">resource_id = #{resourceId},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="displayName != null">display_name = #{displayName},</if>
+            <if test="typeName != null">type_name = #{typeName},</if>
+            <if test="length != null">`length` = #{length},</if>
+            <if test="precision != null">`precision` = #{precision},</if>
+            <if test="defaultValue != null">default_value = #{defaultValue},</if>
+            <if test="isForeignKey != null">is_foreign_key = #{isForeignKey},</if>
+            <if test="isPrimaryKey != null">is_primary_key = #{isPrimaryKey},</if>
+            <if test="isNullable != null">is_nullable = #{isNullable},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="order != null">`order` = #{order},</if>
+            <if test="visible != null">visible = #{visible},</if>
+            <if test="valueType != null">value_type = #{valueType},</if>
+            <if test="defaultAggFuncation != null">default_agg_funcation = #{defaultAggFuncation},</if>
+            <if test="dataAnalysisType != null">data_analysis_type = #{dataAnalysisType},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="isSearchCondition != null">is_search_condition = #{isSearchCondition},</if>
+            <if test="searchFormat != null">search_format = #{searchFormat},</if>
+            <if test="securityGradeId != null">security_grade_id = #{securityGradeId},</if>
+            <if test="encryptRuleId != null">encrypt_rule_id = #{encryptRuleId},</if>
+            <if test="desensitizedRuleId != null">desensitized_rule_id = #{desensitizedRuleId},</if>
+            <if test="standardCodeId != null">standard_code_id = #{standardCodeId},</if>
+            <if test="displayFormat != null">display_format = #{displayFormat},</if>
+            <if test="typeClassify != null">type_classify = #{typeClassify},</if>
+            <if test="sameName != null">same_name = #{sameName},</if>
+            <if test="dictResourceId != null">dict_resource_id = #{dictResourceId},</if>
+            <if test="dictResourceName != null">dict_resource_name = #{dictResourceName},</if>
+            <if test="dictRelationId != null">dict_relation_id = #{dictRelationId},</if>
+            <if test="columnType != null">column_type = #{columnType},</if>
+            <if test="externalLink != null">external_link = #{externalLink},</if>
+            <if test="showOrder != null">show_order = #{showOrder},</if>
+            <if test="choiceMode != null">choice_mode = #{choiceMode},</if>
+            <if test="increment != null">`increment` = #{increment},</if>
+            <if test="logicDefault != null">logic_default = #{logicDefault},</if>
+            <if test="logicValue != null">logic_value = #{logicValue},</if>
+            <if test="updatable != null">updatable = #{updatable},</if>
+            <if test="persist != null">persist = #{persist},</if>
+            <if test="internal != null">internal = #{internal},</if>
+            <if test="sortable != null">sortable = #{sortable},</if>
+            <if test="filterable != null">filterable = #{filterable},</if>
+            <if test="options != null">`options` = #{options},</if>
+            <if test="format != null">format = #{format},</if>
+            <if test="validate != null">validate = #{validate},</if>
+            <if test="input != null">`input` = #{input},</if>
+            <if test="from != null">`from` = #{from},</if>
+            <if test="extension != null">extension = #{extension},</if>
+            <if test="camelName != null">camel_name = #{camelName},</if>
+            <if test="defaultPermission != null">default_permission = #{defaultPermission},</if>
+            <if test="secretLevel != null">secret_level = #{secretLevel},</if>
+            <if test="oldColumnName != null">old_column_name = #{oldColumnName},</if>
+            <if test="isExtractKg != null">is_extract_kg = #{isExtractKg},</if>
+            <if test="isGraphHidden != null">is_graph_hidden = #{isGraphHidden},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="mappingColumnId != null">mapping_column_id = #{mappingColumnId},</if>
+            <if test="columnExistenceType != null">column_existence_type = #{columnExistenceType},</if>
+            <if test="columnUseType != null">column_use_type = #{columnUseType},</if>
+            <if test="physicalColumnId != null">physical_column_id = #{physicalColumnId},</if>
+            <if test="extendFrom != null">extend_from = #{extendFrom},</if>
+            <if test="appId != null">app_id = #{appId},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="sharingType != null">sharing_type = #{sharingType},</if>
+            <if test="fineType != null">fine_type = #{fineType},</if>
+            <if test="functionExpression != null">function_expression = #{functionExpression},</if>
+            <if test="funt != null">funt = #{funt},</if>
+        </trim>
+        where column_id = #{columnId}
+    </update>
+
+    <delete id="deleteDataStructuredColumnById" parameterType="String">
+        delete from data_structured_column where column_id = #{columnId}
+    </delete>
+
+    <delete id="deleteDataStructuredColumnByIds" parameterType="String">
+        delete from data_structured_column where column_id in
+        <foreach item="columnId" collection="array" open="(" separator="," close=")">
+            #{columnId}
+        </foreach>
+    </delete>
+
+</mapper>

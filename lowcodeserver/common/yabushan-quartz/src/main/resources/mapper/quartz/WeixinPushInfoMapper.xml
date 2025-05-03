@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.quartz.mapper.WeixinPushInfoMapper">
+
+    <resultMap type="WeixinPushInfo" id="WeixinPushInfoResult">
+        <result property="id" column="id"/>
+        <result property="contactUserId" column="contact_user_id"/>
+        <result property="contactUserName" column="contact_user_name"/>
+        <result property="pushResult" column="push_result"/>
+        <result property="pushContent" column="push_content"/>
+        <result property="todoId" column="todo_id"/>
+        <result property="pushTime" column="push_time"/>
+    </resultMap>
+
+    <sql id="selectWeixinPushInfoVo">
+        select id, contact_user_id, contact_user_name, push_result, push_content, todo_id, push_time from weixin_push_info
+    </sql>
+
+    <select id="selectWeixinPushInfoList" parameterType="WeixinPushInfo" resultMap="WeixinPushInfoResult">
+        <include refid="selectWeixinPushInfoVo"/>
+        <where>
+            <if test="contactUserId != null  and contactUserId != ''">and contact_user_id = #{contactUserId}</if>
+            <if test="contactUserName != null  and contactUserName != ''">and contact_user_name like concat('%',
+                #{contactUserName}, '%')
+            </if>
+            <if test="pushResult != null  and pushResult != ''">and push_result = #{pushResult}</if>
+            <if test="pushContent != null  and pushContent != ''">and push_content = #{pushContent}</if>
+            <if test="todoId != null  and todoId != ''">and todo_id = #{todoId}</if>
+            <if test="pushTime != null ">and push_time = #{pushTime}</if>
+        </where>
+    </select>
+
+    <select id="selectWeixinPushInfoById" parameterType="String" resultMap="WeixinPushInfoResult">
+        <include refid="selectWeixinPushInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertWeixinPushInfo" parameterType="WeixinPushInfo">
+        insert into weixin_push_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="contactUserId != null">contact_user_id,</if>
+            <if test="contactUserName != null">contact_user_name,</if>
+            <if test="pushResult != null">push_result,</if>
+            <if test="pushContent != null">push_content,</if>
+            <if test="todoId != null">todo_id,</if>
+            <if test="pushTime != null">push_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="contactUserId != null">#{contactUserId},</if>
+            <if test="contactUserName != null">#{contactUserName},</if>
+            <if test="pushResult != null">#{pushResult},</if>
+            <if test="pushContent != null">#{pushContent},</if>
+            <if test="todoId != null">#{todoId},</if>
+            <if test="pushTime != null">#{pushTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertWeixinPushInfo" parameterType="java.util.List">
+        insert into weixin_push_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            contact_user_id,
+            contact_user_name,
+            push_result,
+            push_content,
+            todo_id,
+            push_time,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.id},
+                #{item.contactUserId},
+                #{item.contactUserName},
+                #{item.pushResult},
+                #{item.pushContent},
+                #{item.todoId},
+                #{item.pushTime},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateWeixinPushInfo" parameterType="WeixinPushInfo">
+        update weixin_push_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="contactUserId != null">contact_user_id = #{contactUserId},</if>
+            <if test="contactUserName != null">contact_user_name = #{contactUserName},</if>
+            <if test="pushResult != null">push_result = #{pushResult},</if>
+            <if test="pushContent != null">push_content = #{pushContent},</if>
+            <if test="todoId != null">todo_id = #{todoId},</if>
+            <if test="pushTime != null">push_time = #{pushTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWeixinPushInfoById" parameterType="String">
+        delete from weixin_push_info where id = #{id}
+    </delete>
+
+    <delete id="deleteWeixinPushInfoByIds" parameterType="String">
+        delete from weixin_push_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

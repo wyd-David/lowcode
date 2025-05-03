@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.DigDataResourceMapper">
+
+    <resultMap type="DigDataResource" id="DataResourceResult">
+        <result property="resourceId"    column="resource_id"    />
+        <result property="resourceCode"    column="resource_code"    />
+        <result property="resourceName"    column="resource_name"    />
+        <result property="resourceTableName"    column="resource_table_name"    />
+        <result property="shortName"    column="short_name"    />
+        <result property="resourceDesp"    column="resource_desp"    />
+        <result property="resourceType"    column="resource_type"    />
+        <result property="datasourceId"    column="datasource_id"    />
+        <result property="status"    column="status"    />
+        <result property="openedStatus"    column="opened_status"    />
+        <result property="securityGradeId"    column="security_grade_id"    />
+        <result property="dataCycleId"    column="data_cycle_id"    />
+        <result property="lastUpdateUserId"    column="last_update_user_id"    />
+        <result property="lastUpdateUserName"    column="last_update_user_name"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+        <result property="isTop"    column="is_top"    />
+        <result property="topTime"    column="top_time"    />
+        <result property="businessDomainId"    column="business_domain_id"    />
+        <result property="publishStatus"    column="publish_status"    />
+        <result property="relateViewId"    column="relate_view_id"    />
+        <result property="logRecordControl"    column="log_record_control"    />
+        <result property="belongSpaceId"    column="belong_space_id"    />
+        <result property="relateViewName"    column="relate_view_name"    />
+        <result property="catalogStandardType"    column="catalog_standard_type"    />
+        <result property="dataCatalogIdentificationCode"    column="data_catalog_identification_code"    />
+        <result property="resourceManageType"    column="resource_manage_type"    />
+        <result property="isTagEntity"    column="is_tag_entity"    />
+        <result property="isMetricEntity"    column="is_metric_entity"    />
+        <result property="storageStats"    column="storage_stats"    />
+        <result property="unPublishReason"    column="un_publish_reason"    />
+        <result property="openToSociety"    column="open_to_society"    />
+        <result property="sharingType"    column="sharing_type"    />
+        <result property="useRequirement"    column="use_requirement"    />
+        <result property="remark"    column="remark"    />
+        <result property="enableStatus"    column="enable_status"    />
+        <result property="lastDataUpdateTime"    column="last_data_update_time"    />
+        <result property="publishTime"    column="publish_time"    />
+        <result property="createTenantId"    column="create_tenant_id"    />
+        <result property="version"    column="version"    />
+        <result property="versionDesp"    column="version_desp"    />
+        <result property="isIndexCreated"    column="is_index_created"    />
+        <result property="collectStatus"    column="collect_status"    />
+        <result property="productionMode"    column="production_mode"    />
+        <result property="dataKind"    column="data_kind"    />
+        <result property="structuredType"    column="structured_type"    />
+        <result property="orgId"    column="org_id"    />
+        <result property="ownUserId"    column="own_user_id"    />
+        <result property="dataManagerId"    column="data_manager_id"    />
+        <result property="sameName"    column="same_name"    />
+        <result property="dataLayer"    column="data_layer"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="analysisStatus"    column="analysis_status"    />
+        <result property="sort"    column="sort"    />
+        <result property="clusterId"    column="cluster_id"    />
+        <result property="databaseId"    column="database_id"    />
+        <result property="appId"    column="app_id"    />
+        <result property="extension"    column="extension"    />
+        <result property="baasStatus"    column="baas_status"    />
+        <result property="syncStatus"    column="sync_status"    />
+        <result property="reportAttachmentId"    column="report_attachment_id"    />
+        <result property="parentResourceId"    column="parent_resource_id"    />
+        <result property="isDomainEntity"    column="is_domain_entity"    />
+        <result property="isExtractKg"    column="is_extract_kg"    />
+        <result property="isSameDatasource"    column="is_same_datasource"    />
+        <result property="isSameType"    column="is_same_type"    />
+        <result property="isSameStructure"    column="is_same_structure"    />
+        <result property="imageBase64"    column="image_base64"    />
+        <result property="color"    column="color"    />
+        <result property="shape"    column="shape"    />
+        <result property="extendFrom"    column="extend_from"    />
+        <result property="ownerType"    column="owner_type"    />
+        <result property="ownerId"    column="owner_id"    />
+        <result property="ownerName"    column="owner_name"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createUserName"    column="create_user_name"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectDataResourceVo">
+        SELECT  CONCAT(f.app_class_code,'(',f.`instance_name`,')') AS is_same_datasource,
+                d.resource_id,
+                d.resource_code,
+                d.resource_name,
+                d.resource_table_name,
+                d.short_name,
+                d.resource_desp,
+                d.resource_type,
+                d.datasource_id,
+                d.STATUS,
+                d.opened_status,
+                d.security_grade_id,
+                d.data_cycle_id,
+                d.last_update_user_id,
+                d.last_update_user_name,
+                d.last_update_time,
+                d.is_top,
+                d.top_time,
+                d.business_domain_id,
+                d.publish_status,
+                d.relate_view_id,
+                d.log_record_control,
+                d.belong_space_id,
+                d.relate_view_name,
+                d.catalog_standard_type,
+                d.data_catalog_identification_code,
+                d.resource_manage_type,
+                d.is_tag_entity,
+                d.is_metric_entity,
+                d.storage_stats,
+                d.un_publish_reason,
+                d.open_to_society,
+                d.sharing_type,
+                d.use_requirement,
+                d.remark,
+                d.enable_status,
+                d.last_data_update_time,
+                d.publish_time,
+                d.create_tenant_id,
+                d.VERSION,
+                d.version_desp,
+                d.is_index_created,
+                d.collect_status,
+                d.production_mode,
+                d.data_kind,
+                d.structured_type,
+                d.org_id,
+                d.own_user_id,
+                d.data_manager_id,
+                d.same_name,
+                d.data_layer,
+                d.is_deleted,
+                d.analysis_status,
+                d.sort,
+                d.cluster_id,
+                d.database_id,
+                d.app_id,
+                d.extension,
+                d.baas_status,
+                d.sync_status,
+                d.report_attachment_id,
+                d.parent_resource_id,
+                d.is_domain_entity,
+                d.is_extract_kg,
+                d.is_same_type,
+                d.is_same_structure,
+                d.image_base64,
+                d.color,
+                d.shape,
+                d.extend_from,
+                d.owner_type,
+                d.owner_id,
+                d.owner_name,
+                d.create_user_id,
+                d.create_user_name,
+                d.create_time
+        FROM
+            data_resource d  JOIN app_unit_instance f ON d.datasource_id=f.instance_id
+    </sql>
+
+    <select id="selectDataResourceList" parameterType="DigDataResource" resultMap="DataResourceResult">
+        <include refid="selectDataResourceVo"/>
+        WHERE d.is_deleted ='0'
+            <if test="resourceCode != null  and resourceCode != ''"> and d.resource_code = #{resourceCode}</if>
+            <if test="resourceName != null  and resourceName != ''"> and d.resource_name like concat('%', #{resourceName}, '%')</if>
+            <if test="resourceTableName != null  and resourceTableName != ''"> and d.resource_table_name like concat('%', #{resourceTableName}, '%')</if>
+            <if test="shortName != null  and shortName != ''"> and short_name like d.concat('%', #{shortName}, '%')</if>
+            <if test="resourceDesp != null  and resourceDesp != ''"> and d.resource_desp = #{resourceDesp}</if>
+            <if test="resourceType != null  and resourceType != ''"> and d.resource_type = #{resourceType}</if>
+            <if test="datasourceId != null  and datasourceId != ''"> and d.datasource_id = #{datasourceId}</if>
+            <if test="status != null  and status != ''"> and d.status = #{status}</if>
+            <if test="openedStatus != null  and openedStatus != ''"> and d.opened_status = #{openedStatus}</if>
+            <if test="securityGradeId != null  and securityGradeId != ''"> and d.security_grade_id = #{securityGradeId}</if>
+            <if test="dataCycleId != null  and dataCycleId != ''"> and d.data_cycle_id = #{dataCycleId}</if>
+            <if test="lastUpdateUserId != null  and lastUpdateUserId != ''"> and d.last_update_user_id = #{lastUpdateUserId}</if>
+            <if test="lastUpdateUserName != null  and lastUpdateUserName != ''"> and d.last_update_user_name like concat('%', #{lastUpdateUserName}, '%')</if>
+            <if test="lastUpdateTime != null "> and d.last_update_time = #{lastUpdateTime}</if>
+            <if test="isTop != null "> and d.is_top = #{isTop}</if>
+            <if test="topTime != null "> and d.top_time = #{topTime}</if>
+            <if test="businessDomainId != null  and businessDomainId != ''"> and d.business_domain_id = #{businessDomainId}</if>
+            <if test="publishStatus != null  and publishStatus != ''"> and d.publish_status = #{publishStatus}</if>
+            <if test="relateViewId != null  and relateViewId != ''"> and d.relate_view_id = #{relateViewId}</if>
+            <if test="logRecordControl != null  and logRecordControl != ''"> and d.log_record_control = #{logRecordControl}</if>
+            <if test="belongSpaceId != null  and belongSpaceId != ''"> and d.belong_space_id = #{belongSpaceId}</if>
+            <if test="relateViewName != null  and relateViewName != ''"> and d.relate_view_name like concat('%', #{relateViewName}, '%')</if>
+            <if test="catalogStandardType != null  and catalogStandardType != ''"> and d.catalog_standard_type = #{catalogStandardType}</if>
+            <if test="dataCatalogIdentificationCode != null  and dataCatalogIdentificationCode != ''"> and d.data_catalog_identification_code = #{dataCatalogIdentificationCode}</if>
+            <if test="resourceManageType != null  and resourceManageType != ''"> and d.resource_manage_type = #{resourceManageType}</if>
+            <if test="isTagEntity != null  and isTagEntity != ''"> and d.is_tag_entity = #{isTagEntity}</if>
+            <if test="isMetricEntity != null  and isMetricEntity != ''"> and d.is_metric_entity = #{isMetricEntity}</if>
+            <if test="storageStats != null "> and d.storage_stats = #{storageStats}</if>
+            <if test="unPublishReason != null  and unPublishReason != ''"> and d.un_publish_reason = #{unPublishReason}</if>
+            <if test="openToSociety != null  and openToSociety != ''"> and d.open_to_society = #{openToSociety}</if>
+            <if test="sharingType != null  and sharingType != ''"> and d.sharing_type = #{sharingType}</if>
+            <if test="useRequirement != null  and useRequirement != ''"> and d.use_requirement = #{useRequirement}</if>
+            <if test="enableStatus != null  and enableStatus != ''"> and d.enable_status = #{enableStatus}</if>
+            <if test="lastDataUpdateTime != null "> and d.last_data_update_time = #{lastDataUpdateTime}</if>
+            <if test="publishTime != null "> and d.publish_time = #{publishTime}</if>
+            <if test="createTenantId != null  and createTenantId != ''"> and d.create_tenant_id = #{createTenantId}</if>
+            <if test="version != null  and version != ''"> and d.version = #{version}</if>
+            <if test="versionDesp != null  and versionDesp != ''"> and d.version_desp = #{versionDesp}</if>
+            <if test="isIndexCreated != null  and isIndexCreated != ''"> and d.is_index_created = #{isIndexCreated}</if>
+            <if test="collectStatus != null  and collectStatus != ''"> and d.collect_status = #{collectStatus}</if>
+            <if test="productionMode != null  and productionMode != ''"> and d.production_mode = #{productionMode}</if>
+            <if test="dataKind != null  and dataKind != ''"> and d.data_kind = #{dataKind}</if>
+            <if test="structuredType != null  and structuredType != ''"> and d.structured_type = #{structuredType}</if>
+            <if test="orgId != null  and orgId != ''"> and d.org_id = #{orgId}</if>
+            <if test="ownUserId != null  and ownUserId != ''"> and d.own_user_id = #{ownUserId}</if>
+            <if test="dataManagerId != null  and dataManagerId != ''"> and d.data_manager_id = #{dataManagerId}</if>
+            <if test="sameName != null  and sameName != ''"> and d.same_name like concat('%', #{sameName}, '%')</if>
+            <if test="dataLayer != null  and dataLayer != ''"> and d.data_layer = #{dataLayer}</if>
+            <if test="isDeleted != null "> and d.is_deleted = #{isDeleted}</if>
+            <if test="analysisStatus != null  and analysisStatus != ''"> and d.analysis_status = #{analysisStatus}</if>
+            <if test="sort != null "> and d.sort = #{sort}</if>
+            <if test="clusterId != null  and clusterId != ''"> and d.cluster_id = #{clusterId}</if>
+            <if test="databaseId != null  and databaseId != ''"> and d.database_id = #{databaseId}</if>
+            <if test="appId != null  and appId != ''"> and d.app_id = #{appId}</if>
+            <if test="extension != null  and extension != ''"> and d.extension = #{extension}</if>
+            <if test="baasStatus != null  and baasStatus != ''"> and d.baas_status = #{baasStatus}</if>
+            <if test="syncStatus != null  and syncStatus != ''"> and d.sync_status = #{syncStatus}</if>
+            <if test="reportAttachmentId != null  and reportAttachmentId != ''"> and d.report_attachment_id = #{reportAttachmentId}</if>
+            <if test="parentResourceId != null  and parentResourceId != ''"> and d.parent_resource_id = #{parentResourceId}</if>
+            <if test="isDomainEntity != null  and isDomainEntity != ''"> and d.is_domain_entity = #{isDomainEntity}</if>
+            <if test="isExtractKg != null  and isExtractKg != ''"> and d.is_extract_kg = #{isExtractKg}</if>
+            <if test="isSameDatasource != null  and isSameDatasource != ''"> and d.is_same_datasource = #{isSameDatasource}</if>
+            <if test="isSameType != null  and isSameType != ''"> and d.is_same_type = #{isSameType}</if>
+            <if test="isSameStructure != null  and isSameStructure != ''"> and d.is_same_structure = #{isSameStructure}</if>
+            <if test="imageBase64 != null  and imageBase64 != ''"> and d.image_base64 = #{imageBase64}</if>
+            <if test="color != null  and color != ''"> and d.color = #{color}</if>
+            <if test="shape != null  and shape != ''"> and d.shape = #{shape}</if>
+            <if test="extendFrom != null  and extendFrom != ''"> and d.extend_from = #{extendFrom}</if>
+            <if test="ownerType != null  and ownerType != ''"> and d.owner_type = #{ownerType}</if>
+            <if test="ownerId != null  and ownerId != ''"> and d.owner_id = #{ownerId}</if>
+            <if test="ownerName != null  and ownerName != ''"> and d.owner_name like concat('%', #{ownerName}, '%')</if>
+            <if test="createUserId != null  and createUserId != ''"> and d.create_user_id = #{createUserId}</if>
+            <if test="createUserName != null  and createUserName != ''"> and d.create_user_name like concat('%', #{createUserName}, '%')</if>
+      
+    </select>
+
+    <select id="selectDataResourceById" parameterType="String" resultMap="DataResourceResult">
+        <include refid="selectDataResourceVo"/>
+        where d.resource_id = #{resourceId}
+    </select>
+
+    <insert id="insertDataResource" parameterType="DigDataResource">
+        insert into data_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resourceId != null">resource_id,</if>
+            <if test="resourceCode != null">resource_code,</if>
+            <if test="resourceName != null">resource_name,</if>
+            <if test="resourceTableName != null">resource_table_name,</if>
+            <if test="shortName != null">short_name,</if>
+            <if test="resourceDesp != null">resource_desp,</if>
+            <if test="resourceType != null">resource_type,</if>
+            <if test="datasourceId != null">datasource_id,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="openedStatus != null and openedStatus != ''">opened_status,</if>
+            <if test="securityGradeId != null">security_grade_id,</if>
+            <if test="dataCycleId != null">data_cycle_id,</if>
+            <if test="lastUpdateUserId != null">last_update_user_id,</if>
+            <if test="lastUpdateUserName != null">last_update_user_name,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+            <if test="isTop != null">is_top,</if>
+            <if test="topTime != null">top_time,</if>
+            <if test="businessDomainId != null">business_domain_id,</if>
+            <if test="publishStatus != null">publish_status,</if>
+            <if test="relateViewId != null">relate_view_id,</if>
+            <if test="logRecordControl != null">log_record_control,</if>
+            <if test="belongSpaceId != null">belong_space_id,</if>
+            <if test="relateViewName != null">relate_view_name,</if>
+            <if test="catalogStandardType != null">catalog_standard_type,</if>
+            <if test="dataCatalogIdentificationCode != null">data_catalog_identification_code,</if>
+            <if test="resourceManageType != null">resource_manage_type,</if>
+            <if test="isTagEntity != null">is_tag_entity,</if>
+            <if test="isMetricEntity != null">is_metric_entity,</if>
+            <if test="storageStats != null">storage_stats,</if>
+            <if test="unPublishReason != null">un_publish_reason,</if>
+            <if test="openToSociety != null">open_to_society,</if>
+            <if test="sharingType != null">sharing_type,</if>
+            <if test="useRequirement != null">use_requirement,</if>
+            <if test="remark != null">remark,</if>
+            <if test="enableStatus != null">enable_status,</if>
+            <if test="lastDataUpdateTime != null">last_data_update_time,</if>
+            <if test="publishTime != null">publish_time,</if>
+            <if test="createTenantId != null">create_tenant_id,</if>
+            <if test="version != null">version,</if>
+            <if test="versionDesp != null">version_desp,</if>
+            <if test="isIndexCreated != null">is_index_created,</if>
+            <if test="collectStatus != null">collect_status,</if>
+            <if test="productionMode != null">production_mode,</if>
+            <if test="dataKind != null">data_kind,</if>
+            <if test="structuredType != null">structured_type,</if>
+            <if test="orgId != null">org_id,</if>
+            <if test="ownUserId != null">own_user_id,</if>
+            <if test="dataManagerId != null">data_manager_id,</if>
+            <if test="sameName != null">same_name,</if>
+            <if test="dataLayer != null">data_layer,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="analysisStatus != null">analysis_status,</if>
+            <if test="sort != null">sort,</if>
+            <if test="clusterId != null">cluster_id,</if>
+            <if test="databaseId != null">database_id,</if>
+            <if test="appId != null">app_id,</if>
+            <if test="extension != null">extension,</if>
+            <if test="baasStatus != null">baas_status,</if>
+            <if test="syncStatus != null">sync_status,</if>
+            <if test="reportAttachmentId != null">report_attachment_id,</if>
+            <if test="parentResourceId != null">parent_resource_id,</if>
+            <if test="isDomainEntity != null">is_domain_entity,</if>
+            <if test="isExtractKg != null">is_extract_kg,</if>
+            <if test="isSameDatasource != null">is_same_datasource,</if>
+            <if test="isSameType != null">is_same_type,</if>
+            <if test="isSameStructure != null">is_same_structure,</if>
+            <if test="imageBase64 != null">image_base64,</if>
+            <if test="color != null">color,</if>
+            <if test="shape != null">shape,</if>
+            <if test="extendFrom != null">extend_from,</if>
+            <if test="ownerType != null">owner_type,</if>
+            <if test="ownerId != null">owner_id,</if>
+            <if test="ownerName != null">owner_name,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createUserName != null">create_user_name,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resourceId != null">#{resourceId},</if>
+            <if test="resourceCode != null">#{resourceCode},</if>
+            <if test="resourceName != null">#{resourceName},</if>
+            <if test="resourceTableName != null">#{resourceTableName},</if>
+            <if test="shortName != null">#{shortName},</if>
+            <if test="resourceDesp != null">#{resourceDesp},</if>
+            <if test="resourceType != null">#{resourceType},</if>
+            <if test="datasourceId != null">#{datasourceId},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="openedStatus != null and openedStatus != ''">#{openedStatus},</if>
+            <if test="securityGradeId != null">#{securityGradeId},</if>
+            <if test="dataCycleId != null">#{dataCycleId},</if>
+            <if test="lastUpdateUserId != null">#{lastUpdateUserId},</if>
+            <if test="lastUpdateUserName != null">#{lastUpdateUserName},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+            <if test="isTop != null">#{isTop},</if>
+            <if test="topTime != null">#{topTime},</if>
+            <if test="businessDomainId != null">#{businessDomainId},</if>
+            <if test="publishStatus != null">#{publishStatus},</if>
+            <if test="relateViewId != null">#{relateViewId},</if>
+            <if test="logRecordControl != null">#{logRecordControl},</if>
+            <if test="belongSpaceId != null">#{belongSpaceId},</if>
+            <if test="relateViewName != null">#{relateViewName},</if>
+            <if test="catalogStandardType != null">#{catalogStandardType},</if>
+            <if test="dataCatalogIdentificationCode != null">#{dataCatalogIdentificationCode},</if>
+            <if test="resourceManageType != null">#{resourceManageType},</if>
+            <if test="isTagEntity != null">#{isTagEntity},</if>
+            <if test="isMetricEntity != null">#{isMetricEntity},</if>
+            <if test="storageStats != null">#{storageStats},</if>
+            <if test="unPublishReason != null">#{unPublishReason},</if>
+            <if test="openToSociety != null">#{openToSociety},</if>
+            <if test="sharingType != null">#{sharingType},</if>
+            <if test="useRequirement != null">#{useRequirement},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="enableStatus != null">#{enableStatus},</if>
+            <if test="lastDataUpdateTime != null">#{lastDataUpdateTime},</if>
+            <if test="publishTime != null">#{publishTime},</if>
+            <if test="createTenantId != null">#{createTenantId},</if>
+            <if test="version != null">#{version},</if>
+            <if test="versionDesp != null">#{versionDesp},</if>
+            <if test="isIndexCreated != null">#{isIndexCreated},</if>
+            <if test="collectStatus != null">#{collectStatus},</if>
+            <if test="productionMode != null">#{productionMode},</if>
+            <if test="dataKind != null">#{dataKind},</if>
+            <if test="structuredType != null">#{structuredType},</if>
+            <if test="orgId != null">#{orgId},</if>
+            <if test="ownUserId != null">#{ownUserId},</if>
+            <if test="dataManagerId != null">#{dataManagerId},</if>
+            <if test="sameName != null">#{sameName},</if>
+            <if test="dataLayer != null">#{dataLayer},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="analysisStatus != null">#{analysisStatus},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="clusterId != null">#{clusterId},</if>
+            <if test="databaseId != null">#{databaseId},</if>
+            <if test="appId != null">#{appId},</if>
+            <if test="extension != null">#{extension},</if>
+            <if test="baasStatus != null">#{baasStatus},</if>
+            <if test="syncStatus != null">#{syncStatus},</if>
+            <if test="reportAttachmentId != null">#{reportAttachmentId},</if>
+            <if test="parentResourceId != null">#{parentResourceId},</if>
+            <if test="isDomainEntity != null">#{isDomainEntity},</if>
+            <if test="isExtractKg != null">#{isExtractKg},</if>
+            <if test="isSameDatasource != null">#{isSameDatasource},</if>
+            <if test="isSameType != null">#{isSameType},</if>
+            <if test="isSameStructure != null">#{isSameStructure},</if>
+            <if test="imageBase64 != null">#{imageBase64},</if>
+            <if test="color != null">#{color},</if>
+            <if test="shape != null">#{shape},</if>
+            <if test="extendFrom != null">#{extendFrom},</if>
+            <if test="ownerType != null">#{ownerType},</if>
+            <if test="ownerId != null">#{ownerId},</if>
+            <if test="ownerName != null">#{ownerName},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createUserName != null">#{createUserName},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertDataResource" parameterType="java.util.List">
+        insert into data_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            resource_id,
+            resource_code,
+            resource_name,
+            resource_table_name,
+            short_name,
+            resource_desp,
+            resource_type,
+            datasource_id,
+            status,
+            opened_status,
+            security_grade_id,
+            data_cycle_id,
+            last_update_user_id,
+            last_update_user_name,
+            last_update_time,
+            is_top,
+            top_time,
+            business_domain_id,
+            publish_status,
+            relate_view_id,
+            log_record_control,
+            belong_space_id,
+            relate_view_name,
+            catalog_standard_type,
+            data_catalog_identification_code,
+            resource_manage_type,
+            is_tag_entity,
+            is_metric_entity,
+            storage_stats,
+            un_publish_reason,
+            open_to_society,
+            sharing_type,
+            use_requirement,
+            remark,
+            enable_status,
+            last_data_update_time,
+            publish_time,
+            create_tenant_id,
+            version,
+            version_desp,
+            is_index_created,
+            collect_status,
+            production_mode,
+            data_kind,
+            structured_type,
+            org_id,
+            own_user_id,
+            data_manager_id,
+            same_name,
+            data_layer,
+            is_deleted,
+            analysis_status,
+            sort,
+            cluster_id,
+            database_id,
+            app_id,
+            extension,
+            baas_status,
+            sync_status,
+            report_attachment_id,
+            parent_resource_id,
+            is_domain_entity,
+            is_extract_kg,
+            is_same_datasource,
+            is_same_type,
+            is_same_structure,
+            image_base64,
+            color,
+            shape,
+            extend_from,
+            owner_type,
+            owner_id,
+            owner_name,
+            create_user_id,
+            create_user_name,
+            create_time,
+        </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.resourceId},
+                #{item.resourceCode},
+                #{item.resourceName},
+                #{item.resourceTableName},
+                #{item.shortName},
+                #{item.resourceDesp},
+                #{item.resourceType},
+                #{item.datasourceId},
+                #{item.status},
+                #{item.openedStatus},
+                #{item.securityGradeId},
+                #{item.dataCycleId},
+                #{item.lastUpdateUserId},
+                #{item.lastUpdateUserName},
+                #{item.lastUpdateTime},
+                #{item.isTop},
+                #{item.topTime},
+                #{item.businessDomainId},
+                #{item.publishStatus},
+                #{item.relateViewId},
+                #{item.logRecordControl},
+                #{item.belongSpaceId},
+                #{item.relateViewName},
+                #{item.catalogStandardType},
+                #{item.dataCatalogIdentificationCode},
+                #{item.resourceManageType},
+                #{item.isTagEntity},
+                #{item.isMetricEntity},
+                #{item.storageStats},
+                #{item.unPublishReason},
+                #{item.openToSociety},
+                #{item.sharingType},
+                #{item.useRequirement},
+                #{item.remark},
+                #{item.enableStatus},
+                #{item.lastDataUpdateTime},
+                #{item.publishTime},
+                #{item.createTenantId},
+                #{item.version},
+                #{item.versionDesp},
+                #{item.isIndexCreated},
+                #{item.collectStatus},
+                #{item.productionMode},
+                #{item.dataKind},
+                #{item.structuredType},
+                #{item.orgId},
+                #{item.ownUserId},
+                #{item.dataManagerId},
+                #{item.sameName},
+                #{item.dataLayer},
+                #{item.isDeleted},
+                #{item.analysisStatus},
+                #{item.sort},
+                #{item.clusterId},
+                #{item.databaseId},
+                #{item.appId},
+                #{item.extension},
+                #{item.baasStatus},
+                #{item.syncStatus},
+                #{item.reportAttachmentId},
+                #{item.parentResourceId},
+                #{item.isDomainEntity},
+                #{item.isExtractKg},
+                #{item.isSameDatasource},
+                #{item.isSameType},
+                #{item.isSameStructure},
+                #{item.imageBase64},
+                #{item.color},
+                #{item.shape},
+                #{item.extendFrom},
+                #{item.ownerType},
+                #{item.ownerId},
+                #{item.ownerName},
+                #{item.createUserId},
+                #{item.createUserName},
+                #{item.createTime},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateDataResource" parameterType="DigDataResource">
+        update data_resource
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="resourceCode != null">resource_code = #{resourceCode},</if>
+            <if test="resourceName != null">resource_name = #{resourceName},</if>
+            <if test="resourceTableName != null">resource_table_name = #{resourceTableName},</if>
+            <if test="shortName != null">short_name = #{shortName},</if>
+            <if test="resourceDesp != null">resource_desp = #{resourceDesp},</if>
+            <if test="resourceType != null">resource_type = #{resourceType},</if>
+            <if test="datasourceId != null">datasource_id = #{datasourceId},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="openedStatus != null and openedStatus != ''">opened_status = #{openedStatus},</if>
+            <if test="securityGradeId != null">security_grade_id = #{securityGradeId},</if>
+            <if test="dataCycleId != null">data_cycle_id = #{dataCycleId},</if>
+            <if test="lastUpdateUserId != null">last_update_user_id = #{lastUpdateUserId},</if>
+            <if test="lastUpdateUserName != null">last_update_user_name = #{lastUpdateUserName},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="isTop != null">is_top = #{isTop},</if>
+            <if test="topTime != null">top_time = #{topTime},</if>
+            <if test="businessDomainId != null">business_domain_id = #{businessDomainId},</if>
+            <if test="publishStatus != null">publish_status = #{publishStatus},</if>
+            <if test="relateViewId != null">relate_view_id = #{relateViewId},</if>
+            <if test="logRecordControl != null">log_record_control = #{logRecordControl},</if>
+            <if test="belongSpaceId != null">belong_space_id = #{belongSpaceId},</if>
+            <if test="relateViewName != null">relate_view_name = #{relateViewName},</if>
+            <if test="catalogStandardType != null">catalog_standard_type = #{catalogStandardType},</if>
+            <if test="dataCatalogIdentificationCode != null">data_catalog_identification_code = #{dataCatalogIdentificationCode},</if>
+            <if test="resourceManageType != null">resource_manage_type = #{resourceManageType},</if>
+            <if test="isTagEntity != null">is_tag_entity = #{isTagEntity},</if>
+            <if test="isMetricEntity != null">is_metric_entity = #{isMetricEntity},</if>
+            <if test="storageStats != null">storage_stats = #{storageStats},</if>
+            <if test="unPublishReason != null">un_publish_reason = #{unPublishReason},</if>
+            <if test="openToSociety != null">open_to_society = #{openToSociety},</if>
+            <if test="sharingType != null">sharing_type = #{sharingType},</if>
+            <if test="useRequirement != null">use_requirement = #{useRequirement},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="enableStatus != null">enable_status = #{enableStatus},</if>
+            <if test="lastDataUpdateTime != null">last_data_update_time = #{lastDataUpdateTime},</if>
+            <if test="publishTime != null">publish_time = #{publishTime},</if>
+            <if test="createTenantId != null">create_tenant_id = #{createTenantId},</if>
+            <if test="version != null">version = #{version},</if>
+            <if test="versionDesp != null">version_desp = #{versionDesp},</if>
+            <if test="isIndexCreated != null">is_index_created = #{isIndexCreated},</if>
+            <if test="collectStatus != null">collect_status = #{collectStatus},</if>
+            <if test="productionMode != null">production_mode = #{productionMode},</if>
+            <if test="dataKind != null">data_kind = #{dataKind},</if>
+            <if test="structuredType != null">structured_type = #{structuredType},</if>
+            <if test="orgId != null">org_id = #{orgId},</if>
+            <if test="ownUserId != null">own_user_id = #{ownUserId},</if>
+            <if test="dataManagerId != null">data_manager_id = #{dataManagerId},</if>
+            <if test="sameName != null">same_name = #{sameName},</if>
+            <if test="dataLayer != null">data_layer = #{dataLayer},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="analysisStatus != null">analysis_status = #{analysisStatus},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="clusterId != null">cluster_id = #{clusterId},</if>
+            <if test="databaseId != null">database_id = #{databaseId},</if>
+            <if test="appId != null">app_id = #{appId},</if>
+            <if test="extension != null">extension = #{extension},</if>
+            <if test="baasStatus != null">baas_status = #{baasStatus},</if>
+            <if test="syncStatus != null">sync_status = #{syncStatus},</if>
+            <if test="reportAttachmentId != null">report_attachment_id = #{reportAttachmentId},</if>
+            <if test="parentResourceId != null">parent_resource_id = #{parentResourceId},</if>
+            <if test="isDomainEntity != null">is_domain_entity = #{isDomainEntity},</if>
+            <if test="isExtractKg != null">is_extract_kg = #{isExtractKg},</if>
+            <if test="isSameDatasource != null">is_same_datasource = #{isSameDatasource},</if>
+            <if test="isSameType != null">is_same_type = #{isSameType},</if>
+            <if test="isSameStructure != null">is_same_structure = #{isSameStructure},</if>
+            <if test="imageBase64 != null">image_base64 = #{imageBase64},</if>
+            <if test="color != null">color = #{color},</if>
+            <if test="shape != null">shape = #{shape},</if>
+            <if test="extendFrom != null">extend_from = #{extendFrom},</if>
+            <if test="ownerType != null">owner_type = #{ownerType},</if>
+            <if test="ownerId != null">owner_id = #{ownerId},</if>
+            <if test="ownerName != null">owner_name = #{ownerName},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUserName != null">create_user_name = #{createUserName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where resource_id = #{resourceId}
+    </update>
+
+    <delete id="deleteDataResourceById" parameterType="String">
+        delete from data_resource where resource_id = #{resourceId}
+    </delete>
+
+    <delete id="deleteDataResourceByIds" parameterType="String">
+        update data_resource set is_deleted ='1' 
+         where resource_id in
+        <foreach item="resourceId" collection="array" open="(" separator="," close=")">
+            #{resourceId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.SystemJobLogBatchMapper">
+
+    <resultMap type="SystemJobLogBatch" id="SystemJobLogBatchResult">
+        <result property="id" column="ID"/>
+        <result property="dataBatchId" column="DATA_BATCH_ID"/>
+        <result property="dataId" column="DATA_ID"/>
+        <result property="dataString" column="DATA_STRING"/>
+        <result property="jobStatus" column="JOB_STATUS"/>
+        <result property="jobExceptionInfo" column="JOB_EXCEPTION_INFO"/>
+        <result property="createdBy" column="CREATED_BY"/>
+        <result property="createdTime" column="CREATED_TIME"/>
+        <result property="updatedBy" column="UPDATED_BY"/>
+        <result property="updatedTime" column="UPDATED_TIME"/>
+    </resultMap>
+
+    <sql id="selectSystemJobLogBatchVo">
+        select ID, DATA_BATCH_ID, DATA_ID, DATA_STRING, JOB_STATUS, JOB_EXCEPTION_INFO, CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME from system_job_log_batch
+    </sql>
+
+    <select id="selectSystemJobLogBatchList" parameterType="SystemJobLogBatch" resultMap="SystemJobLogBatchResult">
+        <include refid="selectSystemJobLogBatchVo"/>
+        <where>
+            <if test="dataBatchId != null  and dataBatchId != ''">and DATA_BATCH_ID = #{dataBatchId}</if>
+            <if test="dataString != null  and dataString != ''">and DATA_STRING like concat('%', #{dataString}, '%')
+            </if>
+            <if test="jobStatus != null  and jobStatus != ''">and JOB_STATUS = #{jobStatus}</if>
+            <if test="createdBy != null  and createdBy != ''">and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null ">and CREATED_TIME = #{createdTime}</if>
+        </where>
+    </select>
+
+    <select id="selectSystemJobLogBatchById" parameterType="String" resultMap="SystemJobLogBatchResult">
+        <include refid="selectSystemJobLogBatchVo"/>
+        where ID = #{id}
+    </select>
+
+    <insert id="insertSystemJobLogBatch" parameterType="SystemJobLogBatch">
+        insert into system_job_log_batch
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="dataBatchId != null">DATA_BATCH_ID,</if>
+            <if test="dataId != null">DATA_ID,</if>
+            <if test="dataString != null">DATA_STRING,</if>
+            <if test="jobStatus != null">JOB_STATUS,</if>
+            <if test="jobExceptionInfo != null">JOB_EXCEPTION_INFO,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="updatedBy != null">UPDATED_BY,</if>
+            <if test="updatedTime != null">UPDATED_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="dataBatchId != null">#{dataBatchId},</if>
+            <if test="dataId != null">#{dataId},</if>
+            <if test="dataString != null">#{dataString},</if>
+            <if test="jobStatus != null">#{jobStatus},</if>
+            <if test="jobExceptionInfo != null">#{jobExceptionInfo},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertSystemJobLogBatch" parameterType="java.util.List">
+        insert into system_job_log_batch
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            DATA_BATCH_ID,
+            DATA_ID,
+            DATA_STRING,
+            JOB_STATUS,
+            JOB_EXCEPTION_INFO,
+            CREATED_BY,
+            CREATED_TIME,
+            UPDATED_BY,
+            UPDATED_TIME,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.id},
+                #{item.dataBatchId},
+                #{item.dataId},
+                #{item.dataString},
+                #{item.jobStatus},
+                #{item.jobExceptionInfo},
+                #{item.createdBy},
+                #{item.createdTime},
+                #{item.updatedBy},
+                #{item.updatedTime},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateSystemJobLogBatch" parameterType="SystemJobLogBatch">
+        update system_job_log_batch
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dataBatchId != null">DATA_BATCH_ID = #{dataBatchId},</if>
+            <if test="dataId != null">DATA_ID = #{dataId},</if>
+            <if test="dataString != null">DATA_STRING = #{dataString},</if>
+            <if test="jobStatus != null">JOB_STATUS = #{jobStatus},</if>
+            <if test="jobExceptionInfo != null">JOB_EXCEPTION_INFO = #{jobExceptionInfo},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="updatedBy != null">UPDATED_BY = #{updatedBy},</if>
+            <if test="updatedTime != null">UPDATED_TIME = #{updatedTime},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteSystemJobLogBatchById" parameterType="Long">
+        delete from system_job_log_batch where ID = #{id}
+    </delete>
+
+    <delete id="deleteSystemJobLogBatchByIds" parameterType="String">
+        delete from system_job_log_batch where ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

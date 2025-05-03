@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.form.mapper.PmisApiLogMapper">
+    
+    <resultMap type="PmisApiLog" id="PmisApiLogResult">
+        <result property="logId"    column="LOG_ID"    />
+        <result property="apiCode"    column="API_CODE"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="apiParam"    column="API_PARAM"    />
+        <result property="apiResult"    column="API_RESULT"    />
+        <result property="apiRowType"    column="API_ROW_TYPE"    />
+    </resultMap>
+
+    <sql id="selectPmisApiLogVo">
+        select LOG_ID, API_CODE, CREATE_TIME, API_PARAM, API_RESULT, API_ROW_TYPE from PMIS_API_LOG
+    </sql>
+
+    <select id="selectPmisApiLogList" parameterType="PmisApiLog" resultMap="PmisApiLogResult">
+        <include refid="selectPmisApiLogVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectPmisApiLogById" parameterType="String" resultMap="PmisApiLogResult">
+        <include refid="selectPmisApiLogVo"/>
+        where LOG_ID = #{logId}
+    </select>
+        
+    <insert id="insertPmisApiLog" parameterType="PmisApiLog">
+        insert into PMIS_API_LOG
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logId != null">LOG_ID,</if>
+            <if test="apiCode != null and apiCode != ''">API_CODE,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="apiParam != null and apiParam != ''">API_PARAM,</if>
+            <if test="apiResult != null">API_RESULT,</if>
+            <if test="apiRowType != null and apiRowType != ''">API_ROW_TYPE,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logId != null">#{logId},</if>
+            <if test="apiCode != null and apiCode != ''">#{apiCode},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="apiParam != null and apiParam != ''">#{apiParam},</if>
+            <if test="apiResult != null">#{apiResult},</if>
+            <if test="apiRowType != null and apiRowType != ''">#{apiRowType},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertPmisApiLog" parameterType="java.util.List">
+        insert into PMIS_API_LOG
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                LOG_ID,
+                                                                API_CODE,
+                                                                CREATE_TIME,
+                                                                API_PARAM,
+                                                                API_RESULT,
+                                                                API_ROW_TYPE,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.logId},
+                                                                                #{item.apiCode},
+                                                                                #{item.createTime},
+                                                                                #{item.apiParam},
+                                                                                #{item.apiResult},
+                                                                                #{item.apiRowType},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updatePmisApiLog" parameterType="PmisApiLog">
+        update PMIS_API_LOG
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="apiCode != null and apiCode != ''">API_CODE = #{apiCode},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="apiParam != null and apiParam != ''">API_PARAM = #{apiParam},</if>
+            <if test="apiResult != null">API_RESULT = #{apiResult},</if>
+            <if test="apiRowType != null and apiRowType != ''">API_ROW_TYPE = #{apiRowType},</if>
+        </trim>
+        where LOG_ID = #{logId}
+    </update>
+
+    <delete id="deletePmisApiLogById" parameterType="String">
+        delete from PMIS_API_LOG where LOG_ID = #{logId}
+    </delete>
+
+    <delete id="deletePmisApiLogByIds" parameterType="String">
+        delete from PMIS_API_LOG where LOG_ID in 
+        <foreach item="logId" collection="array" open="(" separator="," close=")">
+            #{logId}
+        </foreach>
+    </delete>
+    
+</mapper>

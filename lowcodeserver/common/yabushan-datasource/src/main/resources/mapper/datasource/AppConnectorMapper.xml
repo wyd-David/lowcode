@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.AppConnectorMapper">
+    
+    <resultMap type="AppConnector" id="AppConnectorResult">
+        <result property="connectorId"    column="connector_id"    />
+        <result property="appId"    column="app_id"    />
+        <result property="connectorType"    column="connector_type"    />
+        <result property="connectorName"    column="connector_name"    />
+        <result property="description"    column="description"    />
+        <result property="connectStatus"    column="connect_status"    />
+        <result property="isDeleted"    column="is_deleted"    />
+    </resultMap>
+
+    <sql id="selectAppConnectorVo">
+        select connector_id, app_id, connector_type, connector_name, description, connect_status, is_deleted from app_connector
+    </sql>
+
+    <select id="selectAppConnectorList" parameterType="AppConnector" resultMap="AppConnectorResult">
+        <include refid="selectAppConnectorVo"/>
+        <where>  
+            <if test="appId != null  and appId != ''"> and app_id = #{appId}</if>
+            <if test="connectorType != null  and connectorType != ''"> and connector_type = #{connectorType}</if>
+            <if test="connectorName != null  and connectorName != ''"> and connector_name like concat('%', #{connectorName}, '%')</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="connectStatus != null "> and connect_status = #{connectStatus}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectAppConnectorById" parameterType="String" resultMap="AppConnectorResult">
+        <include refid="selectAppConnectorVo"/>
+        where connector_id = #{connectorId}
+    </select>
+        
+    <insert id="insertAppConnector" parameterType="AppConnector">
+        insert into app_connector
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="connectorId != null">connector_id,</if>
+            <if test="appId != null and appId != ''">app_id,</if>
+            <if test="connectorType != null">connector_type,</if>
+            <if test="connectorName != null and connectorName != ''">connector_name,</if>
+            <if test="description != null">description,</if>
+            <if test="connectStatus != null">connect_status,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="connectorId != null">#{connectorId},</if>
+            <if test="appId != null and appId != ''">#{appId},</if>
+            <if test="connectorType != null">#{connectorType},</if>
+            <if test="connectorName != null and connectorName != ''">#{connectorName},</if>
+            <if test="description != null">#{description},</if>
+            <if test="connectStatus != null">#{connectStatus},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertAppConnector" parameterType="java.util.List">
+        insert into app_connector
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                connector_id,
+                                                                app_id,
+                                                                connector_type,
+                                                                connector_name,
+                                                                description,
+                                                                connect_status,
+                                                                is_deleted,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.connectorId},
+                                                                                #{item.appId},
+                                                                                #{item.connectorType},
+                                                                                #{item.connectorName},
+                                                                                #{item.description},
+                                                                                #{item.connectStatus},
+                                                                                #{item.isDeleted},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateAppConnector" parameterType="AppConnector">
+        update app_connector
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appId != null and appId != ''">app_id = #{appId},</if>
+            <if test="connectorType != null">connector_type = #{connectorType},</if>
+            <if test="connectorName != null and connectorName != ''">connector_name = #{connectorName},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="connectStatus != null">connect_status = #{connectStatus},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </trim>
+        where connector_id = #{connectorId}
+    </update>
+
+    <delete id="deleteAppConnectorById" parameterType="String">
+        delete from app_connector where connector_id = #{connectorId}
+    </delete>
+
+    <delete id="deleteAppConnectorByIds" parameterType="String">
+        delete from app_connector where connector_id in 
+        <foreach item="connectorId" collection="array" open="(" separator="," close=")">
+            #{connectorId}
+        </foreach>
+    </delete>
+    
+</mapper>

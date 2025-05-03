@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubPartyWinMapper">
+    
+    <resultMap type="EmpSubPartyWin" id="EmpSubPartyWinResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="confirmDate"    column="CONFIRM_DATE"    />
+        <result property="hortationType"    column="HORTATION_TYPE"    />
+        <result property="hortationReason"    column="HORTATION_REASON"    />
+        <result property="hortationDate"    column="HORTATION_DATE"    />
+        <result property="confirmOrg"    column="CONFIRM_ORG"    />
+        <result property="hortationClass"    column="HORTATION_CLASS"    />
+        <result property="hortationContent"    column="HORTATION_CONTENT"    />
+        <result property="punishDate"    column="PUNISH_DATE"    />
+        <result property="punishType"    column="PUNISH_TYPE"    />
+        <result property="punishReason"    column="PUNISH_REASON"    />
+        <result property="punishContent"    column="PUNISH_CONTENT"    />
+        <result property="cancelPunishDate"    column="CANCEL_PUNISH_DATE"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectEmpSubPartyWinVo">
+        select REC_ID, EMP_ID, SORT_INDEX, CONFIRM_DATE, HORTATION_TYPE, HORTATION_REASON, HORTATION_DATE, CONFIRM_ORG, HORTATION_CLASS, HORTATION_CONTENT, PUNISH_DATE, PUNISH_TYPE, PUNISH_REASON, PUNISH_CONTENT, CANCEL_PUNISH_DATE, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME from emp_sub_party_win
+    </sql>
+
+    <select id="selectEmpSubPartyWinList" parameterType="EmpSubPartyWin" resultMap="EmpSubPartyWinResult">
+        <include refid="selectEmpSubPartyWinVo"/>
+        <where>  
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="sortIndex != null "> and SORT_INDEX = #{sortIndex}</if>
+            <if test="confirmDate != null "> and CONFIRM_DATE = #{confirmDate}</if>
+            <if test="hortationType != null "> and HORTATION_TYPE = #{hortationType}</if>
+            <if test="hortationReason != null  and hortationReason != ''"> and HORTATION_REASON = #{hortationReason}</if>
+            <if test="hortationDate != null "> and HORTATION_DATE = #{hortationDate}</if>
+            <if test="confirmOrg != null  and confirmOrg != ''"> and CONFIRM_ORG = #{confirmOrg}</if>
+            <if test="hortationClass != null "> and HORTATION_CLASS = #{hortationClass}</if>
+            <if test="hortationContent != null  and hortationContent != ''"> and HORTATION_CONTENT = #{hortationContent}</if>
+            <if test="punishDate != null "> and PUNISH_DATE = #{punishDate}</if>
+            <if test="punishType != null "> and PUNISH_TYPE = #{punishType}</if>
+            <if test="punishReason != null  and punishReason != ''"> and PUNISH_REASON = #{punishReason}</if>
+            <if test="punishContent != null  and punishContent != ''"> and PUNISH_CONTENT = #{punishContent}</if>
+            <if test="cancelPunishDate != null "> and CANCEL_PUNISH_DATE = #{cancelPunishDate}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmpSubPartyWinById" parameterType="String" resultMap="EmpSubPartyWinResult">
+        <include refid="selectEmpSubPartyWinVo"/>
+        where REC_ID = #{recId}
+    </select>
+        
+    <insert id="insertEmpSubPartyWin" parameterType="EmpSubPartyWin">
+        insert into emp_sub_party_win
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="confirmDate != null">CONFIRM_DATE,</if>
+            <if test="hortationType != null">HORTATION_TYPE,</if>
+            <if test="hortationReason != null">HORTATION_REASON,</if>
+            <if test="hortationDate != null">HORTATION_DATE,</if>
+            <if test="confirmOrg != null">CONFIRM_ORG,</if>
+            <if test="hortationClass != null">HORTATION_CLASS,</if>
+            <if test="hortationContent != null">HORTATION_CONTENT,</if>
+            <if test="punishDate != null">PUNISH_DATE,</if>
+            <if test="punishType != null">PUNISH_TYPE,</if>
+            <if test="punishReason != null">PUNISH_REASON,</if>
+            <if test="punishContent != null">PUNISH_CONTENT,</if>
+            <if test="cancelPunishDate != null">CANCEL_PUNISH_DATE,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="confirmDate != null">#{confirmDate},</if>
+            <if test="hortationType != null">#{hortationType},</if>
+            <if test="hortationReason != null">#{hortationReason},</if>
+            <if test="hortationDate != null">#{hortationDate},</if>
+            <if test="confirmOrg != null">#{confirmOrg},</if>
+            <if test="hortationClass != null">#{hortationClass},</if>
+            <if test="hortationContent != null">#{hortationContent},</if>
+            <if test="punishDate != null">#{punishDate},</if>
+            <if test="punishType != null">#{punishType},</if>
+            <if test="punishReason != null">#{punishReason},</if>
+            <if test="punishContent != null">#{punishContent},</if>
+            <if test="cancelPunishDate != null">#{cancelPunishDate},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubPartyWin" parameterType="EmpSubPartyWin">
+        update emp_sub_party_win
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="confirmDate != null">CONFIRM_DATE = #{confirmDate},</if>
+            <if test="hortationType != null">HORTATION_TYPE = #{hortationType},</if>
+            <if test="hortationReason != null">HORTATION_REASON = #{hortationReason},</if>
+            <if test="hortationDate != null">HORTATION_DATE = #{hortationDate},</if>
+            <if test="confirmOrg != null">CONFIRM_ORG = #{confirmOrg},</if>
+            <if test="hortationClass != null">HORTATION_CLASS = #{hortationClass},</if>
+            <if test="hortationContent != null">HORTATION_CONTENT = #{hortationContent},</if>
+            <if test="punishDate != null">PUNISH_DATE = #{punishDate},</if>
+            <if test="punishType != null">PUNISH_TYPE = #{punishType},</if>
+            <if test="punishReason != null">PUNISH_REASON = #{punishReason},</if>
+            <if test="punishContent != null">PUNISH_CONTENT = #{punishContent},</if>
+            <if test="cancelPunishDate != null">CANCEL_PUNISH_DATE = #{cancelPunishDate},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubPartyWinById" parameterType="String">
+        delete from emp_sub_party_win where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubPartyWinByIds" parameterType="String">
+        delete from emp_sub_party_win where REC_ID in 
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+    
+</mapper>

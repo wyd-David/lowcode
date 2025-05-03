@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.UumSyncLogMapper">
+
+    <resultMap type="UumSyncLog" id="UumSyncLogResult">
+        <result property="id" column="id"/>
+        <result property="maxTime" column="max_time"/>
+        <result property="code" column="code"/>
+        <result property="msg" column="msg"/>
+        <result property="num" column="num"/>
+        <result property="type" column="type"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectUumSyncLogVo">
+        select id, max_time, code, msg, num, type, create_time
+        from uum_sync_log
+    </sql>
+
+    <select id="selectUumSyncLogList" parameterType="UumSyncLog" resultMap="UumSyncLogResult">
+        <include refid="selectUumSyncLogVo"/>
+        <where>
+            <if test="maxTime != null  and maxTime != ''">and max_time = #{maxTime}</if>
+            <if test="code != null  and code != ''">and code = #{code}</if>
+            <if test="msg != null  and msg != ''">and msg = #{msg}</if>
+            <if test="num != null ">and num = #{num}</if>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+        </where>
+    </select>
+
+    <select id="selectUumSyncLogById" parameterType="String" resultMap="UumSyncLogResult">
+        <include refid="selectUumSyncLogVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectUumSyncLogByType" parameterType="String" resultMap="UumSyncLogResult">
+        <include refid="selectUumSyncLogVo"/>
+        where type = #{type} and code = '200' order by create_time desc limit 1
+    </select>
+
+    <insert id="insertUumSyncLog" parameterType="UumSyncLog">
+        insert into uum_sync_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="maxTime != null">max_time,</if>
+            <if test="code != null">code,</if>
+            <if test="msg != null">msg,</if>
+            <if test="num != null">num,</if>
+            <if test="type != null">type,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="maxTime != null">#{maxTime},</if>
+            <if test="code != null">#{code},</if>
+            <if test="msg != null">#{msg},</if>
+            <if test="num != null">#{num},</if>
+            <if test="type != null">#{type},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertUumSyncLog" parameterType="java.util.List">
+        insert into uum_sync_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            max_time,
+            code,
+            msg,
+            num,
+            type,
+            create_time,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.id},
+                #{item.maxTime},
+                #{item.code},
+                #{item.msg},
+                #{item.num},
+                #{item.type},
+                #{item.createTime},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateUumSyncLog" parameterType="UumSyncLog">
+        update uum_sync_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="maxTime != null">max_time = #{maxTime},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="msg != null">msg = #{msg},</if>
+            <if test="num != null">num = #{num},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUumSyncLogById" parameterType="String">
+        delete
+        from uum_sync_log
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteUumSyncLogByIds" parameterType="String">
+        delete from uum_sync_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

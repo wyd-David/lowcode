@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.NgsOrgMapper">
+
+    <resultMap type="NgsOrg" id="NgsOrgResult">
+        <result property="orgId"    column="org_id"    />
+        <result property="orgName"    column="org_name"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="ortStatus"    column="ort_status"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectNgsOrgVo">
+        select org_id, org_name, parent_id, ort_status, CREATE_TIME, CREATE_BY, UPDATE_BY, UPDATE_TIME from ngs_org
+    </sql>
+
+    <select id="selectNgsOrgList" parameterType="NgsOrg" resultMap="NgsOrgResult">
+        <include refid="selectNgsOrgVo"/>
+        <where>
+            <if test="orgName != null  and orgName != ''"> and org_name like concat('%', #{orgName}, '%')</if>
+            <if test="parentId != null  and parentId != ''"> and parent_id = #{parentId}</if>
+            <if test="ortStatus != null  and ortStatus != ''"> and ort_status = #{ortStatus}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectNgsOrgById" parameterType="String" resultMap="NgsOrgResult">
+        <include refid="selectNgsOrgVo"/>
+        where org_id = #{orgId}
+    </select>
+
+    <insert id="insertNgsOrg" parameterType="NgsOrg">
+        insert into ngs_org
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orgId != null">org_id,</if>
+            <if test="orgName != null">org_name,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="ortStatus != null">ort_status,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orgId != null">#{orgId},</if>
+            <if test="orgName != null">#{orgName},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="ortStatus != null">#{ortStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNgsOrg" parameterType="NgsOrg">
+        update ngs_org
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orgName != null">org_name = #{orgName},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="ortStatus != null">ort_status = #{ortStatus},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where org_id = #{orgId}
+    </update>
+
+    <delete id="deleteNgsOrgById" parameterType="String">
+        delete from ngs_org where org_id = #{orgId}
+    </delete>
+
+    <delete id="deleteNgsOrgByIds" parameterType="String">
+        delete from ngs_org where org_id in
+        <foreach item="orgId" collection="array" open="(" separator="," close=")">
+            #{orgId}
+        </foreach>
+    </delete>
+
+</mapper>

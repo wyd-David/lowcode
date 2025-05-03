@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.TodoInfoPushMapper">
+
+    <resultMap type="TodoInfoPush" id="TodoInfoPushResult">
+        <result property="todoId" column="todo_id"/>
+        <result property="jobId" column="job_id"/>
+        <result property="id" column="id"/>
+        <result property="businessKey" column="business_key"/>
+        <result property="todoTitle" column="todo_title"/>
+        <result property="applyId" column="apply_id"/>
+        <result property="todoText" column="todo_text"/>
+        <result property="todoApplicant" column="todo_applicant"/>
+        <result property="todoUrl" column="todo_url"/>
+        <result property="todoHandler" column="todo_handler"/>
+        <result property="todoHandlerName" column="todo_handler_name"/>
+        <result property="todoTpName" column="todo_tp_name"/>
+        <result property="todoTpLink" column="todo_tp_link"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="todoType" column="todo_type"/>
+        <result property="todoDataType" column="todo_data_type"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="taskType" column="task_type"/>
+        <result property="taskId" column="task_id"/>
+        <result property="pcUrl" column="pc_url"/>
+        <result property="realDealUser" column="real_deal_user"/>
+        <result property="realDealUserName" column="real_deal_user_name"/>
+        <result property="currentStepName"    column="current_step_name"    />
+        <result property="assignee"    column="assignee"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="deleteReason"    column="delete_reason"    />
+        <result property="processName"    column="process_name"    />
+        <result property="preLoginId"    column="pre_login_id"    />
+        <result property="preStepName"    column="pre_step_name"    />
+        <result property="doration"    column="doration"    />
+    </resultMap>
+
+    <sql id="selectTodoInfoPushVo">
+        select t.todo_id, t.job_id,id, t.business_key, t.todo_title, t.apply_id, t.todo_text, t.todo_applicant, t.todo_url, t.todo_handler, t.todo_handler_name, t.todo_tp_name, t.todo_tp_link, t.create_time, t.modify_time, t.todo_type, t.todo_data_type, t.push_status, t.CREATE_BY, t.task_type, t.task_id, t.pc_url, t.real_deal_user, t.real_deal_user_name,t.current_step_name, t.assignee, t.start_time, t.delete_reason, t.process_name, t.pre_login_id, t.pre_step_name, t.doration,u.nick_name as todoApplicantName from todo_info_push t
+				left join sys_user u on t.todo_applicant = u.user_name
+    </sql>
+
+    <select id="selectTodoInfoPushList" parameterType="TodoInfoPush" resultMap="TodoInfoPushResult">
+        <include refid="selectTodoInfoPushVo"/>
+        <where>
+            <if test="todoId != null  and todoId != ''">and t.todo_id = #{todoId}</if>
+            <if test="jobId != null  and jobId != ''">and t.job_id = #{jobId}</if>
+            <if test="businessKey != null  and businessKey != ''">and t.business_key like concat('%', #{businessKey}, '%')</if>
+            <if test="todoTitle != null  and todoTitle != ''">and t.todo_title like concat('%', #{todoTitle}, '%')</if>
+            <if test="applyId != null  and applyId != ''">and t.apply_id = #{applyId}</if>
+            <if test="applyIdList != null  and applyIdList != ''">
+
+                <foreach item="item" index="index" collection="applyIdList" open="(" separator="OR" close=")">
+                    t.apply_id=#{item}
+                </foreach>
+            </if>
+            <if test="todoText != null  and todoText != ''">and t.todo_text = #{todoText}</if>
+            <if test="todoApplicant != null  and todoApplicant != ''">and t.todo_applicant = #{todoApplicant}</if>
+            <if test="todoUrl != null  and todoUrl != ''">and t.todo_url = #{todoUrl}</if>
+            <if test="todoHandler != null  and todoHandler != ''">and t.todo_handler = #{todoHandler}</if>
+            <if test="todoHandlerName != null  and todoHandlerName != ''">and t.todo_handler_name like concat('%',
+                #{todoHandlerName}, '%')
+            </if>
+            <if test="todoTpName != null  and todoTpName != ''">and t.todo_tp_name like concat('%', #{todoTpName}, '%')
+            </if>
+            <if test="todoTpLink != null  and todoTpLink != ''">and t.todo_tp_link = #{todoTpLink}</if>
+            <if test="createTime != null ">and t.create_time = #{createTime}</if>
+            <if test="modifyTime != null ">and t.modify_time = #{modifyTime}</if>
+            <if test="todoType != null  and todoType != ''">and t.todo_type = #{todoType}</if>
+            <if test="todoDataType != null  and todoDataType != ''">and t.todo_data_type = #{todoDataType}</if>
+            <if test="pushStatus != null  and pushStatus != ''">and t.push_status = #{pushStatus}</if>
+            <if test="createBy != null  and createBy != ''">and t.CREATE_BY = #{createBy}</if>
+            <if test="taskType != null  and taskType != ''">and t.task_type = #{taskType}</if>
+            <if test="taskId != null  and taskId != ''">and t.task_id = #{taskId}</if>
+            <if test="pcUrl != null  and pcUrl != ''">and t.pc_url = #{pcUrl}</if>
+            <if test="realDealUser != null  and realDealUser != ''">and t.real_deal_user = #{realDealUser}</if>
+            <if test="realDealUserName != null  and realDealUserName != ''">and t.real_deal_user_name like concat('%',
+                #{realDealUserName}, '%')
+            </if>
+        </where>
+<!--        group by t.todo_id-->
+        order by t.create_time desc
+
+    </select>
+
+    <select id="selectTodoInfoPushListBytodoDataType" parameterType="String" resultMap="TodoInfoPushResult">
+        <include refid="selectTodoInfoPushVo"/>
+        where
+        t.todo_data_type = #{todoDataType}
+        order by t.create_time desc LIMIT 1
+    </select>
+
+    <select id="selectTodoInfoPushById" parameterType="String" resultMap="TodoInfoPushResult">
+        <include refid="selectTodoInfoPushVo"/>
+        where t.id = #{id}
+    </select>
+
+    <insert id="insertTodoInfoPush" parameterType="TodoInfoPush">
+        insert into todo_info_push
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="todoId != null and todoId != ''">todo_id,</if>
+            <if test="jobId != null and jobId != ''">job_id,</if>
+            <if test="id != null">id,</if>
+            <if test="businessKey != null">business_key,</if>
+            <if test="todoTitle != null">todo_title,</if>
+            <if test="applyId != null">apply_id,</if>
+            <if test="todoText != null">todo_text,</if>
+            <if test="todoApplicant != null">todo_applicant,</if>
+            <if test="todoUrl != null">todo_url,</if>
+            <if test="todoHandler != null">todo_handler,</if>
+            <if test="todoHandlerName != null">todo_handler_name,</if>
+            <if test="todoTpName != null">todo_tp_name,</if>
+            <if test="todoTpLink != null">todo_tp_link,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="modifyTime != null">modify_time,</if>
+            <if test="todoType != null">todo_type,</if>
+            <if test="todoDataType != null">todo_data_type,</if>
+            <if test="pushStatus != null">push_status,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="taskType != null">task_type,</if>
+            <if test="taskId != null">task_id,</if>
+            <if test="pcUrl != null">pc_url,</if>
+            <if test="realDealUser != null">real_deal_user,</if>
+            <if test="realDealUserName != null">real_deal_user_name,</if>
+            <if test="currentStepName != null">current_step_name,</if>
+            <if test="assignee != null">assignee,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="deleteReason != null">delete_reason,</if>
+            <if test="processName != null">process_name,</if>
+            <if test="preLoginId != null">pre_login_id,</if>
+            <if test="preStepName != null">pre_step_name,</if>
+            <if test="doration != null">doration,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="todoId != null and todoId != ''">#{todoId},</if>
+            <if test="jobId != null and jobId != ''">#{jobId},</if>
+            <if test="id != null">#{id},</if>
+            <if test="businessKey != null">#{businessKey},</if>
+            <if test="todoTitle != null">#{todoTitle},</if>
+            <if test="applyId != null">#{applyId},</if>
+            <if test="todoText != null">#{todoText},</if>
+            <if test="todoApplicant != null">#{todoApplicant},</if>
+            <if test="todoUrl != null">#{todoUrl},</if>
+            <if test="todoHandler != null">#{todoHandler},</if>
+            <if test="todoHandlerName != null">#{todoHandlerName},</if>
+            <if test="todoTpName != null">#{todoTpName},</if>
+            <if test="todoTpLink != null">#{todoTpLink},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="modifyTime != null">#{modifyTime},</if>
+            <if test="todoType != null">#{todoType},</if>
+            <if test="todoDataType != null">#{todoDataType},</if>
+            <if test="pushStatus != null">#{pushStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="taskType != null">#{taskType},</if>
+            <if test="taskId != null">#{taskId},</if>
+            <if test="pcUrl != null">#{pcUrl},</if>
+            <if test="realDealUser != null">#{realDealUser},</if>
+            <if test="realDealUserName != null">#{realDealUserName},</if>
+            <if test="currentStepName != null">#{currentStepName},</if>
+            <if test="assignee != null">#{assignee},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="deleteReason != null">#{deleteReason},</if>
+            <if test="processName != null">#{processName},</if>
+            <if test="preLoginId != null">#{preLoginId},</if>
+            <if test="preStepName != null">#{preStepName},</if>
+            <if test="doration != null">#{doration},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertTodoInfoPush" parameterType="java.util.List">
+        insert into todo_info_push
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            todo_id,
+            job_id,
+            id,
+            business_key,
+            todo_title,
+            apply_id,
+            todo_text,
+            todo_applicant,
+            todo_url,
+            todo_handler,
+            todo_handler_name,
+            todo_tp_name,
+            todo_tp_link,
+            create_time,
+            modify_time,
+            todo_type,
+            todo_data_type,
+            push_status,
+            CREATE_BY,
+            task_type,
+            task_id,
+            pc_url,
+            real_deal_user,
+            real_deal_user_name,
+            current_step_name,
+            assignee,
+            start_time,
+            delete_reason,
+            process_name,
+            pre_login_id,
+            pre_step_name,
+            doration,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.todoId},
+                #{item.jobId},
+                #{item.id},
+                #{item.businessKey},
+                #{item.todoTitle},
+                #{item.applyId},
+                #{item.todoText},
+                #{item.todoApplicant},
+                #{item.todoUrl},
+                #{item.todoHandler},
+                #{item.todoHandlerName},
+                #{item.todoTpName},
+                #{item.todoTpLink},
+                #{item.createTime},
+                #{item.modifyTime},
+                #{item.todoType},
+                #{item.todoDataType},
+                #{item.pushStatus},
+                #{item.createBy},
+                #{item.taskType},
+                #{item.taskId},
+                #{item.pcUrl},
+                #{item.realDealUser},
+                #{item.realDealUserName},
+                #{item.currentStepName},
+                #{item.assignee},
+                #{item.startTime},
+                #{item.deleteReason},
+                #{item.processName},
+                #{item.preLoginId},
+                #{item.preStepName},
+                #{item.doration},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateTodoInfoPush" parameterType="TodoInfoPush">
+        update todo_info_push
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="todoId != null and todoId != ''">todo_id = #{todoId},</if>
+            <if test="jobId != null and jobId != ''">job_id = #{jobId},</if>
+            <if test="businessKey != null">business_key = #{businessKey},</if>
+            <if test="todoTitle != null">todo_title = #{todoTitle},</if>
+            <if test="applyId != null">apply_id = #{applyId},</if>
+            <if test="todoText != null">todo_text = #{todoText},</if>
+            <if test="todoApplicant != null">todo_applicant = #{todoApplicant},</if>
+            <if test="todoUrl != null">todo_url = #{todoUrl},</if>
+            <if test="todoHandler != null">todo_handler = #{todoHandler},</if>
+            <if test="todoHandlerName != null">todo_handler_name = #{todoHandlerName},</if>
+            <if test="todoTpName != null">todo_tp_name = #{todoTpName},</if>
+            <if test="todoTpLink != null">todo_tp_link = #{todoTpLink},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+            <if test="todoType != null">todo_type = #{todoType},</if>
+            <if test="todoDataType != null">todo_data_type = #{todoDataType},</if>
+            <if test="pushStatus != null">push_status = #{pushStatus},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="taskType != null">task_type = #{taskType},</if>
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="pcUrl != null">pc_url = #{pcUrl},</if>
+            <if test="realDealUser != null">real_deal_user = #{realDealUser},</if>
+            <if test="realDealUserName != null">real_deal_user_name = #{realDealUserName},</if>
+            <if test="currentStepName != null">current_step_name = #{currentStepName},</if>
+            <if test="assignee != null">assignee = #{assignee},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="deleteReason != null">delete_reason = #{deleteReason},</if>
+            <if test="processName != null">process_name = #{processName},</if>
+            <if test="preLoginId != null">pre_login_id = #{preLoginId},</if>
+            <if test="preStepName != null">pre_step_name = #{preStepName},</if>
+            <if test="doration != null">doration = #{doration},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTodoInfoPushById" parameterType="String">
+        delete from todo_info_push where id = #{id}
+    </delete>
+
+    <delete id="deleteTodoInfoPushByIds" parameterType="String">
+        delete from todo_info_push where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectUnHandlePushList" parameterType="TodoInfoPush" resultMap="TodoInfoPushResult">
+        <include refid="selectTodoInfoPushVo"/>
+        <where>
+<!--            <if test="applyIdList != null  and applyIdList != ''">-->
+<!--                <foreach item="item" index="index" collection="applyIdList" open="(" separator="OR" close=")">-->
+<!--                    t.apply_id=#{item}-->
+<!--                </foreach>-->
+<!--            </if>-->
+            <if test="todoDataType != null">and t.todo_data_type = #{todoDataType}</if>
+            <if test="pushStatus != null">and t.push_status = #{pushStatus}</if>
+            <if test="createTime != null ">and t.create_time &gt; #{createTime}</if>
+        </where>
+        <!--        group by t.todo_id-->
+        order by t.create_time desc
+    </select>
+
+
+    <delete id="deleteTodoInfoPushByBusinesskey" parameterType="String">
+        delete from todo_info_push where business_key = #{businessKey}
+    </delete>
+
+
+    <select id="getTodoInfoToPush" parameterType="String" resultType="PushProTodoDoneNew">
+        SELECT
+            *
+        FROM
+            view_push_portal_todo t where t.todoDataType=#{todoDataType}
+    </select>
+    <select id="getToReadInfoToPush" parameterType="String" resultType="PushProToreadReadNew">
+        SELECT
+            *
+        FROM
+            view_push_portal_read t where t.todoDataType=#{todoDataType}
+    </select>
+
+
+</mapper>

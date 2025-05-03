@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.SyncUserMapper">
+    
+    <resultMap type="SyncUser" id="SyncUserResult">
+        <result property="id"    column="ID"    />
+        <result property="userid"    column="USERID"    />
+        <result property="loginid"    column="LOGINID"    />
+        <result property="erpid"    column="ERPID"    />
+        <result property="username"    column="USERNAME"    />
+        <result property="initialcharacter"    column="INITIALCHARACTER"    />
+        <result property="dpid"    column="DPID"    />
+        <result property="phone"    column="PHONE"    />
+        <result property="directphone"    column="DIRECTPHONE"    />
+        <result property="mobile"    column="MOBILE"    />
+        <result property="mailbox"    column="MAILBOX"    />
+        <result property="sex"    column="SEX"    />
+        <result property="serialnumber"    column="SERIALNUMBER"    />
+        <result property="qqormsn"    column="QQORMSN"    />
+        <result property="workingplace"    column="WORKINGPLACE"    />
+        <result property="post"    column="POST"    />
+        <result property="rankLv"    column="RANKLV"    />
+        <result property="birthday"    column="BIRTHDAY"    />
+        <result property="employeddate"    column="EMPLOYEDDATE"    />
+        <result property="dimissiondate"    column="DIMISSIONDATE"    />
+        <result property="status"    column="STATUS"    />
+        <result property="comments"    column="COMMENTS"    />
+        <result property="photograph"    column="PHOTOGRAPH"    />
+        <result property="maindepartment"    column="MAINDEPARTMENT"    />
+        <result property="superiorleader"    column="SUPERIORLEADER"    />
+        <result property="stafftype"    column="STAFFTYPE"    />
+        <result property="idiograph"    column="IDIOGRAPH"    />
+        <result property="remarks"    column="REMARKS"    />
+        <result property="oaid"    column="OAID"    />
+        <result property="dpdn"    column="DPDN"    />
+        <result property="displayname"    column="DISPLAYNAME"    />
+        <result property="dn"    column="DN"    />
+        <result property="tamuid"    column="TAMUID"    />
+        <result property="oamailserver"    column="OAMAILSERVER"    />
+        <result property="oamailfile"    column="OAMAILFILE"    />
+        <result property="oacomment"    column="OACOMMENT"    />
+        <result property="nationalid"    column="NATIONALID"    />
+        <result property="uniusercode"    column="UNIUSERCODE"    />
+        <result property="orgcodeofuser"    column="ORGCODEOFUSER"    />
+        <result property="closeaccount"    column="CLOSEACCOUNT"    />
+        <result property="usercreatedate"    column="USERCREATEDATE"    />
+        <result property="usermodifydate"    column="USERMODIFYDATE"    />
+        <result property="userdeletedate"    column="USERDELETEDATE"    />
+        <result property="positioncatcode"    column="POSITIONCATCODE"    />
+        <result property="positioncat"    column="POSITIONCAT"    />
+        <result property="position"    column="POSITION"    />
+        <result property="orgidofuser"    column="ORGIDOFUSER"    />
+        <result property="unideptcode"    column="UNIDEPTCODE"    />
+        <result property="rid"    column="RID"    />
+    </resultMap>
+
+    <sql id="selectSyncUserVo">
+        select ID, USERID, LOGINID, ERPID, USERNAME, INITIALCHARACTER, DPID, PHONE, DIRECTPHONE, MOBILE, MAILBOX, SEX, SERIALNUMBER, QQORMSN, WORKINGPLACE, POST, RANKLV, BIRTHDAY, EMPLOYEDDATE, DIMISSIONDATE, STATUS, COMMENTS, PHOTOGRAPH, MAINDEPARTMENT, SUPERIORLEADER, STAFFTYPE, IDIOGRAPH, REMARKS, OAID, DPDN, DISPLAYNAME, DN, TAMUID, OAMAILSERVER, OAMAILFILE, OACOMMENT, NATIONALID, UNIUSERCODE, ORGCODEOFUSER, CLOSEACCOUNT, USERCREATEDATE, USERMODIFYDATE, USERDELETEDATE, POSITIONCATCODE, POSITIONCAT, POSITION, ORGIDOFUSER, UNIDEPTCODE, RID from sync_user
+    </sql>
+
+    <select id="selectSyncUserList" parameterType="SyncUser" resultMap="SyncUserResult">
+        <include refid="selectSyncUserVo"/>
+        <where>  
+            <if test="userid != null  and userid != ''"> and USERID = #{userid}</if>
+            <if test="loginid != null  and loginid != ''"> and LOGINID = #{loginid}</if>
+            <if test="erpid != null  and erpid != ''"> and ERPID = #{erpid}</if>
+            <if test="username != null  and username != ''"> and USERNAME like concat('%', #{username}, '%')</if>
+            <if test="initialcharacter != null  and initialcharacter != ''"> and INITIALCHARACTER = #{initialcharacter}</if>
+            <if test="dpid != null  and dpid != ''"> and DPID = #{dpid}</if>
+            <if test="phone != null  and phone != ''"> and PHONE = #{phone}</if>
+            <if test="directphone != null  and directphone != ''"> and DIRECTPHONE = #{directphone}</if>
+            <if test="mobile != null  and mobile != ''"> and MOBILE = #{mobile}</if>
+            <if test="mailbox != null  and mailbox != ''"> and MAILBOX = #{mailbox}</if>
+            <if test="sex != null  and sex != ''"> and SEX = #{sex}</if>
+            <if test="serialnumber != null "> and SERIALNUMBER = #{serialnumber}</if>
+            <if test="qqormsn != null  and qqormsn != ''"> and QQORMSN = #{qqormsn}</if>
+            <if test="workingplace != null  and workingplace != ''"> and WORKINGPLACE = #{workingplace}</if>
+            <if test="post != null  and post != ''"> and POST = #{post}</if>
+            <if test="rankLv != null  and rankLv != ''"> and RANKLV = #{rankLv}</if>
+            <if test="birthday != null "> and BIRTHDAY = #{birthday}</if>
+            <if test="employeddate != null "> and EMPLOYEDDATE = #{employeddate}</if>
+            <if test="dimissiondate != null "> and DIMISSIONDATE = #{dimissiondate}</if>
+            <if test="status != null  and status != ''"> and STATUS = #{status}</if>
+            <if test="comments != null  and comments != ''"> and COMMENTS = #{comments}</if>
+            <if test="photograph != null  and photograph != ''"> and PHOTOGRAPH = #{photograph}</if>
+            <if test="maindepartment != null  and maindepartment != ''"> and MAINDEPARTMENT = #{maindepartment}</if>
+            <if test="superiorleader != null  and superiorleader != ''"> and SUPERIORLEADER = #{superiorleader}</if>
+            <if test="stafftype != null  and stafftype != ''"> and STAFFTYPE = #{stafftype}</if>
+            <if test="idiograph != null  and idiograph != ''"> and IDIOGRAPH = #{idiograph}</if>
+            <if test="remarks != null  and remarks != ''"> and REMARKS = #{remarks}</if>
+            <if test="oaid != null  and oaid != ''"> and OAID = #{oaid}</if>
+            <if test="dpdn != null  and dpdn != ''"> and DPDN = #{dpdn}</if>
+            <if test="displayname != null  and displayname != ''"> and DISPLAYNAME like concat('%', #{displayname}, '%')</if>
+            <if test="dn != null  and dn != ''"> and DN = #{dn}</if>
+            <if test="tamuid != null  and tamuid != ''"> and TAMUID = #{tamuid}</if>
+            <if test="oamailserver != null  and oamailserver != ''"> and OAMAILSERVER = #{oamailserver}</if>
+            <if test="oamailfile != null  and oamailfile != ''"> and OAMAILFILE = #{oamailfile}</if>
+            <if test="oacomment != null  and oacomment != ''"> and OACOMMENT = #{oacomment}</if>
+            <if test="nationalid != null  and nationalid != ''"> and NATIONALID = #{nationalid}</if>
+            <if test="uniusercode != null  and uniusercode != ''"> and UNIUSERCODE = #{uniusercode}</if>
+            <if test="orgcodeofuser != null  and orgcodeofuser != ''"> and ORGCODEOFUSER = #{orgcodeofuser}</if>
+            <if test="closeaccount != null  and closeaccount != ''"> and CLOSEACCOUNT = #{closeaccount}</if>
+            <if test="usercreatedate != null  and usercreatedate != ''"> and USERCREATEDATE = #{usercreatedate}</if>
+            <if test="usermodifydate != null  and usermodifydate != ''"> and USERMODIFYDATE = #{usermodifydate}</if>
+            <if test="userdeletedate != null "> and USERDELETEDATE = #{userdeletedate}</if>
+            <if test="positioncatcode != null  and positioncatcode != ''"> and POSITIONCATCODE = #{positioncatcode}</if>
+            <if test="positioncat != null  and positioncat != ''"> and POSITIONCAT = #{positioncat}</if>
+            <if test="position != null  and position != ''"> and POSITION = #{position}</if>
+            <if test="orgidofuser != null  and orgidofuser != ''"> and ORGIDOFUSER = #{orgidofuser}</if>
+            <if test="unideptcode != null  and unideptcode != ''"> and UNIDEPTCODE = #{unideptcode}</if>
+            <if test="rid != null "> and RID = #{rid}</if>
+        </where>
+    </select>
+
+
+    <select id="selectSyncUserMaindepartmentList" parameterType="SyncUser" resultMap="SyncUserResult">
+        <include refid="selectSyncUserVo"/>
+        <where>
+            <if test="userid != null  and userid != ''"> and USERID = #{userid}</if>
+            <if test="loginid != null  and loginid != ''"> and LOGINID = #{loginid} and MAINDEPARTMENT='true'</if>
+            <if test="erpid != null  and erpid != ''"> and ERPID = #{erpid}</if>
+            <if test="username != null  and username != ''"> and USERNAME like concat('%', #{username}, '%')</if>
+            <if test="initialcharacter != null  and initialcharacter != ''"> and INITIALCHARACTER = #{initialcharacter}</if>
+            <if test="dpid != null  and dpid != ''"> and DPID = #{dpid}</if>
+            <if test="phone != null  and phone != ''"> and PHONE = #{phone}</if>
+            <if test="directphone != null  and directphone != ''"> and DIRECTPHONE = #{directphone}</if>
+            <if test="mobile != null  and mobile != ''"> and MOBILE = #{mobile}</if>
+            <if test="mailbox != null  and mailbox != ''"> and MAILBOX = #{mailbox}</if>
+            <if test="sex != null  and sex != ''"> and SEX = #{sex}</if>
+            <if test="serialnumber != null "> and SERIALNUMBER = #{serialnumber}</if>
+            <if test="qqormsn != null  and qqormsn != ''"> and QQORMSN = #{qqormsn}</if>
+            <if test="workingplace != null  and workingplace != ''"> and WORKINGPLACE = #{workingplace}</if>
+            <if test="post != null  and post != ''"> and POST = #{post}</if>
+            <if test="rankLv != null  and rankLv != ''"> and RANKLV = #{rankLv}</if>
+            <if test="birthday != null "> and BIRTHDAY = #{birthday}</if>
+            <if test="employeddate != null "> and EMPLOYEDDATE = #{employeddate}</if>
+            <if test="dimissiondate != null "> and DIMISSIONDATE = #{dimissiondate}</if>
+            <if test="status != null  and status != ''"> and STATUS = #{status}</if>
+            <if test="comments != null  and comments != ''"> and COMMENTS = #{comments}</if>
+            <if test="photograph != null  and photograph != ''"> and PHOTOGRAPH = #{photograph}</if>
+            <if test="maindepartment != null  and maindepartment != ''"> and MAINDEPARTMENT = #{maindepartment}</if>
+            <if test="superiorleader != null  and superiorleader != ''"> and SUPERIORLEADER = #{superiorleader}</if>
+            <if test="stafftype != null  and stafftype != ''"> and STAFFTYPE = #{stafftype}</if>
+            <if test="idiograph != null  and idiograph != ''"> and IDIOGRAPH = #{idiograph}</if>
+            <if test="remarks != null  and remarks != ''"> and REMARKS = #{remarks}</if>
+            <if test="oaid != null  and oaid != ''"> and OAID = #{oaid}</if>
+            <if test="dpdn != null  and dpdn != ''"> and DPDN = #{dpdn}</if>
+            <if test="displayname != null  and displayname != ''"> and DISPLAYNAME like concat('%', #{displayname}, '%')</if>
+            <if test="dn != null  and dn != ''"> and DN = #{dn}</if>
+            <if test="tamuid != null  and tamuid != ''"> and TAMUID = #{tamuid}</if>
+            <if test="oamailserver != null  and oamailserver != ''"> and OAMAILSERVER = #{oamailserver}</if>
+            <if test="oamailfile != null  and oamailfile != ''"> and OAMAILFILE = #{oamailfile}</if>
+            <if test="oacomment != null  and oacomment != ''"> and OACOMMENT = #{oacomment}</if>
+            <if test="nationalid != null  and nationalid != ''"> and NATIONALID = #{nationalid}</if>
+            <if test="uniusercode != null  and uniusercode != ''"> and UNIUSERCODE = #{uniusercode}</if>
+            <if test="orgcodeofuser != null  and orgcodeofuser != ''"> and ORGCODEOFUSER = #{orgcodeofuser}</if>
+            <if test="closeaccount != null  and closeaccount != ''"> and CLOSEACCOUNT = #{closeaccount}</if>
+            <if test="usercreatedate != null  and usercreatedate != ''"> and USERCREATEDATE = #{usercreatedate}</if>
+            <if test="usermodifydate != null  and usermodifydate != ''"> and USERMODIFYDATE = #{usermodifydate}</if>
+            <if test="userdeletedate != null "> and USERDELETEDATE = #{userdeletedate}</if>
+            <if test="positioncatcode != null  and positioncatcode != ''"> and POSITIONCATCODE = #{positioncatcode}</if>
+            <if test="positioncat != null  and positioncat != ''"> and POSITIONCAT = #{positioncat}</if>
+            <if test="position != null  and position != ''"> and POSITION = #{position}</if>
+            <if test="orgidofuser != null  and orgidofuser != ''"> and ORGIDOFUSER = #{orgidofuser}</if>
+            <if test="unideptcode != null  and unideptcode != ''"> and UNIDEPTCODE = #{unideptcode}</if>
+            <if test="rid != null "> and RID = #{rid}</if>
+        </where>
+    </select>
+
+
+    
+    <select id="selectSyncUserById" parameterType="Long" resultMap="SyncUserResult">
+        <include refid="selectSyncUserVo"/>
+        where ID = #{id}
+    </select>
+
+    <select id="selectSyncUserCount" parameterType="SyncUser" resultType="java.lang.Integer">
+        select count(*) from sync_user
+        <where>
+            <if test="userid != null  and userid != ''"> and USERID = #{userid}</if>
+            <if test="loginid != null  and loginid != ''"> and LOGINID = #{loginid}</if>
+            <if test="erpid != null  and erpid != ''"> and ERPID = #{erpid}</if>
+            <if test="username != null  and username != ''"> and USERNAME = #{username}</if>
+        </where>
+    </select>
+        
+    <insert id="insertSyncUser" parameterType="SyncUser">
+        insert into sync_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="userid != null">USERID,</if>
+            <if test="loginid != null">LOGINID,</if>
+            <if test="erpid != null">ERPID,</if>
+            <if test="username != null">USERNAME,</if>
+            <if test="initialcharacter != null">INITIALCHARACTER,</if>
+            <if test="dpid != null">DPID,</if>
+            <if test="phone != null">PHONE,</if>
+            <if test="directphone != null">DIRECTPHONE,</if>
+            <if test="mobile != null">MOBILE,</if>
+            <if test="mailbox != null">MAILBOX,</if>
+            <if test="sex != null">SEX,</if>
+            <if test="serialnumber != null">SERIALNUMBER,</if>
+            <if test="qqormsn != null">QQORMSN,</if>
+            <if test="workingplace != null">WORKINGPLACE,</if>
+            <if test="post != null">POST,</if>
+            <if test="rankLv != null">RANKLV,</if>
+            <if test="birthday != null">BIRTHDAY,</if>
+            <if test="employeddate != null">EMPLOYEDDATE,</if>
+            <if test="dimissiondate != null">DIMISSIONDATE,</if>
+            <if test="status != null">STATUS,</if>
+            <if test="comments != null">COMMENTS,</if>
+            <if test="photograph != null">PHOTOGRAPH,</if>
+            <if test="maindepartment != null">MAINDEPARTMENT,</if>
+            <if test="superiorleader != null">SUPERIORLEADER,</if>
+            <if test="stafftype != null">STAFFTYPE,</if>
+            <if test="idiograph != null">IDIOGRAPH,</if>
+            <if test="remarks != null">REMARKS,</if>
+            <if test="oaid != null">OAID,</if>
+            <if test="dpdn != null">DPDN,</if>
+            <if test="displayname != null">DISPLAYNAME,</if>
+            <if test="dn != null">DN,</if>
+            <if test="tamuid != null">TAMUID,</if>
+            <if test="oamailserver != null">OAMAILSERVER,</if>
+            <if test="oamailfile != null">OAMAILFILE,</if>
+            <if test="oacomment != null">OACOMMENT,</if>
+            <if test="nationalid != null">NATIONALID,</if>
+            <if test="uniusercode != null">UNIUSERCODE,</if>
+            <if test="orgcodeofuser != null">ORGCODEOFUSER,</if>
+            <if test="closeaccount != null">CLOSEACCOUNT,</if>
+            <if test="usercreatedate != null">USERCREATEDATE,</if>
+            <if test="usermodifydate != null">USERMODIFYDATE,</if>
+            <if test="userdeletedate != null">USERDELETEDATE,</if>
+            <if test="positioncatcode != null">POSITIONCATCODE,</if>
+            <if test="positioncat != null">POSITIONCAT,</if>
+            <if test="position != null">POSITION,</if>
+            <if test="orgidofuser != null">ORGIDOFUSER,</if>
+            <if test="unideptcode != null">UNIDEPTCODE,</if>
+            <if test="rid != null">RID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userid != null">#{userid},</if>
+            <if test="loginid != null">#{loginid},</if>
+            <if test="erpid != null">#{erpid},</if>
+            <if test="username != null">#{username},</if>
+            <if test="initialcharacter != null">#{initialcharacter},</if>
+            <if test="dpid != null">#{dpid},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="directphone != null">#{directphone},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="mailbox != null">#{mailbox},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="serialnumber != null">#{serialnumber},</if>
+            <if test="qqormsn != null">#{qqormsn},</if>
+            <if test="workingplace != null">#{workingplace},</if>
+            <if test="post != null">#{post},</if>
+            <if test="rankLv != null">#{rankLv},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="employeddate != null">#{employeddate},</if>
+            <if test="dimissiondate != null">#{dimissiondate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="comments != null">#{comments},</if>
+            <if test="photograph != null">#{photograph},</if>
+            <if test="maindepartment != null">#{maindepartment},</if>
+            <if test="superiorleader != null">#{superiorleader},</if>
+            <if test="stafftype != null">#{stafftype},</if>
+            <if test="idiograph != null">#{idiograph},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="oaid != null">#{oaid},</if>
+            <if test="dpdn != null">#{dpdn},</if>
+            <if test="displayname != null">#{displayname},</if>
+            <if test="dn != null">#{dn},</if>
+            <if test="tamuid != null">#{tamuid},</if>
+            <if test="oamailserver != null">#{oamailserver},</if>
+            <if test="oamailfile != null">#{oamailfile},</if>
+            <if test="oacomment != null">#{oacomment},</if>
+            <if test="nationalid != null">#{nationalid},</if>
+            <if test="uniusercode != null">#{uniusercode},</if>
+            <if test="orgcodeofuser != null">#{orgcodeofuser},</if>
+            <if test="closeaccount != null">#{closeaccount},</if>
+            <if test="usercreatedate != null">#{usercreatedate},</if>
+            <if test="usermodifydate != null">#{usermodifydate},</if>
+            <if test="userdeletedate != null">#{userdeletedate},</if>
+            <if test="positioncatcode != null">#{positioncatcode},</if>
+            <if test="positioncat != null">#{positioncat},</if>
+            <if test="position != null">#{position},</if>
+            <if test="orgidofuser != null">#{orgidofuser},</if>
+            <if test="unideptcode != null">#{unideptcode},</if>
+            <if test="rid != null">#{rid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSyncUser" parameterType="SyncUser">
+        update sync_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userid != null">USERID = #{userid},</if>
+            <if test="loginid != null">LOGINID = #{loginid},</if>
+            <if test="erpid != null">ERPID = #{erpid},</if>
+            <if test="username != null">USERNAME = #{username},</if>
+            <if test="initialcharacter != null">INITIALCHARACTER = #{initialcharacter},</if>
+            <if test="dpid != null">DPID = #{dpid},</if>
+            <if test="phone != null">PHONE = #{phone},</if>
+            <if test="directphone != null">DIRECTPHONE = #{directphone},</if>
+            <if test="mobile != null">MOBILE = #{mobile},</if>
+            <if test="mailbox != null">MAILBOX = #{mailbox},</if>
+            <if test="sex != null">SEX = #{sex},</if>
+            <if test="serialnumber != null">SERIALNUMBER = #{serialnumber},</if>
+            <if test="qqormsn != null">QQORMSN = #{qqormsn},</if>
+            <if test="workingplace != null">WORKINGPLACE = #{workingplace},</if>
+            <if test="post != null">POST = #{post},</if>
+            <if test="rankLv != null">RANKLV = #{rankLv},</if>
+            <if test="birthday != null">BIRTHDAY = #{birthday},</if>
+            <if test="employeddate != null">EMPLOYEDDATE = #{employeddate},</if>
+            <if test="dimissiondate != null">DIMISSIONDATE = #{dimissiondate},</if>
+            <if test="status != null">STATUS = #{status},</if>
+            <if test="comments != null">COMMENTS = #{comments},</if>
+            <if test="photograph != null">PHOTOGRAPH = #{photograph},</if>
+            <if test="maindepartment != null">MAINDEPARTMENT = #{maindepartment},</if>
+            <if test="superiorleader != null">SUPERIORLEADER = #{superiorleader},</if>
+            <if test="stafftype != null">STAFFTYPE = #{stafftype},</if>
+            <if test="idiograph != null">IDIOGRAPH = #{idiograph},</if>
+            <if test="remarks != null">REMARKS = #{remarks},</if>
+            <if test="oaid != null">OAID = #{oaid},</if>
+            <if test="dpdn != null">DPDN = #{dpdn},</if>
+            <if test="displayname != null">DISPLAYNAME = #{displayname},</if>
+            <if test="dn != null">DN = #{dn},</if>
+            <if test="tamuid != null">TAMUID = #{tamuid},</if>
+            <if test="oamailserver != null">OAMAILSERVER = #{oamailserver},</if>
+            <if test="oamailfile != null">OAMAILFILE = #{oamailfile},</if>
+            <if test="oacomment != null">OACOMMENT = #{oacomment},</if>
+            <if test="nationalid != null">NATIONALID = #{nationalid},</if>
+            <if test="uniusercode != null">UNIUSERCODE = #{uniusercode},</if>
+            <if test="orgcodeofuser != null">ORGCODEOFUSER = #{orgcodeofuser},</if>
+            <if test="closeaccount != null">CLOSEACCOUNT = #{closeaccount},</if>
+            <if test="usercreatedate != null">USERCREATEDATE = #{usercreatedate},</if>
+            <if test="usermodifydate != null">USERMODIFYDATE = #{usermodifydate},</if>
+            <if test="userdeletedate != null">USERDELETEDATE = #{userdeletedate},</if>
+            <if test="positioncatcode != null">POSITIONCATCODE = #{positioncatcode},</if>
+            <if test="positioncat != null">POSITIONCAT = #{positioncat},</if>
+            <if test="position != null">POSITION = #{position},</if>
+            <if test="orgidofuser != null">ORGIDOFUSER = #{orgidofuser},</if>
+            <if test="unideptcode != null">UNIDEPTCODE = #{unideptcode},</if>
+            <if test="rid != null">RID = #{rid},</if>
+        </trim>
+        where USERID = #{userid}
+    </update>
+
+    <delete id="deleteSyncUserById" parameterType="Long">
+        delete from sync_user where ID = #{id}
+    </delete>
+
+    <delete id="deleteSyncUserByIds" parameterType="String">
+        delete from sync_user where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="trunCateSyncUser">
+        TRUNCATE table sync_user
+    </delete>
+
+
+    <select id="getSysPost"  resultType="java.lang.String">
+		SELECT
+            u.POSITIONCAT
+        FROM
+            sync_user u
+        WHERE
+            u.MAINDEPARTMENT = 'true'
+            AND u.POSITIONCATCODE IS NOT NULL
+            AND u.POSITIONCAT IS NOT NULL
+            AND u.POSITION IS NOT NULL
+            AND u.POSITIONCAT != '其他'
+            AND u.POSITIONCAT NOT IN(SELECT p.post_name FROM sys_post p  GROUP BY p.post_name)
+        GROUP BY
+            u.POSITIONCAT
+	</select>
+
+    <select id="getSysPostCat"  resultType="java.lang.String">
+        select POSITIONCAT from sync_user where POSITIONCAT is not null group by POSITIONCAT
+    </select>
+
+    <select id="getSyncUserList" parameterType="com.yabushan.system.domain.vo.SyncUserVo" resultType="com.yabushan.system.domain.vo.SyncUserVo">
+        select u.*,o.DPFULLNAME as dpFullName from sync_user u left join sync_org o on u.DPID = o.DPID
+        <where>
+            <if test="username != null  and username != ''"> and u.USERNAME like concat('%', #{username}, '%')</if>
+            <if test="dpid != null  and dpid != ''"> and u.DPID = #{dpid}</if>
+        </where>
+    </select>
+
+    <select id="isDepartmentHead"  resultType="java.lang.Integer">
+        SELECT COUNT(0) FROM SYNC_USER G
+        <where>
+            <if test="positioncat != null  and positioncat != ''">
+                and G.`POSITIONCAT` like concat('%', #{positioncat}, '%')
+            </if>
+            <if test="loginid != null  and loginid != ''">and G.`LOGINID`= #{loginid}</if>
+            <if test="erp != null  and erp != ''">or  G.`ERPID`= #{erp}</if>
+        </where>
+    </select>
+    <select id="isDepartmentHeadList"  resultType="SyncUser">
+        SELECT * FROM SYNC_USER G
+        <where>
+            <if test="positioncat != null  and positioncat != ''">
+                and G.`POSITIONCAT` like concat('%', #{positioncat}, '%')
+              </if>
+            <if test="loginid != null  and loginid != ''">and G.`LOGINID`= #{loginid}</if>
+            <if test="erp != null  and erp != ''">or  G.`ERPID`= #{erp}</if>
+        </where>
+    </select>
+    <select id="setlecDealUserByDept" parameterType="SyncUser" resultMap="SyncUserResult">
+        <include refid="selectSyncUserVo"/>
+        WHERE
+        DPID IN ( SELECT G.`DPID` FROM sync_org G WHERE G.`DPCODE` LIKE concat('%', #{dpid}, '%') )
+        AND POSITIONCAT =#{positioncat}
+    </select>
+
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.web.mapper.YmxCustomerInformationInfoMapper">
+    
+    <resultMap type="com.yabushan.web.model.entity.YmxCustomerInformationInfo" id="YmxCustomerInformationInfoResult">
+        <result property="customerInformationId"    column="CUSTOMER_INFORMATION_ID"    />
+        <result property="customerEmail"    column="CUSTOMER_EMAIL"    />
+        <result property="customerName"    column="CUSTOMER_NAME"    />
+        <result property="customerFacebookId"    column="CUSTOMER_FACEBOOK_ID"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="lastUpdatedBy"    column="LAST_UPDATED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+    </resultMap>
+
+    <sql id="selectYmxCustomerInformationInfoVo">
+        select CUSTOMER_INFORMATION_ID, CUSTOMER_EMAIL, CUSTOMER_NAME, CUSTOMER_FACEBOOK_ID, CREATED_BY, CREATED_TIME, LAST_UPDATED_BY, LAST_UPDATED_TIME from ymx_customer_information_info
+    </sql>
+
+    <select id="selectYmxCustomerInformationInfoList" parameterType="com.yabushan.web.model.entity.YmxCustomerInformationInfo" resultMap="YmxCustomerInformationInfoResult">
+        select * from ymx_customer_information_info
+        <where>  
+            <if test="customerEmail != null  and customerEmail != ''"> and CUSTOMER_EMAIL = #{customerEmail}</if>
+            <if test="customerName != null  and customerName != ''"> and CUSTOMER_NAME like concat('%', #{customerName}, '%')</if>
+            <if test="customerFacebookId != null  and customerFacebookId != ''"> and CUSTOMER_FACEBOOK_ID = #{customerFacebookId}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="lastUpdatedBy != null  and lastUpdatedBy != ''"> and LAST_UPDATED_BY = #{lastUpdatedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectYmxCustomerInformationInfoById" parameterType="String" resultMap="YmxCustomerInformationInfoResult">
+        select * from ymx_customer_information_info
+        where CUSTOMER_INFORMATION_ID = #{customerInformationId}
+    </select>
+        
+    <insert id="insertYmxCustomerInformationInfo" parameterType="com.yabushan.web.model.entity.YmxCustomerInformationInfo">
+        insert into ymx_customer_information_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerInformationId != null">CUSTOMER_INFORMATION_ID,</if>
+            <if test="customerEmail != null and customerEmail != ''">CUSTOMER_EMAIL,</if>
+            <if test="customerName != null">CUSTOMER_NAME,</if>
+            <if test="customerFacebookId != null">CUSTOMER_FACEBOOK_ID,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerInformationId != null">#{customerInformationId},</if>
+            <if test="customerEmail != null and customerEmail != ''">#{customerEmail},</if>
+            <if test="customerName != null">#{customerName},</if>
+            <if test="customerFacebookId != null">#{customerFacebookId},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedBy != null">#{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYmxCustomerInformationInfo" parameterType="com.yabushan.web.model.entity.YmxCustomerInformationInfo">
+        update ymx_customer_information_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerEmail != null and customerEmail != ''">CUSTOMER_EMAIL = #{customerEmail},</if>
+            <if test="customerName != null">CUSTOMER_NAME = #{customerName},</if>
+            <if test="customerFacebookId != null">CUSTOMER_FACEBOOK_ID = #{customerFacebookId},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY = #{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+        </trim>
+        where CUSTOMER_INFORMATION_ID = #{customerInformationId}
+    </update>
+
+    <delete id="deleteYmxCustomerInformationInfoById" parameterType="String">
+        delete from ymx_customer_information_info where CUSTOMER_INFORMATION_ID = #{customerInformationId}
+    </delete>
+
+    <delete id="deleteYmxCustomerInformationInfoByIds" parameterType="String">
+        delete from ymx_customer_information_info where CUSTOMER_INFORMATION_ID in 
+        <foreach item="customerInformationId" collection="array" open="(" separator="," close=")">
+            #{customerInformationId}
+        </foreach>
+    </delete>
+    
+</mapper>

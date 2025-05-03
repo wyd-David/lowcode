@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.AppUnitInfoMapper">
+
+    <resultMap type="AppUnitInfo" id="AppUnitInfoResult">
+        <result property="driverclass"    column="driverClass"    />
+        <result property="ip"    column="ip"    />
+        <result property="port"    column="port"    />
+        <result property="database"    column="database"    />
+        <result property="schema"    column="schema"    />
+        <result property="instancedisplyname"    column="instanceDisplyName"    />
+        <result property="username"    column="userName"    />
+        <result property="password"    column="password"    />
+        <result property="versioncode"    column="versionCode"    />
+        <result property="datasourceid"    column="datasourceId"    />
+        <result property="infos"    column="infos"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="appStatus"    column="app_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+    </resultMap>
+
+    <sql id="selectAppUnitInfoVo">
+        select driverClass, ip, `port`, `database`, `schema`, instanceDisplyName, userName,  versionCode, datasourceId, infos, is_delete, app_status, create_time, create_by from app_unit_info
+    </sql>
+    <sql id="selectAppUnitInfoVoPassword">
+        select driverClass, ip, `port`, `database`, `schema`, instanceDisplyName, userName, password, versionCode, datasourceId, infos, is_delete, app_status, create_time, create_by from app_unit_info
+    </sql>
+
+    <select id="selectAppUnitInfoList" parameterType="AppUnitInfo" resultMap="AppUnitInfoResult">
+        <include refid="selectAppUnitInfoVo"/>
+        <where>
+            <if test="driverclass != null  and driverclass != ''"> and driverClass = #{driverclass}</if>
+            <if test="ip != null  and ip != ''"> and ip = #{ip}</if>
+            <if test="port != null  and port != ''"> and `port` = #{port}</if>
+            <if test="database != null  and database != ''"> and `database` = #{database}</if>
+            <if test="schema != null  and schema != ''"> and `schema` = #{schema}</if>
+            <if test="instancedisplyname != null  and instancedisplyname != ''"> and instanceDisplyName like concat('%', #{instancedisplyname}, '%')</if>
+            <if test="username != null  and username != ''"> and userName like concat('%', #{username}, '%')</if>
+            <if test="password != null  and password != ''"> and `password` = #{password}</if>
+            <if test="versioncode != null  and versioncode != ''"> and versionCode = #{versioncode}</if>
+            <if test="infos != null  and infos != ''"> and infos = #{infos}</if>
+            <if test="isDelete != null  and isDelete != ''"> and is_delete = #{isDelete}</if>
+            <if test="appStatus != null  and appStatus != ''"> and app_status = #{appStatus}</if>
+            <if test="datasourceid != null  and datasourceid != ''"> and datasourceId = #{datasourceid}</if>
+            <if test="createBy != null  and createBy != ''"> and create_By = #{createBy}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectAppUnitInfoById" parameterType="String" resultMap="AppUnitInfoResult">
+        <include refid="selectAppUnitInfoVoPassword"/>
+        where datasourceId = #{datasourceid}
+    </select>
+    <select id="selectAppUnitInfoByIdNoPassword" parameterType="String" resultMap="AppUnitInfoResult">
+        <include refid="selectAppUnitInfoVo"/>
+        where datasourceId = #{datasourceid}
+    </select>
+
+
+    <insert id="insertAppUnitInfo" parameterType="AppUnitInfo">
+        insert into app_unit_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="driverclass != null">driverClass,</if>
+            <if test="ip != null">ip,</if>
+            <if test="port != null">`port`,</if>
+            <if test="database != null">`database`,</if>
+            <if test="schema != null">`schema`,</if>
+            <if test="instancedisplyname != null">instanceDisplyName,</if>
+            <if test="username != null">userName,</if>
+            <if test="password != null">`password`,</if>
+            <if test="versioncode != null">versionCode,</if>
+            <if test="datasourceid != null">datasourceId,</if>
+            <if test="infos != null">infos,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="appStatus != null">app_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="driverclass != null">#{driverclass},</if>
+            <if test="ip != null">#{ip},</if>
+            <if test="port != null">#{port},</if>
+            <if test="database != null">#{database},</if>
+            <if test="schema != null">#{schema},</if>
+            <if test="instancedisplyname != null">#{instancedisplyname},</if>
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="versioncode != null">#{versioncode},</if>
+            <if test="datasourceid != null">#{datasourceid},</if>
+            <if test="infos != null">#{infos},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="appStatus != null">#{appStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertAppUnitInfo" parameterType="java.util.List">
+        insert into app_unit_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                driverClass,
+                                                                ip,
+            `port`,
+            `database`,
+            `schema`,
+                                                                instanceDisplyName,
+                                                                userName,
+            `password`,
+                                                                versionCode,
+                                                                datasourceId,
+                                                                infos,
+                                                                is_delete,
+                                                                app_status,
+                                                                create_time,
+                                                                create_by,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.driverclass},
+                                                                                #{item.ip},
+                                                                                #{item.port},
+                                                                                #{item.database},
+                                                                                #{item.schema},
+                                                                                #{item.instancedisplyname},
+                                                                                #{item.username},
+                                                                                #{item.password},
+                                                                                #{item.versioncode},
+                                                                                #{item.datasourceid},
+                                                                                #{item.infos},
+                                                                                #{item.isDelete},
+                                                                                #{item.appStatus},
+                                                                                #{item.createTime},
+                                                                                #{item.createBy},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateAppUnitInfo" parameterType="AppUnitInfo">
+        update app_unit_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="driverclass != null">driverClass = #{driverclass},</if>
+            <if test="ip != null">ip = #{ip},</if>
+            <if test="port != null">port = #{port},</if>
+            <if test="database != null">`database` = #{database},</if>
+            <if test="schema != null">`schema` = #{schema},</if>
+            <if test="instancedisplyname != null">instanceDisplyName = #{instancedisplyname},</if>
+            <if test="username != null">userName = #{username},</if>
+            <if test="password != null">`password` = #{password},</if>
+            <if test="versioncode != null">versionCode = #{versioncode},</if>
+            <if test="infos != null">infos = #{infos},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="appStatus != null">app_status = #{appStatus},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+        </trim>
+        where datasourceId = #{datasourceid}
+    </update>
+
+    <delete id="deleteAppUnitInfoById" parameterType="String">
+        delete from app_unit_info where datasourceId = #{datasourceid}
+    </delete>
+
+    <delete id="deleteAppUnitInfoByIds" parameterType="String">
+        delete from app_unit_info where datasourceId in
+        <foreach item="datasourceid" collection="array" open="(" separator="," close=")">
+            #{datasourceid}
+        </foreach>
+    </delete>
+
+</mapper>

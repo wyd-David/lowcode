@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubEducationMapper">
+    
+    <resultMap type="EmpSubEducation" id="EmpSubEducationResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="education"    column="EDUCATION"    />
+        <result property="entranceDate"    column="ENTRANCE_DATE"    />
+        <result property="studyForm"    column="STUDY_FORM"    />
+        <result property="graduateDate"    column="GRADUATE_DATE"    />
+        <result property="graduateSchoolName"    column="GRADUATE_SCHOOL_NAME"    />
+        <result property="degree"    column="DEGREE"    />
+        <result property="awardDate"    column="AWARD_DATE"    />
+        <result property="specialty"    column="SPECIALTY"    />
+        <result property="joinWorkFlag"    column="JOIN_WORK_FLAG"    />
+        <result property="highestFlag"    column="HIGHEST_FLAG"    />
+        <result property="graduateCondition"    column="GRADUATE_CONDITION"    />
+        <result property="degreeClass"    column="DEGREE_CLASS"    />
+        <result property="studySystem"    column="STUDY_SYSTEM"    />
+        <result property="majorType"    column="MAJOR_TYPE"    />
+        <result property="isFulltime"    column="IS_FULLTIME"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectEmpSubEducationVo">
+        select REC_ID, EMP_ID, SORT_INDEX, EDUCATION, ENTRANCE_DATE, STUDY_FORM, GRADUATE_DATE, GRADUATE_SCHOOL_NAME, DEGREE, AWARD_DATE, SPECIALTY, JOIN_WORK_FLAG, HIGHEST_FLAG, GRADUATE_CONDITION, DEGREE_CLASS, STUDY_SYSTEM, MAJOR_TYPE, IS_FULLTIME, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME from emp_sub_education
+    </sql>
+
+    <select id="selectEmpSubEducationList" parameterType="EmpSubEducation" resultMap="EmpSubEducationResult">
+        <include refid="selectEmpSubEducationVo"/>
+        <where>  
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="sortIndex != null "> and SORT_INDEX = #{sortIndex}</if>
+            <if test="education != null "> and EDUCATION = #{education}</if>
+            <if test="entranceDate != null "> and ENTRANCE_DATE = #{entranceDate}</if>
+            <if test="studyForm != null "> and STUDY_FORM = #{studyForm}</if>
+            <if test="graduateDate != null "> and GRADUATE_DATE = #{graduateDate}</if>
+            <if test="graduateSchoolName != null  and graduateSchoolName != ''"> and GRADUATE_SCHOOL_NAME like concat('%', #{graduateSchoolName}, '%')</if>
+            <if test="degree != null "> and DEGREE = #{degree}</if>
+            <if test="awardDate != null "> and AWARD_DATE = #{awardDate}</if>
+            <if test="specialty != null  and specialty != ''"> and SPECIALTY = #{specialty}</if>
+            <if test="joinWorkFlag != null "> and JOIN_WORK_FLAG = #{joinWorkFlag}</if>
+            <if test="highestFlag != null "> and HIGHEST_FLAG = #{highestFlag}</if>
+            <if test="graduateCondition != null "> and GRADUATE_CONDITION = #{graduateCondition}</if>
+            <if test="degreeClass != null  and degreeClass != ''"> and DEGREE_CLASS = #{degreeClass}</if>
+            <if test="studySystem != null  and studySystem != ''"> and STUDY_SYSTEM = #{studySystem}</if>
+            <if test="majorType != null  and majorType != ''"> and MAJOR_TYPE = #{majorType}</if>
+            <if test="isFulltime != null "> and IS_FULLTIME = #{isFulltime}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmpSubEducationById" parameterType="String" resultMap="EmpSubEducationResult">
+        <include refid="selectEmpSubEducationVo"/>
+        where REC_ID = #{recId}
+    </select>
+        
+    <insert id="insertEmpSubEducation" parameterType="EmpSubEducation">
+        insert into emp_sub_education
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="education != null">EDUCATION,</if>
+            <if test="entranceDate != null">ENTRANCE_DATE,</if>
+            <if test="studyForm != null">STUDY_FORM,</if>
+            <if test="graduateDate != null">GRADUATE_DATE,</if>
+            <if test="graduateSchoolName != null">GRADUATE_SCHOOL_NAME,</if>
+            <if test="degree != null">DEGREE,</if>
+            <if test="awardDate != null">AWARD_DATE,</if>
+            <if test="specialty != null">SPECIALTY,</if>
+            <if test="joinWorkFlag != null">JOIN_WORK_FLAG,</if>
+            <if test="highestFlag != null">HIGHEST_FLAG,</if>
+            <if test="graduateCondition != null">GRADUATE_CONDITION,</if>
+            <if test="degreeClass != null">DEGREE_CLASS,</if>
+            <if test="studySystem != null">STUDY_SYSTEM,</if>
+            <if test="majorType != null">MAJOR_TYPE,</if>
+            <if test="isFulltime != null">IS_FULLTIME,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="education != null">#{education},</if>
+            <if test="entranceDate != null">#{entranceDate},</if>
+            <if test="studyForm != null">#{studyForm},</if>
+            <if test="graduateDate != null">#{graduateDate},</if>
+            <if test="graduateSchoolName != null">#{graduateSchoolName},</if>
+            <if test="degree != null">#{degree},</if>
+            <if test="awardDate != null">#{awardDate},</if>
+            <if test="specialty != null">#{specialty},</if>
+            <if test="joinWorkFlag != null">#{joinWorkFlag},</if>
+            <if test="highestFlag != null">#{highestFlag},</if>
+            <if test="graduateCondition != null">#{graduateCondition},</if>
+            <if test="degreeClass != null">#{degreeClass},</if>
+            <if test="studySystem != null">#{studySystem},</if>
+            <if test="majorType != null">#{majorType},</if>
+            <if test="isFulltime != null">#{isFulltime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubEducation" parameterType="EmpSubEducation">
+        update emp_sub_education
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="education != null">EDUCATION = #{education},</if>
+            <if test="entranceDate != null">ENTRANCE_DATE = #{entranceDate},</if>
+            <if test="studyForm != null">STUDY_FORM = #{studyForm},</if>
+            <if test="graduateDate != null">GRADUATE_DATE = #{graduateDate},</if>
+            <if test="graduateSchoolName != null">GRADUATE_SCHOOL_NAME = #{graduateSchoolName},</if>
+            <if test="degree != null">DEGREE = #{degree},</if>
+            <if test="awardDate != null">AWARD_DATE = #{awardDate},</if>
+            <if test="specialty != null">SPECIALTY = #{specialty},</if>
+            <if test="joinWorkFlag != null">JOIN_WORK_FLAG = #{joinWorkFlag},</if>
+            <if test="highestFlag != null">HIGHEST_FLAG = #{highestFlag},</if>
+            <if test="graduateCondition != null">GRADUATE_CONDITION = #{graduateCondition},</if>
+            <if test="degreeClass != null">DEGREE_CLASS = #{degreeClass},</if>
+            <if test="studySystem != null">STUDY_SYSTEM = #{studySystem},</if>
+            <if test="majorType != null">MAJOR_TYPE = #{majorType},</if>
+            <if test="isFulltime != null">IS_FULLTIME = #{isFulltime},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubEducationById" parameterType="String">
+        delete from emp_sub_education where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubEducationByIds" parameterType="String">
+        delete from emp_sub_education where REC_ID in 
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+    
+</mapper>

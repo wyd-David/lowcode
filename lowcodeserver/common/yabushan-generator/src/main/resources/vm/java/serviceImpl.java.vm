@@ -1,0 +1,210 @@
+package ${packageName}.service.impl;
+
+import java.util.List;
+import java.util.ArrayList;
+    #foreach ($column in $columns)
+        #if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
+        import com.yabushan.common.utils.DateUtils;
+            #break
+        #end
+    #end
+import com.yabushan.common.utils.http.HttpUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import com.yabushan.common.utils.StringUtils;
+import com.yabushan.common.exception.CustomException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ${packageName}.mapper.${ClassName}Mapper;
+import ${packageName}.domain.${ClassName};
+import ${packageName}.service.I${ClassName}Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * ${functionName}Service业务层处理
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service
+public class ${ClassName}ServiceImpl implements I${ClassName}Service {
+    private static final Logger log = LoggerFactory.getLogger(${ClassName}ServiceImpl.class);
+    @Autowired
+    private ${ClassName}Mapper ${className}Mapper;
+
+    //存放导入所有的成功失败数据
+    private static List<${ClassName}> ${className}Info = new ArrayList<>();
+
+    /**
+    * 清空返回导入数据的集合
+    */
+    public void clear${className}Info() {
+        if (StringUtils.isNotNull(${className}Info) && ${className}Info.size() > 0) {
+                ${className}Info.clear();
+        }
+    }
+
+    /**
+     * 查询${functionName}
+     *
+     * @param ${pkColumn.javaField} ${functionName}ID
+     * @return ${functionName}
+     */
+    @Override
+    public ${ClassName} select${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField}) {
+        return ${className}Mapper.select${ClassName}ById(${pkColumn.javaField});
+    }
+
+    /**
+     * 查询${functionName}列表
+     *
+     * @param ${className} ${functionName}
+     * @return ${functionName}
+     */
+    @Override
+    public List<${ClassName}> select${ClassName}List(${ClassName} ${className}) {
+        return ${className}Mapper.select${ClassName}List(${className});
+    }
+
+    /**
+     * 新增${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    @Override
+    public int insert${ClassName}(${ClassName} ${className}) {
+        #foreach ($column in $columns)
+            #if($column.javaField == 'createTime')
+                ${className}.setCreateTime(DateUtils.getNowDate());
+            #end
+        #end
+        return ${className}Mapper.insert${ClassName}(${className});
+    }
+
+    /**
+     * 批量新增${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    @Override
+    public int bathInsert${ClassName}(List<${ClassName}> ${className}) {
+        return ${className}Mapper.bathInsert${ClassName}(${className});
+    }
+
+
+    /**
+     * 修改${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    @Override
+    public int update${ClassName}(${ClassName} ${className}) {
+        #foreach ($column in $columns)
+            #if($column.javaField == 'updateTime')
+                ${className}.setUpdateTime(DateUtils.getNowDate());
+            #end
+        #end
+        return ${className}Mapper.update${ClassName}(${className});
+    }
+
+    /**
+     * 批量删除${functionName}
+     *
+     * @param ${pkColumn.javaField}s 需要删除的${functionName}ID
+     * @return 结果
+     */
+    @Override
+    public int delete${ClassName}ByIds(${pkColumn.javaType}[] ${pkColumn.javaField}s) {
+        return ${className}Mapper.delete${ClassName}ByIds(${pkColumn.javaField}s);
+    }
+
+    /**
+     * 删除${functionName}信息
+     *
+     * @param ${pkColumn.javaField} ${functionName}ID
+     * @return 结果
+     */
+    @Override
+    public int delete${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField}) {
+        return ${className}Mapper.delete${ClassName}ById(${pkColumn.javaField});
+    }
+
+    /**
+    * 根据传来的id集合修改禁用启用状态
+    * @param ids
+    * @param disableEnableState
+    * @return
+    */
+    @Transactional
+    @Override
+    public Boolean updateByIds(String ids, String disableEnableState) {
+        int count = 0;
+        String idslist[] = ids.split("," , -1);
+        if (StringUtils.isNotNull(idslist) && idslist.length >= 1) {
+            for (int i = 0; i < idslist.length; i++) {
+                // todo idslist[i] 返回的是一个字符串，如果实体id是其他类型，需要转换，如是int类型就修改成Integer.parseInt(idslist[i])
+                ${ClassName} ${className}=${className}Mapper.select${ClassName}ById(idslist[i]);
+                ${className}.setDisableEnableState(disableEnableState);
+                int isappinfo = ${className}Mapper.update${ClassName}(${className});
+                if (isappinfo == 1) {
+                    count++;
+                }
+            }
+            if (count == idslist.length) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 导入${functionName}Excel数据
+     *
+     * @param ${className}List 数据列表
+     * @param isUpdateSupport 是否更新支持，如果已存在，则进行更新数据
+     * @return 结果
+     */
+    @Override
+    public List<${ClassName}>  import${ClassName}(
+    List<${ClassName}> ${className}List, Boolean
+    isUpdateSupport,
+    String operName)
+
+    {
+        for (int i = 0; i < ${className}List.size(); i++) {
+            ${ClassName} ${className}=${className}List.get(i);
+            try {
+                // 验证是否存在这个用户
+                // todo getLogId() 换成获取实体 id 的方法
+                ${ClassName} u = ${className}Mapper.select${ClassName}ById(${className}.getId());
+                if (StringUtils.isNull(u)) {
+                        ${className}Mapper.insert${ClassName}(${className});
+                    ${className}.setImportStatus("导入成功");
+                        ${className}Info.add(${className});
+                } else if (isUpdateSupport) {
+                        ${className}Mapper.update${ClassName}(${className});
+                    ${className}.setImportStatus("更新成功");
+                        ${className}Info.add(${className});
+                } else {
+                    ${className}.setImportStatus("已存在当前数据");
+                        ${className}Info.add(${className});
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                ${className}.setImportStatus("数据格式有问题，请认证检查数据！");
+                    ${className}Info.add(${className});
+                //如果sql插入数据报错，或者更新报错，都会进行数据的回调，直到excel的数据读取完
+            import${ClassName}(${className}List.subList(i + 1, ${className}List.size()), isUpdateSupport, operName);
+                return ${className}Info;
+            }
+
+        }
+        return ${className}Info;
+    }
+}

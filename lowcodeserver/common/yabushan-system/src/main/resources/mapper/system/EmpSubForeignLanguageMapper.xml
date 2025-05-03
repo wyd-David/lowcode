@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubForeignLanguageMapper">
+
+    <resultMap type="EmpSubForeignLanguage" id="EmpSubForeignLanguageResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="startDate"    column="START_DATE"    />
+        <result property="endDate"    column="END_DATE"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="languageType"    column="LANGUAGE_TYPE"    />
+        <result property="circsDescription"    column="CIRCS_DESCRIPTION"    />
+        <result property="masteryLevel"    column="MASTERY_LEVEL"    />
+        <result property="gainDate"    column="GAIN_DATE"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectEmpSubForeignLanguageVo">
+        select REC_ID, EMP_ID, START_DATE, END_DATE, SORT_INDEX, LANGUAGE_TYPE, CIRCS_DESCRIPTION, MASTERY_LEVEL, GAIN_DATE, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME from emp_sub_foreign_language
+    </sql>
+
+    <select id="selectEmpSubForeignLanguageList" parameterType="EmpSubForeignLanguage" resultMap="EmpSubForeignLanguageResult">
+        <include refid="selectEmpSubForeignLanguageVo"/>
+        <where>
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="startDate != null "> and START_DATE = #{startDate}</if>
+            <if test="endDate != null "> and END_DATE = #{endDate}</if>
+            <if test="sortIndex != null  and sortIndex != ''"> and SORT_INDEX = #{sortIndex}</if>
+            <if test="languageType != null "> and LANGUAGE_TYPE = #{languageType}</if>
+            <if test="circsDescription != null  and circsDescription != ''"> and CIRCS_DESCRIPTION = #{circsDescription}</if>
+            <if test="masteryLevel != null "> and MASTERY_LEVEL = #{masteryLevel}</if>
+            <if test="gainDate != null "> and GAIN_DATE = #{gainDate}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectEmpSubForeignLanguageById" parameterType="String" resultMap="EmpSubForeignLanguageResult">
+        <include refid="selectEmpSubForeignLanguageVo"/>
+        where REC_ID = #{recId}
+    </select>
+
+    <insert id="insertEmpSubForeignLanguage" parameterType="EmpSubForeignLanguage">
+        insert into emp_sub_foreign_language
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="startDate != null">START_DATE,</if>
+            <if test="endDate != null">END_DATE,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="languageType != null">LANGUAGE_TYPE,</if>
+            <if test="circsDescription != null">CIRCS_DESCRIPTION,</if>
+            <if test="masteryLevel != null">MASTERY_LEVEL,</if>
+            <if test="gainDate != null">GAIN_DATE,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="languageType != null">#{languageType},</if>
+            <if test="circsDescription != null">#{circsDescription},</if>
+            <if test="masteryLevel != null">#{masteryLevel},</if>
+            <if test="gainDate != null">#{gainDate},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubForeignLanguage" parameterType="EmpSubForeignLanguage">
+        update emp_sub_foreign_language
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="startDate != null">START_DATE = #{startDate},</if>
+            <if test="endDate != null">END_DATE = #{endDate},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="languageType != null">LANGUAGE_TYPE = #{languageType},</if>
+            <if test="circsDescription != null">CIRCS_DESCRIPTION = #{circsDescription},</if>
+            <if test="masteryLevel != null">MASTERY_LEVEL = #{masteryLevel},</if>
+            <if test="gainDate != null">GAIN_DATE = #{gainDate},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubForeignLanguageById" parameterType="String">
+        delete from emp_sub_foreign_language where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubForeignLanguageByIds" parameterType="String">
+        delete from emp_sub_foreign_language where REC_ID in
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+
+</mapper>

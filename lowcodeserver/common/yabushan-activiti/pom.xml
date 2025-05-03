@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>yabushan</artifactId>
+        <groupId>com.yabushan</groupId>
+        <version>3.1.0</version>
+        <relativePath>../..</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>yabushan-activiti</artifactId>
+    <name>yabushan-activiti</name>
+    <description>
+        工作流
+    </description>
+    <properties>
+        <java.version>1.8</java.version>
+        <activiti.version>5.22.0</activiti.version>
+    </properties>
+    <dependencies>
+
+
+        <dependency>
+            <groupId>com.yabushan</groupId>
+            <artifactId>yabushan-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.yabushan</groupId>
+            <artifactId>yabushan-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+
+
+    </dependencies>
+
+
+</project>

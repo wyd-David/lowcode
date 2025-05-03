@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.MetadataDatasourceTypeMapper">
+    
+    <resultMap type="MetadataDatasourceType" id="MetadataDatasourceTypeResult">
+        <result property="typeCode"    column="TYPE_CODE"    />
+        <result property="typeName"    column="TYPE_NAME"    />
+        <result property="isDatabase"    column="IS_DATABASE"    />
+        <result property="dbType"    column="DB_TYPE"    />
+        <result property="classCode"    column="CLASS_CODE"    />
+        <result property="iconId"    column="ICON_ID"    />
+        <result property="order"    column="ORDER"    />
+    </resultMap>
+
+    <sql id="selectMetadataDatasourceTypeVo">
+        select TYPE_CODE, TYPE_NAME, IS_DATABASE, DB_TYPE, CLASS_CODE, ICON_ID, ORDER from metadata_datasource_type
+    </sql>
+
+    <select id="selectMetadataDatasourceTypeList" parameterType="MetadataDatasourceType" resultMap="MetadataDatasourceTypeResult">
+        <include refid="selectMetadataDatasourceTypeVo"/>
+        <where>  
+            <if test="typeName != null  and typeName != ''"> and TYPE_NAME like concat('%', #{typeName}, '%')</if>
+            <if test="isDatabase != null  and isDatabase != ''"> and IS_DATABASE = #{isDatabase}</if>
+            <if test="dbType != null  and dbType != ''"> and DB_TYPE = #{dbType}</if>
+            <if test="classCode != null  and classCode != ''"> and CLASS_CODE = #{classCode}</if>
+            <if test="iconId != null  and iconId != ''"> and ICON_ID = #{iconId}</if>
+            <if test="order != null "> and ORDER = #{order}</if>
+        </where>
+    </select>
+    
+    <select id="selectMetadataDatasourceTypeById" parameterType="String" resultMap="MetadataDatasourceTypeResult">
+        <include refid="selectMetadataDatasourceTypeVo"/>
+        where TYPE_CODE = #{typeCode}
+    </select>
+        
+    <insert id="insertMetadataDatasourceType" parameterType="MetadataDatasourceType">
+        insert into metadata_datasource_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeCode != null">TYPE_CODE,</if>
+            <if test="typeName != null">TYPE_NAME,</if>
+            <if test="isDatabase != null">IS_DATABASE,</if>
+            <if test="dbType != null">DB_TYPE,</if>
+            <if test="classCode != null">CLASS_CODE,</if>
+            <if test="iconId != null">ICON_ID,</if>
+            <if test="order != null">ORDER,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typeCode != null">#{typeCode},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="isDatabase != null">#{isDatabase},</if>
+            <if test="dbType != null">#{dbType},</if>
+            <if test="classCode != null">#{classCode},</if>
+            <if test="iconId != null">#{iconId},</if>
+            <if test="order != null">#{order},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertMetadataDatasourceType" parameterType="java.util.List">
+        insert into metadata_datasource_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                TYPE_CODE,
+                                                                TYPE_NAME,
+                                                                IS_DATABASE,
+                                                                DB_TYPE,
+                                                                CLASS_CODE,
+                                                                ICON_ID,
+                                                                ORDER,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.typeCode},
+                                                                                #{item.typeName},
+                                                                                #{item.isDatabase},
+                                                                                #{item.dbType},
+                                                                                #{item.classCode},
+                                                                                #{item.iconId},
+                                                                                #{item.order},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateMetadataDatasourceType" parameterType="MetadataDatasourceType">
+        update metadata_datasource_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeName != null">TYPE_NAME = #{typeName},</if>
+            <if test="isDatabase != null">IS_DATABASE = #{isDatabase},</if>
+            <if test="dbType != null">DB_TYPE = #{dbType},</if>
+            <if test="classCode != null">CLASS_CODE = #{classCode},</if>
+            <if test="iconId != null">ICON_ID = #{iconId},</if>
+            <if test="order != null">ORDER = #{order},</if>
+        </trim>
+        where TYPE_CODE = #{typeCode}
+    </update>
+
+    <delete id="deleteMetadataDatasourceTypeById" parameterType="String">
+        delete from metadata_datasource_type where TYPE_CODE = #{typeCode}
+    </delete>
+
+    <delete id="deleteMetadataDatasourceTypeByIds" parameterType="String">
+        delete from metadata_datasource_type where TYPE_CODE in 
+        <foreach item="typeCode" collection="array" open="(" separator="," close=")">
+            #{typeCode}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.form.mapper.XunchaUserOpinionInfoMapper">
+
+    <resultMap type="XunchaUserOpinionInfo" id="XunchaUserOpinionInfoResult">
+        <result property="userId" column="USER_ID"/>
+        <result property="userName" column="USER_NAME"/>
+        <result property="opinion" column="OPINION"/>
+        <result property="createdTime" column="CREATED_TIME"/>
+    </resultMap>
+
+    <sql id="selectXunchaUserOpinionInfoVo">
+        select USER_ID, USER_NAME, OPINION, CREATED_TIME
+        from xuncha_user_opinion_info
+    </sql>
+
+    <select id="selectXunchaUserOpinionInfoList" parameterType="XunchaUserOpinionInfo"
+            resultMap="XunchaUserOpinionInfoResult">
+        <include refid="selectXunchaUserOpinionInfoVo"/>
+        <where>
+            <if test="userId != null  and userId != ''">and USER_ID = #{userId}</if>
+            <if test="userName != null  and userName != ''">and USER_NAME like concat('%', #{userName}, '%')</if>
+            <if test="opinion != null  and opinion != ''">and OPINION = #{opinion}</if>
+            <if test="createdTime != null ">and CREATED_TIME = #{createdTime}</if>
+        </where>
+        order by CREATED_TIME desc
+    </select>
+
+    <select id="selectXunchaUserOpinionInfoById" parameterType="String" resultMap="XunchaUserOpinionInfoResult">
+        <include refid="selectXunchaUserOpinionInfoVo"/>
+        where USER_ID = #{userId}
+    </select>
+
+    <insert id="insertXunchaUserOpinionInfo" parameterType="XunchaUserOpinionInfo">
+        insert into xuncha_user_opinion_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">USER_ID,</if>
+            <if test="userName != null">USER_NAME,</if>
+            <if test="opinion != null and opinion != ''">OPINION,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="opinion != null and opinion != ''">#{opinion},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertXunchaUserOpinionInfo" parameterType="java.util.List">
+        insert into xuncha_user_opinion_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            USER_ID,
+            USER_NAME,
+            OPINION,
+            CREATED_TIME,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.userId},
+                #{item.userName},
+                #{item.opinion},
+                #{item.createdTime},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateXunchaUserOpinionInfo" parameterType="XunchaUserOpinionInfo">
+        update xuncha_user_opinion_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null">USER_NAME = #{userName},</if>
+            <if test="opinion != null and opinion != ''">OPINION = #{opinion},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+        </trim>
+        where USER_ID = #{userId}
+    </update>
+
+    <delete id="deleteXunchaUserOpinionInfoById" parameterType="String">
+        delete
+        from xuncha_user_opinion_info
+        where USER_ID = #{userId}
+    </delete>
+
+    <delete id="deleteXunchaUserOpinionInfoByIds" parameterType="String">
+        delete from xuncha_user_opinion_info where USER_ID in
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+</mapper>

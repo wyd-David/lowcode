@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.DataAliApiMapper">
+    
+    <resultMap type="DataAliApi" id="DataAliApiResult">
+        <result property="keyId"    column="KEY_ID"    />
+        <result property="hostInfo"    column="HOST_INFO"    />
+        <result property="methodInfo"    column="METHOD_INFO"    />
+        <result property="pathInfo"    column="PATH_INFO"    />
+        <result property="appCode"    column="APP_CODE"    />
+        <result property="contentType"    column="CONTENT_TYPE"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="apiStatus"    column="API_STATUS"    />
+        <result property="updatedTime"    column="updated_time"    />
+        <result property="updatedBy"    column="updated_by"    />
+        <result property="returnBody"    column="return_body"    />
+        <result property="levelNum"    column="LEVEL_NUM"    />
+        <result property="serverWay"    column="SERVER_WAY"    />
+        <result property="reqNum"    column="REQ_NUM"    />
+        <result property="memoInfo"    column="MEMO_INFO"    />
+        <result property="isGrant"    column="IS_GRANT"    />
+        <result property="userWay"    column="USER_WAY"    />
+        <result property="ownerName"    column="OWNER_NAME"    />
+    </resultMap>
+
+    <sql id="selectDataAliApiVo">
+        select KEY_ID, HOST_INFO, METHOD_INFO, PATH_INFO, APP_CODE, CONTENT_TYPE, created_by, created_time, API_STATUS, updated_time, updated_by, return_body, LEVEL_NUM, SERVER_WAY, REQ_NUM, MEMO_INFO, IS_GRANT, USER_WAY, OWNER_NAME from data_ali_api
+    </sql>
+
+    <select id="selectDataAliApiList" parameterType="DataAliApi" resultMap="DataAliApiResult">
+        <include refid="selectDataAliApiVo"/>
+        <where>  
+            <if test="hostInfo != null  and hostInfo != ''"> and HOST_INFO like concat('%', #{hostInfo}, '%') </if>
+            <if test="methodInfo != null  and methodInfo != ''"> and METHOD_INFO = #{methodInfo}</if>
+            <if test="pathInfo != null  and pathInfo != ''"> and PATH_INFO = #{pathInfo}</if>
+            <if test="appCode != null  and appCode != ''"> and APP_CODE = #{appCode}</if>
+            <if test="contentType != null  and contentType != ''"> and CONTENT_TYPE = #{contentType}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="apiStatus != null  and apiStatus != ''"> and API_STATUS = #{apiStatus}</if>
+            <if test="updatedTime != null "> and updated_time = #{updatedTime}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and updated_by = #{updatedBy}</if>
+            <if test="returnBody != null  and returnBody != ''"> and return_body = #{returnBody}</if>
+            <if test="levelNum != null "> and LEVEL_NUM = #{levelNum}</if>
+            <if test="serverWay != null  and serverWay != ''"> and SERVER_WAY = #{serverWay}</if>
+            <if test="reqNum != null "> and REQ_NUM = #{reqNum}</if>
+            <if test="memoInfo != null  and memoInfo != ''"> and MEMO_INFO = #{memoInfo}</if>
+            <if test="isGrant != null  and isGrant != ''"> and IS_GRANT = #{isGrant}</if>
+            <if test="userWay != null  and userWay != ''"> and USER_WAY = #{userWay}</if>
+            <if test="ownerName != null  and ownerName != ''"> and OWNER_NAME = #{ownerName}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataAliApiById" parameterType="String" resultMap="DataAliApiResult">
+        <include refid="selectDataAliApiVo"/>
+        where KEY_ID = #{keyId}
+    </select>
+        
+    <insert id="insertDataAliApi" parameterType="DataAliApi">
+        insert into data_ali_api
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="keyId != null">KEY_ID,</if>
+            <if test="hostInfo != null">HOST_INFO,</if>
+            <if test="methodInfo != null">METHOD_INFO,</if>
+            <if test="pathInfo != null">PATH_INFO,</if>
+            <if test="appCode != null">APP_CODE,</if>
+            <if test="contentType != null">CONTENT_TYPE,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="apiStatus != null">API_STATUS,</if>
+            <if test="updatedTime != null">updated_time,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="returnBody != null">return_body,</if>
+            <if test="levelNum != null">LEVEL_NUM,</if>
+            <if test="serverWay != null">SERVER_WAY,</if>
+            <if test="reqNum != null">REQ_NUM,</if>
+            <if test="memoInfo != null">MEMO_INFO,</if>
+            <if test="isGrant != null">IS_GRANT,</if>
+            <if test="userWay != null">USER_WAY,</if>
+            <if test="ownerName != null">OWNER_NAME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="keyId != null">#{keyId},</if>
+            <if test="hostInfo != null">#{hostInfo},</if>
+            <if test="methodInfo != null">#{methodInfo},</if>
+            <if test="pathInfo != null">#{pathInfo},</if>
+            <if test="appCode != null">#{appCode},</if>
+            <if test="contentType != null">#{contentType},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="apiStatus != null">#{apiStatus},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="returnBody != null">#{returnBody},</if>
+            <if test="levelNum != null">#{levelNum},</if>
+            <if test="serverWay != null">#{serverWay},</if>
+            <if test="reqNum != null">#{reqNum},</if>
+            <if test="memoInfo != null">#{memoInfo},</if>
+            <if test="isGrant != null">#{isGrant},</if>
+            <if test="userWay != null">#{userWay},</if>
+            <if test="ownerName != null">#{ownerName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataAliApi" parameterType="DataAliApi">
+        update data_ali_api
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="hostInfo != null">HOST_INFO = #{hostInfo},</if>
+            <if test="methodInfo != null">METHOD_INFO = #{methodInfo},</if>
+            <if test="pathInfo != null">PATH_INFO = #{pathInfo},</if>
+            <if test="appCode != null">APP_CODE = #{appCode},</if>
+            <if test="contentType != null">CONTENT_TYPE = #{contentType},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="apiStatus != null">API_STATUS = #{apiStatus},</if>
+            <if test="updatedTime != null">updated_time = #{updatedTime},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="returnBody != null">return_body = #{returnBody},</if>
+            <if test="levelNum != null">LEVEL_NUM = #{levelNum},</if>
+            <if test="serverWay != null">SERVER_WAY = #{serverWay},</if>
+            <if test="reqNum != null">REQ_NUM = #{reqNum},</if>
+            <if test="memoInfo != null">MEMO_INFO = #{memoInfo},</if>
+            <if test="isGrant != null">IS_GRANT = #{isGrant},</if>
+            <if test="userWay != null">USER_WAY = #{userWay},</if>
+            <if test="ownerName != null">OWNER_NAME = #{ownerName},</if>
+        </trim>
+        where KEY_ID = #{keyId}
+    </update>
+
+    <delete id="deleteDataAliApiById" parameterType="String">
+        delete from data_ali_api where KEY_ID = #{keyId}
+    </delete>
+
+    <delete id="deleteDataAliApiByIds" parameterType="String">
+        delete from data_ali_api where KEY_ID in 
+        <foreach item="keyId" collection="array" open="(" separator="," close=")">
+            #{keyId}
+        </foreach>
+    </delete>
+    
+</mapper>

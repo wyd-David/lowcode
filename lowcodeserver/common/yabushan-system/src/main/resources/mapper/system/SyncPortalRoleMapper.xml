@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.SyncPortalRoleMapper">
+    
+    <resultMap type="SyncPortalRole" id="SyncPortalRoleResult">
+        <result property="portalRoleId"    column="portal_role_id"    />
+        <result property="personName"    column="person_name"    />
+        <result property="personLogin"    column="person_login"    />
+        <result property="bpmperson"    column="bpmperson"    />
+        <result property="dpname"    column="dpname"    />
+        <result property="dpid"    column="dpid"    />
+        <result property="isab"    column="isab"    />
+        <result property="xh"    column="xh"    />
+        <result property="orgid"    column="orgid"    />
+        <result property="name2"    column="name2"    />
+        <result property="loginid2"    column="loginid2"    />
+        <result property="bpmperson2"    column="bpmperson2"    />
+        <result property="dpname2"    column="dpname2"    />
+        <result property="dpid2"    column="dpid2"    />
+        <result property="isab2"    column="isab2"    />
+        <result property="xh2"    column="xh2"    />
+        <result property="orgid2"    column="orgid2"    />
+        <result property="tenancy"    column="tenancy"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="lastUpdateUser"    column="last_update_user"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+    </resultMap>
+
+    <sql id="selectSyncPortalRoleVo">
+        select portal_role_id, person_name, person_login, bpmperson, dpname, dpid, isab, xh, orgid, name2, loginid2, bpmperson2, dpname2, dpid2, isab2, xh2, orgid2, tenancy, create_user, create_time, last_update_user, last_update_time from sync_portal_role
+    </sql>
+
+    <select id="selectSyncPortalRoleList" parameterType="SyncPortalRole" resultMap="SyncPortalRoleResult">
+        <include refid="selectSyncPortalRoleVo"/>
+        <where>  
+            <if test="personName != null  and personName != ''"> and person_name like concat('%', #{personName}, '%')</if>
+            <if test="personLogin != null  and personLogin != ''"> and person_login = #{personLogin}</if>
+            <if test="bpmperson != null  and bpmperson != ''"> and bpmperson = #{bpmperson}</if>
+            <if test="dpname != null  and dpname != ''"> and dpname like concat('%', #{dpname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSyncPortalRoleById" parameterType="String" resultMap="SyncPortalRoleResult">
+        <include refid="selectSyncPortalRoleVo"/>
+        where portal_role_id = #{portalRoleId}
+    </select>
+        
+    <insert id="insertSyncPortalRole" parameterType="SyncPortalRole">
+        insert into sync_portal_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="portalRoleId != null">portal_role_id,</if>
+            <if test="personName != null">person_name,</if>
+            <if test="personLogin != null">person_login,</if>
+            <if test="bpmperson != null">bpmperson,</if>
+            <if test="dpname != null">dpname,</if>
+            <if test="dpid != null">dpid,</if>
+            <if test="isab != null">isab,</if>
+            <if test="xh != null">xh,</if>
+            <if test="orgid != null">orgid,</if>
+            <if test="name2 != null">name2,</if>
+            <if test="loginid2 != null">loginid2,</if>
+            <if test="bpmperson2 != null">bpmperson2,</if>
+            <if test="dpname2 != null">dpname2,</if>
+            <if test="dpid2 != null">dpid2,</if>
+            <if test="isab2 != null">isab2,</if>
+            <if test="xh2 != null">xh2,</if>
+            <if test="orgid2 != null">orgid2,</if>
+            <if test="tenancy != null">tenancy,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="lastUpdateUser != null">last_update_user,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="portalRoleId != null">#{portalRoleId},</if>
+            <if test="personName != null">#{personName},</if>
+            <if test="personLogin != null">#{personLogin},</if>
+            <if test="bpmperson != null">#{bpmperson},</if>
+            <if test="dpname != null">#{dpname},</if>
+            <if test="dpid != null">#{dpid},</if>
+            <if test="isab != null">#{isab},</if>
+            <if test="xh != null">#{xh},</if>
+            <if test="orgid != null">#{orgid},</if>
+            <if test="name2 != null">#{name2},</if>
+            <if test="loginid2 != null">#{loginid2},</if>
+            <if test="bpmperson2 != null">#{bpmperson2},</if>
+            <if test="dpname2 != null">#{dpname2},</if>
+            <if test="dpid2 != null">#{dpid2},</if>
+            <if test="isab2 != null">#{isab2},</if>
+            <if test="xh2 != null">#{xh2},</if>
+            <if test="orgid2 != null">#{orgid2},</if>
+            <if test="tenancy != null">#{tenancy},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="lastUpdateUser != null">#{lastUpdateUser},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertSyncPortalRole" parameterType="java.util.List">
+        insert into sync_portal_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                portal_role_id,
+                                                                person_name,
+                                                                person_login,
+                                                                bpmperson,
+                                                                dpname,
+                                                                dpid,
+                                                                isab,
+                                                                xh,
+                                                                orgid,
+                                                                name2,
+                                                                loginid2,
+                                                                bpmperson2,
+                                                                dpname2,
+                                                                dpid2,
+                                                                isab2,
+                                                                xh2,
+                                                                orgid2,
+                                                                tenancy,
+                                                                create_user,
+                                                                create_time,
+                                                                last_update_user,
+                                                                last_update_time,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.portalRoleId},
+                                                                                #{item.personName},
+                                                                                #{item.personLogin},
+                                                                                #{item.bpmperson},
+                                                                                #{item.dpname},
+                                                                                #{item.dpid},
+                                                                                #{item.isab},
+                                                                                #{item.xh},
+                                                                                #{item.orgid},
+                                                                                #{item.name2},
+                                                                                #{item.loginid2},
+                                                                                #{item.bpmperson2},
+                                                                                #{item.dpname2},
+                                                                                #{item.dpid2},
+                                                                                #{item.isab2},
+                                                                                #{item.xh2},
+                                                                                #{item.orgid2},
+                                                                                #{item.tenancy},
+                                                                                #{item.createUser},
+                                                                                #{item.createTime},
+                                                                                #{item.lastUpdateUser},
+                                                                                #{item.lastUpdateTime},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateSyncPortalRole" parameterType="SyncPortalRole">
+        update sync_portal_role
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personName != null">person_name = #{personName},</if>
+            <if test="personLogin != null">person_login = #{personLogin},</if>
+            <if test="bpmperson != null">bpmperson = #{bpmperson},</if>
+            <if test="dpname != null">dpname = #{dpname},</if>
+            <if test="dpid != null">dpid = #{dpid},</if>
+            <if test="isab != null">isab = #{isab},</if>
+            <if test="xh != null">xh = #{xh},</if>
+            <if test="orgid != null">orgid = #{orgid},</if>
+            <if test="name2 != null">name2 = #{name2},</if>
+            <if test="loginid2 != null">loginid2 = #{loginid2},</if>
+            <if test="bpmperson2 != null">bpmperson2 = #{bpmperson2},</if>
+            <if test="dpname2 != null">dpname2 = #{dpname2},</if>
+            <if test="dpid2 != null">dpid2 = #{dpid2},</if>
+            <if test="isab2 != null">isab2 = #{isab2},</if>
+            <if test="xh2 != null">xh2 = #{xh2},</if>
+            <if test="orgid2 != null">orgid2 = #{orgid2},</if>
+            <if test="tenancy != null">tenancy = #{tenancy},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="lastUpdateUser != null">last_update_user = #{lastUpdateUser},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+        </trim>
+        where portal_role_id = #{portalRoleId}
+    </update>
+
+    <delete id="deleteSyncPortalRoleById" parameterType="String">
+        delete from sync_portal_role where portal_role_id = #{portalRoleId}
+    </delete>
+
+    <delete id="deleteSyncPortalRoleByIds" parameterType="String">
+        delete from sync_portal_role where portal_role_id in 
+        <foreach item="portalRoleId" collection="array" open="(" separator="," close=")">
+            #{portalRoleId}
+        </foreach>
+    </delete>
+
+    <delete id="trunCateSyncRole">
+        TRUNCATE table sync_portal_role
+    </delete>
+    
+</mapper>

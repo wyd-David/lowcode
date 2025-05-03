@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.ImportFileInfoMapper">
+
+    <resultMap type="ImportFileInfo" id="ImportFileInfoResult">
+        <result property="id"    column="id"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileKey"    column="file_key"    />
+        <result property="businessKey"    column="business_key"    />
+        <result property="applyId"    column="apply_id"    />
+        <result property="uploader"    column="uploader"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="fileState"    column="file_state"    />
+        <result property="compressFileKey"    column="compress_file_key"    />
+    </resultMap>
+
+    <sql id="selectImportFileInfoVo">
+        select id, file_name, file_key, business_key, apply_id, uploader, create_time, file_size, file_state,compress_file_key from import_file_info
+    </sql>
+
+    <select id="selectImportFileInfoList" parameterType="ImportFileInfo" resultMap="ImportFileInfoResult">
+        <include refid="selectImportFileInfoVo"/>
+        <where>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileKey != null  and fileKey != ''"> and file_key = #{fileKey}</if>
+            <if test="businessKey != null  and businessKey != ''"> and business_key = #{businessKey}</if>
+            <if test="applyId != null  and applyId != ''"> and apply_id = #{applyId}</if>
+            <if test="uploader != null  and uploader != ''"> and uploader = #{uploader}</if>
+            <if test="compressFileKey != null  and compressFileKey != ''"> and compress_file_key = #{compressFileKey}</if>
+        </where>
+    </select>
+
+    <select id="selectImportFileInfoById" parameterType="Long" resultMap="ImportFileInfoResult">
+        <include refid="selectImportFileInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertImportFileInfo" parameterType="ImportFileInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into import_file_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fileName != null and fileName != ''">file_name,</if>
+            <if test="fileKey != null">file_key,</if>
+            <if test="businessKey != null">business_key,</if>
+            <if test="applyId != null">apply_id,</if>
+            <if test="uploader != null">uploader,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="fileState != null and fileState != ''">file_state,</if>
+            <if test="compressFileKey != null and compressFileKey != ''">compress_file_key,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileName != null and fileName != ''">#{fileName},</if>
+            <if test="fileKey != null">#{fileKey},</if>
+            <if test="businessKey != null">#{businessKey},</if>
+            <if test="applyId != null">#{applyId},</if>
+            <if test="uploader != null">#{uploader},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="fileSize != null">#{fileSize},</if>
+            <if test="fileState != null and fileState != ''">#{fileState},</if>
+            <if test="compressFileKey != null and compressFileKey != ''">#{compressFileKey},</if>
+         </trim>
+    </insert>
+
+    <update id="updateImportFileInfo" parameterType="ImportFileInfo">
+        update import_file_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+            <if test="fileKey != null">file_key = #{fileKey},</if>
+            <if test="businessKey != null">business_key = #{businessKey},</if>
+            <if test="applyId != null">apply_id = #{applyId},</if>
+            <if test="uploader != null">uploader = #{uploader},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="fileSize != null">file_size = #{fileSize},</if>
+            <if test="fileState != null and fileState != ''">file_state = #{fileState},</if>
+            <if test="compressFileKey != null and compressFileKey != ''">compress_file_key = #{compressFileKey},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteImportFileInfoById" parameterType="Long">
+        delete from import_file_info where id = #{id}
+    </delete>
+
+    <delete id="deleteImportFileInfoByIds" parameterType="String">
+        delete from import_file_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByBusinessKey" parameterType="String">
+        delete from import_file_info where business_key = #{businessKey}
+    </delete>
+</mapper>

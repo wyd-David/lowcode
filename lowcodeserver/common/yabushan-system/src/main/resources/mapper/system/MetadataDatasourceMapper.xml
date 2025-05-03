@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.MetadataDatasourceMapper">
+
+    <resultMap type="MetadataDatasource" id="MetadataDatasourceResult">
+        <result property="datasourceId"    column="DATASOURCE_ID"    />
+        <result property="typeCode"    column="TYPE_CODE"    />
+        <result property="datasourceCode"    column="DATASOURCE_CODE"    />
+        <result property="datasourceName"    column="DATASOURCE_NAME"    />
+        <result property="description"    column="DESCRIPTION"    />
+        <result property="creatorId"    column="CREATOR_ID"    />
+        <result property="creatorName"    column="CREATOR_NAME"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="platformId"    column="PLATFORM_ID"    />
+        <result property="manufacturerId"    column="MANUFACTURER_ID"    />
+        <result property="classificationCode"    column="CLASSIFICATION_CODE"    />
+        <result property="sourceCode"    column="SOURCE_CODE"    />
+        <result property="layerId"    column="LAYER_ID"    />
+        <result property="tenantId"    column="TENANT_ID"    />
+        <result property="status"    column="STATUS"    />
+        <result property="version"    column="VERSION"    />
+        <result property="orgid"    column="orgId"    />
+        <result property="isRepository"    column="is_repository"    />
+        <result property="cancelStatistic"    column="cancel_statistic"    />
+    </resultMap>
+
+    <sql id="selectMetadataDatasourceVo">
+        select DATASOURCE_ID, TYPE_CODE, DATASOURCE_CODE, DATASOURCE_NAME, DESCRIPTION, CREATOR_ID, CREATOR_NAME, CREATE_TIME, PLATFORM_ID, MANUFACTURER_ID, CLASSIFICATION_CODE, SOURCE_CODE, LAYER_ID, TENANT_ID, STATUS, VERSION, orgId, is_repository, cancel_statistic from metadata_datasource d
+    </sql>
+
+    <select id="selectMetadataDatasourceList" parameterType="MetadataDatasource" resultMap="MetadataDatasourceResult">
+        <include refid="selectMetadataDatasourceVo"/>
+        <where>
+            <if test="typeCode != null  and typeCode != ''"> and TYPE_CODE = #{typeCode}</if>
+            <if test="datasourceCode != null  and datasourceCode != ''"> and DATASOURCE_CODE = #{datasourceCode}</if>
+            <if test="datasourceName != null  and datasourceName != ''"> and DATASOURCE_NAME like concat('%', #{datasourceName}, '%')</if>
+            <if test="description != null  and description != ''"> and DESCRIPTION = #{description}</if>
+            <if test="creatorId != null  and creatorId != ''"> and CREATOR_ID = #{creatorId}</if>
+            <if test="creatorName != null  and creatorName != ''"> and CREATOR_NAME like concat('%', #{creatorName}, '%')</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="platformId != null  and platformId != ''"> and PLATFORM_ID = #{platformId}</if>
+            <if test="manufacturerId != null  and manufacturerId != ''"> and MANUFACTURER_ID = #{manufacturerId}</if>
+            <if test="classificationCode != null  and classificationCode != ''"> and CLASSIFICATION_CODE = #{classificationCode}</if>
+            <if test="sourceCode != null  and sourceCode != ''"> and SOURCE_CODE = #{sourceCode}</if>
+            <if test="layerId != null  and layerId != ''"> and LAYER_ID = #{layerId}</if>
+            <if test="tenantId != null  and tenantId != ''"> and TENANT_ID = #{tenantId}</if>
+            <if test="status != null  and status != ''"> and STATUS = #{status}</if>
+            <if test="version != null  and version != ''"> and VERSION = #{version}</if>
+            <if test="orgid != null  and orgid != ''"> and orgId = #{orgid}</if>
+            <if test="isRepository != null  and isRepository != ''"> and is_repository = #{isRepository}</if>
+            <if test="cancelStatistic != null  and cancelStatistic != ''"> and cancel_statistic = #{cancelStatistic}</if>
+        </where>
+    </select>
+
+    <select id="selectMetadataDatasourceById" parameterType="String" resultMap="MetadataDatasourceResult">
+        <include refid="selectMetadataDatasourceVo"/>
+        where DATASOURCE_ID = #{datasourceId}
+    </select>
+
+    <insert id="insertMetadataDatasource">
+        INSERT INTO metadata_datasource
+        SELECT * FROM daas_metadata.metadata_datasource f
+         where f.DATASOURCE_ID not in(
+            select r.DATASOURCE_ID from metadata_datasource r
+            )
+            and f.TENANT_ID IS NOT NULL
+    </insert>
+
+    <update id="updateMetadataDatasource" parameterType="MetadataDatasource">
+        update metadata_datasource
+            set DESCRIPTION = #{description}
+        where DATASOURCE_ID = #{datasourceId}
+    </update>
+
+    <delete id="deleteMetadataDatasourceById" parameterType="String">
+        delete from metadata_datasource where DATASOURCE_ID = #{datasourceId}
+    </delete>
+
+    <delete id="deleteMetadataDatasourceByIds" parameterType="String">
+        delete from metadata_datasource where DATASOURCE_ID in
+        <foreach item="datasourceId" collection="array" open="(" separator="," close=")">
+            #{datasourceId}
+        </foreach>
+    </delete>
+
+</mapper>

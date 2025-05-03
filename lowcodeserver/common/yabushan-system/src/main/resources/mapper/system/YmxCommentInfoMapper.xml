@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.YmxCommentInfoMapper">
+    
+    <resultMap type="YmxCommentInfo" id="YmxCommentInfoResult">
+        <result property="commentId"    column="COMMENT_ID"    />
+        <result property="orderId"    column="ORDER_ID"    />
+        <result property="commentImage"    column="COMMENT_IMAGE"    />
+        <result property="commentStarRating"    column="COMMENT_STAR_RATING"    />
+        <result property="commentThankYou"    column="COMMENT_THANK_YOU"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="lastUpdatedBy"    column="LAST_UPDATED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+    </resultMap>
+
+    <sql id="selectYmxCommentInfoVo">
+        select COMMENT_ID, ORDER_ID, COMMENT_IMAGE, COMMENT_STAR_RATING, COMMENT_THANK_YOU, CREATED_BY, CREATED_TIME, LAST_UPDATED_BY, LAST_UPDATED_TIME from ymx_comment_info
+    </sql>
+
+    <select id="selectYmxCommentInfoList" parameterType="YmxCommentInfo" resultMap="YmxCommentInfoResult">
+        <include refid="selectYmxCommentInfoVo"/>
+        <where>  
+            <if test="orderId != null  and orderId != ''"> and ORDER_ID = #{orderId}</if>
+            <if test="commentImage != null  and commentImage != ''"> and COMMENT_IMAGE = #{commentImage}</if>
+            <if test="commentStarRating != null  and commentStarRating != ''"> and COMMENT_STAR_RATING = #{commentStarRating}</if>
+            <if test="commentThankYou != null  and commentThankYou != ''"> and COMMENT_THANK_YOU = #{commentThankYou}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="lastUpdatedBy != null  and lastUpdatedBy != ''"> and LAST_UPDATED_BY = #{lastUpdatedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectYmxCommentInfoById" parameterType="String" resultMap="YmxCommentInfoResult">
+        <include refid="selectYmxCommentInfoVo"/>
+        where COMMENT_ID = #{commentId}
+    </select>
+        
+    <insert id="insertYmxCommentInfo" parameterType="YmxCommentInfo">
+        insert into ymx_comment_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">COMMENT_ID,</if>
+            <if test="orderId != null and orderId != ''">ORDER_ID,</if>
+            <if test="commentImage != null">COMMENT_IMAGE,</if>
+            <if test="commentStarRating != null">COMMENT_STAR_RATING,</if>
+            <if test="commentThankYou != null">COMMENT_THANK_YOU,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">#{commentId},</if>
+            <if test="orderId != null and orderId != ''">#{orderId},</if>
+            <if test="commentImage != null">#{commentImage},</if>
+            <if test="commentStarRating != null">#{commentStarRating},</if>
+            <if test="commentThankYou != null">#{commentThankYou},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedBy != null">#{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYmxCommentInfo" parameterType="YmxCommentInfo">
+        update ymx_comment_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null and orderId != ''">ORDER_ID = #{orderId},</if>
+            <if test="commentImage != null">COMMENT_IMAGE = #{commentImage},</if>
+            <if test="commentStarRating != null">COMMENT_STAR_RATING = #{commentStarRating},</if>
+            <if test="commentThankYou != null">COMMENT_THANK_YOU = #{commentThankYou},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY = #{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+        </trim>
+        where COMMENT_ID = #{commentId}
+    </update>
+
+    <delete id="deleteYmxCommentInfoById" parameterType="String">
+        delete from ymx_comment_info where COMMENT_ID = #{commentId}
+    </delete>
+
+    <delete id="deleteYmxCommentInfoByIds" parameterType="String">
+        delete from ymx_comment_info where COMMENT_ID in 
+        <foreach item="commentId" collection="array" open="(" separator="," close=")">
+            #{commentId}
+        </foreach>
+    </delete>
+    
+</mapper>

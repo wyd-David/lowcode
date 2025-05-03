@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.RoleControlManagerMapper">
+
+    <resultMap type="RoleControlManager" id="RoleControlManagerResult">
+        <result property="roleControlManagerId"    column="role_control_manager_id"    />
+        <result property="roleControlId"    column="role_control_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userLoginId"    column="user_login_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="scope"    column="scope"    />
+        <result property="userDeptId"    column="user_dept_id"    />
+        <result property="userDeptName"    column="user_dept_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delSign"    column="del_sign"    />
+    </resultMap>
+
+    <sql id="selectRoleControlManagerVo">
+        select role_control_manager_id, role_control_id, user_id, user_login_id, user_name, scope, user_dept_id, user_dept_name, create_time, update_time, del_sign from role_control_manager
+    </sql>
+    <sql id="selectRoleControlManagerVo1">
+        select rcm.role_control_manager_id, rcm.role_control_id, user_id, user_login_id, user_name, scope, user_dept_id, user_dept_name,sd.dept_name from role_control_manager rcm
+        join sys_dept sd on rcm.scope=sd.dept_id
+    </sql>
+    <select id="selectRoleControlManagerList" parameterType="RoleControlManager" resultMap="RoleControlManagerResult">
+        select r.role_control_manager_id, r.role_control_id, r.user_id, r.user_login_id, r.user_name, r.scope, r.user_dept_id, r.user_dept_name, r.create_time, r.update_time, r.del_sign,d.dept_name as scopeText,rc.role_name as roleControlName,sn.EMPLOYEE  as erpid from role_control_manager r
+        JOIN uum_userinfo sn ON r.user_id = sn.userid
+        join sys_dept d on r.scope = d.dept_id
+        join role_control rc on r.role_control_id = rc.role_control_id
+        <where>
+            sn.`STATUS`='1' and sn.JOBTYPE in('000001')
+            <if test="roleControlManagerId != null  and roleControlManagerId != ''"> and r.role_control_manager_id = #{roleControlManagerId}</if>
+            <if test="roleControlId != null  and roleControlId != ''"> and r.role_control_id = #{roleControlId}</if>
+            <if test="userId != null  and userId != ''"> and r.user_id = #{userId}</if>
+            <if test="userLoginId != null  and userLoginId != ''"> and r.user_login_id = #{userLoginId}</if>
+            <if test="userName != null  and userName != ''"> and r.user_name like concat('%', #{userName}, '%')</if>
+            <if test="scope != null  and scope != ''"> and r.scope = #{scope}</if>
+            <if test="userDeptId != null  and userDeptId != ''"> and r.user_dept_id = #{userDeptId}</if>
+            <if test="userDeptName != null  and userDeptName != ''"> and r.user_dept_name like concat('%', #{userDeptName}, '%')</if>
+            <if test="createTime != null "> and r.create_time = #{createTime}</if>
+            <if test="delSign != null "> and r.del_sign = #{delSign}</if>
+        </where>
+    </select>
+
+    <select id="selectRoleControlManagerById" parameterType="String" resultMap="RoleControlManagerResult">
+        <include refid="selectRoleControlManagerVo"/>
+        where role_control_manager_id = #{roleControlManagerId}
+    </select>
+
+    <insert id="insertRoleControlManager" parameterType="RoleControlManager">
+        insert into role_control_manager
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleControlManagerId != null">role_control_manager_id,</if>
+            <if test="roleControlId != null and roleControlId != ''">role_control_id,</if>
+            <if test="userId != null and userId != ''">user_id,</if>
+            <if test="userLoginId != null and userLoginId != ''">user_login_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="scope != null and scope != ''">scope,</if>
+            <if test="userDeptId != null">user_dept_id,</if>
+            <if test="userDeptName != null">user_dept_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delSign != null">del_sign,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleControlManagerId != null">#{roleControlManagerId},</if>
+            <if test="roleControlId != null and roleControlId != ''">#{roleControlId},</if>
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="userLoginId != null and userLoginId != ''">#{userLoginId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="scope != null and scope != ''">#{scope},</if>
+            <if test="userDeptId != null">#{userDeptId},</if>
+            <if test="userDeptName != null">#{userDeptName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delSign != null">#{delSign},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertRoleControlManager" parameterType="java.util.List">
+        insert into role_control_manager
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                role_control_manager_id,
+                                                                role_control_id,
+                                                                user_id,
+                                                                user_login_id,
+                                                                user_name,
+                                                                scope,
+                                                                user_dept_id,
+                                                                user_dept_name,
+                                                                create_time,
+                                                                update_time,
+                                                                del_sign,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.roleControlManagerId},
+                                                                                #{item.roleControlId},
+                                                                                #{item.userId},
+                                                                                #{item.userLoginId},
+                                                                                #{item.userName},
+                                                                                #{item.scope},
+                                                                                #{item.userDeptId},
+                                                                                #{item.userDeptName},
+                                                                                #{item.createTime},
+                                                                                #{item.updateTime},
+                                                                                #{item.delSign},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateRoleControlManager" parameterType="RoleControlManager">
+        update role_control_manager
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="roleControlId != null and roleControlId != ''">role_control_id = #{roleControlId},</if>
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="userLoginId != null and userLoginId != ''">user_login_id = #{userLoginId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="scope != null and scope != ''">scope = #{scope},</if>
+            <if test="userDeptId != null">user_dept_id = #{userDeptId},</if>
+            <if test="userDeptName != null">user_dept_name = #{userDeptName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="delSign != null">del_sign = #{delSign},</if>
+        </trim>
+        where role_control_manager_id = #{roleControlManagerId}
+    </update>
+
+    <delete id="deleteRoleControlManagerById" parameterType="String">
+        delete from role_control_manager where role_control_manager_id = #{roleControlManagerId}
+    </delete>
+
+    <delete id="deleteRoleControlManagerByIds" parameterType="String">
+        delete from role_control_manager where role_control_manager_id in
+        <foreach item="roleControlManagerId" collection="array" open="(" separator="," close=")">
+            #{roleControlManagerId}
+        </foreach>
+    </delete>
+
+</mapper>

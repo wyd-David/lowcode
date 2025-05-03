@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubQuaCertifyMapper">
+    
+    <resultMap type="EmpSubQuaCertify" id="EmpSubQuaCertifyResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="certificateName"    column="CERTIFICATE_NAME"    />
+        <result property="certificateLevel"    column="CERTIFICATE_LEVEL"    />
+        <result property="certificateOrg"    column="CERTIFICATE_ORG"    />
+        <result property="certificateNumber"    column="CERTIFICATE_NUMBER"    />
+        <result property="passDate"    column="PASS_DATE"    />
+        <result property="effectiveDate"    column="EFFECTIVE_DATE"    />
+        <result property="remark"    column="REMARK"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectEmpSubQuaCertifyVo">
+        select REC_ID, EMP_ID, SORT_INDEX, CERTIFICATE_NAME, CERTIFICATE_LEVEL, CERTIFICATE_ORG, CERTIFICATE_NUMBER, PASS_DATE, EFFECTIVE_DATE, REMARK, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME from emp_sub_qua_certify
+    </sql>
+
+    <select id="selectEmpSubQuaCertifyList" parameterType="EmpSubQuaCertify" resultMap="EmpSubQuaCertifyResult">
+        <include refid="selectEmpSubQuaCertifyVo"/>
+        <where>  
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="sortIndex != null "> and SORT_INDEX = #{sortIndex}</if>
+            <if test="certificateName != null  and certificateName != ''"> and CERTIFICATE_NAME like concat('%', #{certificateName}, '%')</if>
+            <if test="certificateLevel != null  and certificateLevel != ''"> and CERTIFICATE_LEVEL = #{certificateLevel}</if>
+            <if test="certificateOrg != null  and certificateOrg != ''"> and CERTIFICATE_ORG = #{certificateOrg}</if>
+            <if test="certificateNumber != null  and certificateNumber != ''"> and CERTIFICATE_NUMBER = #{certificateNumber}</if>
+            <if test="passDate != null "> and PASS_DATE = #{passDate}</if>
+            <if test="effectiveDate != null  and effectiveDate != ''"> and EFFECTIVE_DATE = #{effectiveDate}</if>
+            <if test="remark != null  and remark != ''"> and REMARK = #{remark}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmpSubQuaCertifyById" parameterType="String" resultMap="EmpSubQuaCertifyResult">
+        <include refid="selectEmpSubQuaCertifyVo"/>
+        where REC_ID = #{recId}
+    </select>
+        
+    <insert id="insertEmpSubQuaCertify" parameterType="EmpSubQuaCertify">
+        insert into emp_sub_qua_certify
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="certificateName != null">CERTIFICATE_NAME,</if>
+            <if test="certificateLevel != null">CERTIFICATE_LEVEL,</if>
+            <if test="certificateOrg != null">CERTIFICATE_ORG,</if>
+            <if test="certificateNumber != null">CERTIFICATE_NUMBER,</if>
+            <if test="passDate != null">PASS_DATE,</if>
+            <if test="effectiveDate != null">EFFECTIVE_DATE,</if>
+            <if test="remark != null">REMARK,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="certificateName != null">#{certificateName},</if>
+            <if test="certificateLevel != null">#{certificateLevel},</if>
+            <if test="certificateOrg != null">#{certificateOrg},</if>
+            <if test="certificateNumber != null">#{certificateNumber},</if>
+            <if test="passDate != null">#{passDate},</if>
+            <if test="effectiveDate != null">#{effectiveDate},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubQuaCertify" parameterType="EmpSubQuaCertify">
+        update emp_sub_qua_certify
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="certificateName != null">CERTIFICATE_NAME = #{certificateName},</if>
+            <if test="certificateLevel != null">CERTIFICATE_LEVEL = #{certificateLevel},</if>
+            <if test="certificateOrg != null">CERTIFICATE_ORG = #{certificateOrg},</if>
+            <if test="certificateNumber != null">CERTIFICATE_NUMBER = #{certificateNumber},</if>
+            <if test="passDate != null">PASS_DATE = #{passDate},</if>
+            <if test="effectiveDate != null">EFFECTIVE_DATE = #{effectiveDate},</if>
+            <if test="remark != null">REMARK = #{remark},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubQuaCertifyById" parameterType="String">
+        delete from emp_sub_qua_certify where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubQuaCertifyByIds" parameterType="String">
+        delete from emp_sub_qua_certify where REC_ID in 
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+    
+</mapper>

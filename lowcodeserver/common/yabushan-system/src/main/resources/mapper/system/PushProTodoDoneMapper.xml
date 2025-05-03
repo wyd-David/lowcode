@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.PushProTodoDoneMapper">
+
+    <resultMap type="PushProTodoDone" id="PushProTodoDoneResult">
+        <result property="todoId" column="todo_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="appName" column="app_name"/>
+        <result property="owner" column="owner"/>
+        <result property="parentOwner" column="parent_owner"/>
+        <result property="taskName" column="task_name"/>
+        <result property="url" column="url"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="type" column="type"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="dataType" column="data_type"/>
+        <result property="retryCount" column="retry_count"/>
+        <result property="insertTime" column="insert_time"/>
+    </resultMap>
+
+    <sql id="selectPushProTodoDoneVo">
+        select todo_id,
+               order_id,
+               app_name,
+               owner,
+               parent_owner,
+               task_name,
+               url,
+               create_time,
+               modify_time,
+               type,
+               push_status,
+               data_type,
+               retry_count,
+               insert_time
+        from push_pro_todo_done
+    </sql>
+
+    <sql id="Base_Column_List_as">
+        td.todo_id,td.order_id, td.app_name, td.owner,td.parent_owner, td.task_name, td.url, td.create_time, td.modify_time, td.type, td.push_status, td.data_type,td.retry_count
+    </sql>
+
+    <select id="selectPushProTodoDoneList" parameterType="PushProTodoDone" resultMap="PushProTodoDoneResult">
+        <include refid="selectPushProTodoDoneVo"/>
+        <where>
+            <if test="todoId != null  and todoId != ''">and todo_id = #{todoId}</if>
+            <if test="orderId != null  and orderId != ''">and order_id = #{orderId}</if>
+            <if test="appName != null  and appName != ''">and app_name like concat('%', #{appName}, '%')</if>
+            <if test="owner != null  and owner != ''">and owner = #{owner}</if>
+            <if test="parentOwner != null  and parentOwner != ''">and parent_owner = #{parentOwner}</if>
+            <if test="taskName != null  and taskName != ''">and task_name like concat('%', #{taskName}, '%')</if>
+            <if test="url != null  and url != ''">and url = #{url}</if>
+            <if test="modifyTime != null  and modifyTime != ''">and modify_time = #{modifyTime}</if>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+            <if test="pushStatus != null  and pushStatus != ''">and push_status = #{pushStatus}</if>
+            <if test="dataType != null  and dataType != ''">and data_type = #{dataType}</if>
+            <if test="retryCount != null ">and retry_count = #{retryCount}</if>
+            <if test="insertTime != null ">and insert_time = #{insertTime}</if>
+        </where>
+    </select>
+
+    <select id="selectPushProTodoDoneById" parameterType="String" resultMap="PushProTodoDoneResult">
+        <include refid="selectPushProTodoDoneVo"/>
+        where todo_id = #{todoId}
+    </select>
+
+    <insert id="insertPushProTodoDone" parameterType="PushProTodoDone">
+        insert into push_pro_todo_done
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="todoId != null and todoId != ''">todo_id,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="appName != null">app_name,</if>
+            <if test="owner != null">owner,</if>
+            <if test="parentOwner != null and parentOwner != ''">parent_owner,</if>
+            <if test="taskName != null and taskName != ''">task_name,</if>
+            <if test="url != null">url,</if>
+            <if test="createTime != null and createTime != ''">create_time,</if>
+            <if test="modifyTime != null and modifyTime != ''">modify_time,</if>
+            <if test="type != null and type != ''">type,</if>
+            <if test="pushStatus != null">push_status,</if>
+            <if test="dataType != null">data_type,</if>
+            <if test="retryCount != null">retry_count,</if>
+            <if test="insertTime != null">insert_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="todoId != null and todoId != ''">#{todoId},</if>
+            <if test="orderId != null">#{orderId},</if>
+            <if test="appName != null">#{appName},</if>
+            <if test="owner != null">#{owner},</if>
+            <if test="parentOwner != null and parentOwner != ''">#{parentOwner},</if>
+            <if test="taskName != null and taskName != ''">#{taskName},</if>
+            <if test="url != null">#{url},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+            <if test="modifyTime != null and modifyTime != ''">#{modifyTime},</if>
+            <if test="type != null and type != ''">#{type},</if>
+            <if test="pushStatus != null">#{pushStatus},</if>
+            <if test="dataType != null">#{dataType},</if>
+            <if test="retryCount != null">#{retryCount},</if>
+            <if test="insertTime != null">#{insertTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertPushProTodoDone" parameterType="java.util.List">
+        insert into push_pro_todo_done
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            todo_id,
+            order_id,
+            app_name,
+            owner,
+            parent_owner,
+            task_name,
+            url,
+            create_time,
+            modify_time,
+            type,
+            push_status,
+            data_type,
+            retry_count,
+            insert_time,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.todoId},
+                #{item.orderId},
+                #{item.appName},
+                #{item.owner},
+                #{item.parentOwner},
+                #{item.taskName},
+                #{item.url},
+                #{item.createTime},
+                #{item.modifyTime},
+                #{item.type},
+                #{item.pushStatus},
+                #{item.dataType},
+                #{item.retryCount},
+                #{item.insertTime},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updatePushProTodoDone" parameterType="PushProTodoDone">
+        update push_pro_todo_done
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="appName != null">app_name = #{appName},</if>
+            <if test="owner != null">owner = #{owner},</if>
+            <if test="parentOwner != null and parentOwner != ''">parent_owner = #{parentOwner},</if>
+            <if test="taskName != null and taskName != ''">task_name = #{taskName},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+            <if test="modifyTime != null and modifyTime != ''">modify_time = #{modifyTime},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
+            <if test="pushStatus != null">push_status = #{pushStatus},</if>
+            <if test="dataType != null">data_type = #{dataType},</if>
+            <if test="retryCount != null">retry_count = #{retryCount},</if>
+            <if test="insertTime != null">insert_time = #{insertTime},</if>
+        </trim>
+        where todo_id = #{todoId}
+    </update>
+
+    <delete id="deletePushProTodoDoneById" parameterType="String">
+        delete
+        from push_pro_todo_done
+        where todo_id = #{todoId}
+    </delete>
+
+    <delete id="deletePushProTodoDoneByIds" parameterType="String">
+        delete from push_pro_todo_done where todo_id in
+        <foreach item="todoId" collection="array" open="(" separator="," close=")">
+            #{todoId}
+        </foreach>
+    </delete>
+
+    <!--查询待办已办数据-->
+    <select id="selectTodoDonePushData" resultMap="PushProTodoDoneResult" parameterType="String">
+        select <include refid="Base_Column_List_as" /> from push_pro_todo_done td where td.push_status = #{pushStatus}
+    </select>
+
+    <!--重推次数自增长-->
+    <update id="retryCountIncreByCondi">
+        update push_pro_todo_done set retry_count = IFNULL(retry_count,0) + 1 ${ew.customSqlSegment}
+    </update>
+
+</mapper>

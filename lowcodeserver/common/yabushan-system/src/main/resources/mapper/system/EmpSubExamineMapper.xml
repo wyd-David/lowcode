@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubExamineMapper">
+    
+    <resultMap type="EmpSubExamine" id="EmpSubExamineResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="startDate"    column="START_DATE"    />
+        <result property="endDate"    column="END_DATE"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="examineDate"    column="EXAMINE_DATE"    />
+        <result property="examineScore"    column="EXAMINE_SCORE"    />
+        <result property="examineLevel"    column="EXAMINE_LEVEL"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectEmpSubExamineVo">
+        select REC_ID, EMP_ID, START_DATE, END_DATE, SORT_INDEX, EXAMINE_DATE, EXAMINE_SCORE, EXAMINE_LEVEL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME from emp_sub_examine
+    </sql>
+
+    <select id="selectEmpSubExamineList" parameterType="EmpSubExamine" resultMap="EmpSubExamineResult">
+        <include refid="selectEmpSubExamineVo"/>
+        <where>  
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="startDate != null "> and START_DATE = #{startDate}</if>
+            <if test="endDate != null "> and END_DATE = #{endDate}</if>
+            <if test="sortIndex != null "> and SORT_INDEX = #{sortIndex}</if>
+            <if test="examineDate != null "> and EXAMINE_DATE = #{examineDate}</if>
+            <if test="examineScore != null  and examineScore != ''"> and EXAMINE_SCORE = #{examineScore}</if>
+            <if test="examineLevel != null  and examineLevel != ''"> and EXAMINE_LEVEL = #{examineLevel}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmpSubExamineById" parameterType="String" resultMap="EmpSubExamineResult">
+        <include refid="selectEmpSubExamineVo"/>
+        where REC_ID = #{recId}
+    </select>
+        
+    <insert id="insertEmpSubExamine" parameterType="EmpSubExamine">
+        insert into emp_sub_examine
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="startDate != null">START_DATE,</if>
+            <if test="endDate != null">END_DATE,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="examineDate != null">EXAMINE_DATE,</if>
+            <if test="examineScore != null">EXAMINE_SCORE,</if>
+            <if test="examineLevel != null">EXAMINE_LEVEL,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="examineDate != null">#{examineDate},</if>
+            <if test="examineScore != null">#{examineScore},</if>
+            <if test="examineLevel != null">#{examineLevel},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubExamine" parameterType="EmpSubExamine">
+        update emp_sub_examine
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="startDate != null">START_DATE = #{startDate},</if>
+            <if test="endDate != null">END_DATE = #{endDate},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="examineDate != null">EXAMINE_DATE = #{examineDate},</if>
+            <if test="examineScore != null">EXAMINE_SCORE = #{examineScore},</if>
+            <if test="examineLevel != null">EXAMINE_LEVEL = #{examineLevel},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubExamineById" parameterType="String">
+        delete from emp_sub_examine where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubExamineByIds" parameterType="String">
+        delete from emp_sub_examine where REC_ID in 
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+    
+</mapper>

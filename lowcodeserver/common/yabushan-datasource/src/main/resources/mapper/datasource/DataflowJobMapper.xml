@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.DataflowJobMapper">
+    
+    <resultMap type="DataflowJob" id="DataflowJobResult">
+        <result property="jobId"    column="job_id"    />
+        <result property="jobName"    column="job_name"    />
+        <result property="jobType"    column="job_type"    />
+        <result property="status"    column="status"    />
+        <result property="priority"    column="priority"    />
+        <result property="tryCount"    column="try_count"    />
+        <result property="tryFrequency"    column="try_frequency"    />
+        <result property="tryItel"    column="try_itel"    />
+        <result property="concurrentCount"    column="concurrent_count"    />
+        <result property="flowConfigJson"    column="flow_config_json"    />
+        <result property="cycle"    column="cycle"    />
+        <result property="versionNo"    column="version_no"    />
+        <result property="scheduleConfigJson"    column="schedule_config_json"    />
+        <result property="nextScheduleTime"    column="next_schedule_time"    />
+        <result property="jobWorkGroupCode"    column="job_work_group_code"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="autoStop"    column="auto_stop"    />
+        <result property="sortId"    column="sort_id"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createTenantId"    column="create_tenant_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+        <result property="lastUpdateUserId"    column="last_update_user_id"    />
+        <result property="businessType"    column="business_type"    />
+        <result property="displayType"    column="display_type"    />
+        <result property="appId"    column="app_id"    />
+        <result property="catalogId"    column="catalog_id"    />
+        <result property="securityLevel"    column="security_level"    />
+        <result property="jobDesc"    column="job_desc"    />
+        <result property="ownerType"    column="owner_type"    />
+        <result property="ownerId"    column="owner_id"    />
+        <result property="belongSpaceId"    column="belong_space_id"    />
+        <result property="executorId"    column="executor_id"    />
+        <result property="isRecover"    column="is_recover"    />
+        <result property="businessKey"    column="business_key"    />
+    </resultMap>
+
+    <sql id="selectDataflowJobVo">
+        select job_id, job_name, job_type, status, priority, try_count, try_frequency, try_itel, concurrent_count, flow_config_json, cycle, version_no, schedule_config_json, next_schedule_time, job_work_group_code, start_date, end_date, auto_stop, sort_id, create_user_id, create_tenant_id, create_time, last_update_time, last_update_user_id, business_type, display_type, app_id, catalog_id, security_level, job_desc, owner_type, owner_id, belong_space_id, executor_id, is_recover, business_key from dataflow_job
+    </sql>
+
+    <select id="selectDataflowJobList" parameterType="DataflowJob" resultMap="DataflowJobResult">
+        <include refid="selectDataflowJobVo"/>
+        <where>  
+            <if test="jobName != null  and jobName != ''"> and job_name like concat('%', #{jobName}, '%')</if>
+            <if test="jobType != null "> and job_type = #{jobType}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="priority != null "> and priority = #{priority}</if>
+            <if test="tryCount != null "> and try_count = #{tryCount}</if>
+            <if test="tryFrequency != null "> and try_frequency = #{tryFrequency}</if>
+            <if test="tryItel != null "> and try_itel = #{tryItel}</if>
+            <if test="concurrentCount != null "> and concurrent_count = #{concurrentCount}</if>
+            <if test="flowConfigJson != null "> and flow_config_json = #{flowConfigJson}</if>
+            <if test="cycle != null "> and cycle = #{cycle}</if>
+            <if test="versionNo != null "> and version_no = #{versionNo}</if>
+            <if test="scheduleConfigJson != null  and scheduleConfigJson != ''"> and schedule_config_json = #{scheduleConfigJson}</if>
+            <if test="nextScheduleTime != null "> and next_schedule_time = #{nextScheduleTime}</if>
+            <if test="jobWorkGroupCode != null  and jobWorkGroupCode != ''"> and job_work_group_code = #{jobWorkGroupCode}</if>
+            <if test="startDate != null "> and start_date = #{startDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+            <if test="autoStop != null "> and auto_stop = #{autoStop}</if>
+            <if test="sortId != null "> and sort_id = #{sortId}</if>
+            <if test="createUserId != null  and createUserId != ''"> and create_user_id = #{createUserId}</if>
+            <if test="createTenantId != null  and createTenantId != ''"> and create_tenant_id = #{createTenantId}</if>
+            <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
+            <if test="lastUpdateUserId != null  and lastUpdateUserId != ''"> and last_update_user_id = #{lastUpdateUserId}</if>
+            <if test="businessType != null  and businessType != ''"> and business_type = #{businessType}</if>
+            <if test="displayType != null "> and display_type = #{displayType}</if>
+            <if test="appId != null  and appId != ''"> and app_id = #{appId}</if>
+            <if test="catalogId != null  and catalogId != ''"> and catalog_id = #{catalogId}</if>
+            <if test="securityLevel != null  and securityLevel != ''"> and security_level = #{securityLevel}</if>
+            <if test="jobDesc != null  and jobDesc != ''"> and job_desc = #{jobDesc}</if>
+            <if test="ownerType != null  and ownerType != ''"> and owner_type = #{ownerType}</if>
+            <if test="ownerId != null  and ownerId != ''"> and owner_id = #{ownerId}</if>
+            <if test="belongSpaceId != null  and belongSpaceId != ''"> and belong_space_id = #{belongSpaceId}</if>
+            <if test="executorId != null  and executorId != ''"> and executor_id = #{executorId}</if>
+            <if test="isRecover != null "> and is_recover = #{isRecover}</if>
+            <if test="businessKey != null  and businessKey != ''"> and business_key = #{businessKey}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataflowJobById" parameterType="String" resultMap="DataflowJobResult">
+        <include refid="selectDataflowJobVo"/>
+        where job_id = #{jobId}
+    </select>
+        
+    <insert id="insertDataflowJob" parameterType="DataflowJob">
+        insert into dataflow_job
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">job_id,</if>
+            <if test="jobName != null and jobName != ''">job_name,</if>
+            <if test="jobType != null">job_type,</if>
+            <if test="status != null">status,</if>
+            <if test="priority != null">priority,</if>
+            <if test="tryCount != null">try_count,</if>
+            <if test="tryFrequency != null">try_frequency,</if>
+            <if test="tryItel != null">try_itel,</if>
+            <if test="concurrentCount != null">concurrent_count,</if>
+            <if test="flowConfigJson != null">flow_config_json,</if>
+            <if test="cycle != null">cycle,</if>
+            <if test="versionNo != null">version_no,</if>
+            <if test="scheduleConfigJson != null">schedule_config_json,</if>
+            <if test="nextScheduleTime != null">next_schedule_time,</if>
+            <if test="jobWorkGroupCode != null and jobWorkGroupCode != ''">job_work_group_code,</if>
+            <if test="startDate != null">start_date,</if>
+            <if test="endDate != null">end_date,</if>
+            <if test="autoStop != null">auto_stop,</if>
+            <if test="sortId != null">sort_id,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createTenantId != null">create_tenant_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+            <if test="lastUpdateUserId != null">last_update_user_id,</if>
+            <if test="businessType != null">business_type,</if>
+            <if test="displayType != null">display_type,</if>
+            <if test="appId != null">app_id,</if>
+            <if test="catalogId != null">catalog_id,</if>
+            <if test="securityLevel != null">security_level,</if>
+            <if test="jobDesc != null">job_desc,</if>
+            <if test="ownerType != null">owner_type,</if>
+            <if test="ownerId != null">owner_id,</if>
+            <if test="belongSpaceId != null">belong_space_id,</if>
+            <if test="executorId != null">executor_id,</if>
+            <if test="isRecover != null">is_recover,</if>
+            <if test="businessKey != null">business_key,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">#{jobId},</if>
+            <if test="jobName != null and jobName != ''">#{jobName},</if>
+            <if test="jobType != null">#{jobType},</if>
+            <if test="status != null">#{status},</if>
+            <if test="priority != null">#{priority},</if>
+            <if test="tryCount != null">#{tryCount},</if>
+            <if test="tryFrequency != null">#{tryFrequency},</if>
+            <if test="tryItel != null">#{tryItel},</if>
+            <if test="concurrentCount != null">#{concurrentCount},</if>
+            <if test="flowConfigJson != null">#{flowConfigJson},</if>
+            <if test="cycle != null">#{cycle},</if>
+            <if test="versionNo != null">#{versionNo},</if>
+            <if test="scheduleConfigJson != null">#{scheduleConfigJson},</if>
+            <if test="nextScheduleTime != null">#{nextScheduleTime},</if>
+            <if test="jobWorkGroupCode != null and jobWorkGroupCode != ''">#{jobWorkGroupCode},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="autoStop != null">#{autoStop},</if>
+            <if test="sortId != null">#{sortId},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createTenantId != null">#{createTenantId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+            <if test="lastUpdateUserId != null">#{lastUpdateUserId},</if>
+            <if test="businessType != null">#{businessType},</if>
+            <if test="displayType != null">#{displayType},</if>
+            <if test="appId != null">#{appId},</if>
+            <if test="catalogId != null">#{catalogId},</if>
+            <if test="securityLevel != null">#{securityLevel},</if>
+            <if test="jobDesc != null">#{jobDesc},</if>
+            <if test="ownerType != null">#{ownerType},</if>
+            <if test="ownerId != null">#{ownerId},</if>
+            <if test="belongSpaceId != null">#{belongSpaceId},</if>
+            <if test="executorId != null">#{executorId},</if>
+            <if test="isRecover != null">#{isRecover},</if>
+            <if test="businessKey != null">#{businessKey},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertDataflowJob" parameterType="java.util.List">
+        insert into dataflow_job
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                job_id,
+                                                                job_name,
+                                                                job_type,
+                                                                status,
+                                                                priority,
+                                                                try_count,
+                                                                try_frequency,
+                                                                try_itel,
+                                                                concurrent_count,
+                                                                flow_config_json,
+                                                                cycle,
+                                                                version_no,
+                                                                schedule_config_json,
+                                                                next_schedule_time,
+                                                                job_work_group_code,
+                                                                start_date,
+                                                                end_date,
+                                                                auto_stop,
+                                                                sort_id,
+                                                                create_user_id,
+                                                                create_tenant_id,
+                                                                create_time,
+                                                                last_update_time,
+                                                                last_update_user_id,
+                                                                business_type,
+                                                                display_type,
+                                                                app_id,
+                                                                catalog_id,
+                                                                security_level,
+                                                                job_desc,
+                                                                owner_type,
+                                                                owner_id,
+                                                                belong_space_id,
+                                                                executor_id,
+                                                                is_recover,
+                                                                business_key,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.jobId},
+                                                                                #{item.jobName},
+                                                                                #{item.jobType},
+                                                                                #{item.status},
+                                                                                #{item.priority},
+                                                                                #{item.tryCount},
+                                                                                #{item.tryFrequency},
+                                                                                #{item.tryItel},
+                                                                                #{item.concurrentCount},
+                                                                                #{item.flowConfigJson},
+                                                                                #{item.cycle},
+                                                                                #{item.versionNo},
+                                                                                #{item.scheduleConfigJson},
+                                                                                #{item.nextScheduleTime},
+                                                                                #{item.jobWorkGroupCode},
+                                                                                #{item.startDate},
+                                                                                #{item.endDate},
+                                                                                #{item.autoStop},
+                                                                                #{item.sortId},
+                                                                                #{item.createUserId},
+                                                                                #{item.createTenantId},
+                                                                                #{item.createTime},
+                                                                                #{item.lastUpdateTime},
+                                                                                #{item.lastUpdateUserId},
+                                                                                #{item.businessType},
+                                                                                #{item.displayType},
+                                                                                #{item.appId},
+                                                                                #{item.catalogId},
+                                                                                #{item.securityLevel},
+                                                                                #{item.jobDesc},
+                                                                                #{item.ownerType},
+                                                                                #{item.ownerId},
+                                                                                #{item.belongSpaceId},
+                                                                                #{item.executorId},
+                                                                                #{item.isRecover},
+                                                                                #{item.businessKey},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateDataflowJob" parameterType="DataflowJob">
+        update dataflow_job
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobName != null and jobName != ''">job_name = #{jobName},</if>
+            <if test="jobType != null">job_type = #{jobType},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="priority != null">priority = #{priority},</if>
+            <if test="tryCount != null">try_count = #{tryCount},</if>
+            <if test="tryFrequency != null">try_frequency = #{tryFrequency},</if>
+            <if test="tryItel != null">try_itel = #{tryItel},</if>
+            <if test="concurrentCount != null">concurrent_count = #{concurrentCount},</if>
+            <if test="flowConfigJson != null">flow_config_json = #{flowConfigJson},</if>
+            <if test="cycle != null">cycle = #{cycle},</if>
+            <if test="versionNo != null">version_no = #{versionNo},</if>
+            <if test="scheduleConfigJson != null">schedule_config_json = #{scheduleConfigJson},</if>
+            <if test="nextScheduleTime != null">next_schedule_time = #{nextScheduleTime},</if>
+            <if test="jobWorkGroupCode != null and jobWorkGroupCode != ''">job_work_group_code = #{jobWorkGroupCode},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="autoStop != null">auto_stop = #{autoStop},</if>
+            <if test="sortId != null">sort_id = #{sortId},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createTenantId != null">create_tenant_id = #{createTenantId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="lastUpdateUserId != null">last_update_user_id = #{lastUpdateUserId},</if>
+            <if test="businessType != null">business_type = #{businessType},</if>
+            <if test="displayType != null">display_type = #{displayType},</if>
+            <if test="appId != null">app_id = #{appId},</if>
+            <if test="catalogId != null">catalog_id = #{catalogId},</if>
+            <if test="securityLevel != null">security_level = #{securityLevel},</if>
+            <if test="jobDesc != null">job_desc = #{jobDesc},</if>
+            <if test="ownerType != null">owner_type = #{ownerType},</if>
+            <if test="ownerId != null">owner_id = #{ownerId},</if>
+            <if test="belongSpaceId != null">belong_space_id = #{belongSpaceId},</if>
+            <if test="executorId != null">executor_id = #{executorId},</if>
+            <if test="isRecover != null">is_recover = #{isRecover},</if>
+            <if test="businessKey != null">business_key = #{businessKey},</if>
+        </trim>
+        where job_id = #{jobId}
+    </update>
+
+    <delete id="deleteDataflowJobById" parameterType="String">
+        delete from dataflow_job where job_id = #{jobId}
+    </delete>
+
+    <delete id="deleteDataflowJobByIds" parameterType="String">
+        delete from dataflow_job where job_id in 
+        <foreach item="jobId" collection="array" open="(" separator="," close=")">
+            #{jobId}
+        </foreach>
+    </delete>
+    
+</mapper>

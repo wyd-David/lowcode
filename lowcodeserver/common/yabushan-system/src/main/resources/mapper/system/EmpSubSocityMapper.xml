@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubSocityMapper">
+
+    <resultMap type="EmpSubSocity" id="EmpSubSocityResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="memberEducation"    column="MEMBER_EDUCATION"    />
+        <result property="memberName"    column="MEMBER_NAME"    />
+        <result property="relationWith"    column="RELATION_WITH"    />
+        <result property="memberBirthday"    column="MEMBER_BIRTHDAY"    />
+        <result property="memberInOrg"    column="MEMBER_IN_ORG"    />
+        <result property="memberPolityFace"    column="MEMBER_POLITY_FACE"    />
+        <result property="memberFolk"    column="MEMBER_FOLK"    />
+        <result property="headship"    column="HEADSHIP"    />
+        <result property="memberSex"    column="MEMBER_SEX"    />
+        <result property="isEmergencyFirstLinkman"    column="IS_EMERGENCY_FIRST_LINKMAN"    />
+        <result property="memberPhone"    column="MEMBER_PHONE"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectEmpSubSocityVo">
+        select REC_ID, EMP_ID, SORT_INDEX, MEMBER_EDUCATION, MEMBER_NAME, RELATION_WITH, MEMBER_BIRTHDAY, MEMBER_IN_ORG, MEMBER_POLITY_FACE, MEMBER_FOLK, HEADSHIP, MEMBER_SEX, IS_EMERGENCY_FIRST_LINKMAN, MEMBER_PHONE, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME from emp_sub_socity
+    </sql>
+
+    <select id="selectEmpSubSocityList" parameterType="EmpSubSocity" resultMap="EmpSubSocityResult">
+        <include refid="selectEmpSubSocityVo"/>
+        <where>
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="sortIndex != null "> and SORT_INDEX = #{sortIndex}</if>
+            <if test="memberEducation != null "> and MEMBER_EDUCATION = #{memberEducation}</if>
+            <if test="memberName != null  and memberName != ''"> and MEMBER_NAME like concat('%', #{memberName}, '%')</if>
+            <if test="relationWith != null "> and RELATION_WITH = #{relationWith}</if>
+            <if test="memberBirthday != null "> and MEMBER_BIRTHDAY = #{memberBirthday}</if>
+            <if test="memberInOrg != null  and memberInOrg != ''"> and MEMBER_IN_ORG = #{memberInOrg}</if>
+            <if test="memberPolityFace != null "> and MEMBER_POLITY_FACE = #{memberPolityFace}</if>
+            <if test="memberFolk != null "> and MEMBER_FOLK = #{memberFolk}</if>
+            <if test="headship != null  and headship != ''"> and HEADSHIP = #{headship}</if>
+            <if test="memberSex != null "> and MEMBER_SEX = #{memberSex}</if>
+            <if test="isEmergencyFirstLinkman != null "> and IS_EMERGENCY_FIRST_LINKMAN = #{isEmergencyFirstLinkman}</if>
+            <if test="memberPhone != null  and memberPhone != ''"> and MEMBER_PHONE = #{memberPhone}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectEmpSubSocityById" parameterType="String" resultMap="EmpSubSocityResult">
+        <include refid="selectEmpSubSocityVo"/>
+        where REC_ID = #{recId}
+    </select>
+
+    <insert id="insertEmpSubSocity" parameterType="EmpSubSocity">
+        insert into emp_sub_socity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="memberEducation != null">MEMBER_EDUCATION,</if>
+            <if test="memberName != null">MEMBER_NAME,</if>
+            <if test="relationWith != null">RELATION_WITH,</if>
+            <if test="memberBirthday != null">MEMBER_BIRTHDAY,</if>
+            <if test="memberInOrg != null">MEMBER_IN_ORG,</if>
+            <if test="memberPolityFace != null">MEMBER_POLITY_FACE,</if>
+            <if test="memberFolk != null">MEMBER_FOLK,</if>
+            <if test="headship != null">HEADSHIP,</if>
+            <if test="memberSex != null">MEMBER_SEX,</if>
+            <if test="isEmergencyFirstLinkman != null">IS_EMERGENCY_FIRST_LINKMAN,</if>
+            <if test="memberPhone != null">MEMBER_PHONE,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="memberEducation != null">#{memberEducation},</if>
+            <if test="memberName != null">#{memberName},</if>
+            <if test="relationWith != null">#{relationWith},</if>
+            <if test="memberBirthday != null">#{memberBirthday},</if>
+            <if test="memberInOrg != null">#{memberInOrg},</if>
+            <if test="memberPolityFace != null">#{memberPolityFace},</if>
+            <if test="memberFolk != null">#{memberFolk},</if>
+            <if test="headship != null">#{headship},</if>
+            <if test="memberSex != null">#{memberSex},</if>
+            <if test="isEmergencyFirstLinkman != null">#{isEmergencyFirstLinkman},</if>
+            <if test="memberPhone != null">#{memberPhone},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubSocity" parameterType="EmpSubSocity">
+        update emp_sub_socity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="memberEducation != null">MEMBER_EDUCATION = #{memberEducation},</if>
+            <if test="memberName != null">MEMBER_NAME = #{memberName},</if>
+            <if test="relationWith != null">RELATION_WITH = #{relationWith},</if>
+            <if test="memberBirthday != null">MEMBER_BIRTHDAY = #{memberBirthday},</if>
+            <if test="memberInOrg != null">MEMBER_IN_ORG = #{memberInOrg},</if>
+            <if test="memberPolityFace != null">MEMBER_POLITY_FACE = #{memberPolityFace},</if>
+            <if test="memberFolk != null">MEMBER_FOLK = #{memberFolk},</if>
+            <if test="headship != null">HEADSHIP = #{headship},</if>
+            <if test="memberSex != null">MEMBER_SEX = #{memberSex},</if>
+            <if test="isEmergencyFirstLinkman != null">IS_EMERGENCY_FIRST_LINKMAN = #{isEmergencyFirstLinkman},</if>
+            <if test="memberPhone != null">MEMBER_PHONE = #{memberPhone},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubSocityById" parameterType="String">
+        delete from emp_sub_socity where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubSocityByIds" parameterType="String">
+        delete from emp_sub_socity where REC_ID in
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+
+</mapper>

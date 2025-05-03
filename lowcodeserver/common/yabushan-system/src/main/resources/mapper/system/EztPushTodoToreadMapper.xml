@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EztPushTodoToreadMapper">
+
+    <resultMap type="EztPushTodoToread" id="EztPushTodoToreadResult">
+        <result property="id" column="id"/>
+        <result property="taskId" column="task_id"/>
+        <result property="bid" column="bid"/>
+        <result property="orderId" column="order_id"/>
+        <result property="title" column="title"/>
+        <result property="type" column="type"/>
+        <result property="launcher" column="launcher"/>
+        <result property="launchTime" column="launch_time"/>
+        <result property="processor" column="processor"/>
+        <result property="action" column="action"/>
+        <result property="opinion" column="opinion"/>
+        <result property="content" column="content"/>
+        <result property="url" column="url"/>
+        <result property="dealTime" column="deal_time"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="retryCount" column="retry_count"/>
+        <result property="pushTime" column="push_time"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectEztPushTodoToreadVo">
+        select id,
+               task_id,
+               bid,
+               order_id,
+               title,
+               type,
+               launcher,
+               launch_time,
+               processor, action, opinion, content, url, deal_time, push_status, retry_count, push_time, create_time
+        from ezt_push_todo_toread
+    </sql>
+
+    <select id="selectEztPushTodoToreadList" parameterType="EztPushTodoToread" resultMap="EztPushTodoToreadResult">
+        <include refid="selectEztPushTodoToreadVo"/>
+        <where>
+            <if test="taskId != null  and taskId != ''">and task_id = #{taskId}</if>
+            <if test="bid != null  and bid != ''">and bid = #{bid}</if>
+            <if test="orderId != null  and orderId != ''">and order_id = #{orderId}</if>
+            <if test="title != null  and title != ''">and title = #{title}</if>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+            <if test="launcher != null  and launcher != ''">and launcher = #{launcher}</if>
+            <if test="launchTime != null  and launchTime != ''">and launch_time = #{launchTime}</if>
+            <if test="processor != null  and processor != ''">and processor = #{processor}</if>
+            <if test="action != null  and action != ''">and action = #{action}</if>
+            <if test="opinion != null  and opinion != ''">and opinion = #{opinion}</if>
+            <if test="content != null  and content != ''">and content = #{content}</if>
+            <if test="url != null  and url != ''">and url = #{url}</if>
+            <if test="dealTime != null  and dealTime != ''">and deal_time = #{dealTime}</if>
+            <if test="pushStatus != null  and pushStatus != ''">and push_status = #{pushStatus}</if>
+            <if test="retryCount != null ">and retry_count = #{retryCount}</if>
+            <if test="pushTime != null ">and push_time = #{pushTime}</if>
+        </where>
+    </select>
+
+    <select id="selectEztPushTodoToreadById" parameterType="String" resultMap="EztPushTodoToreadResult">
+        <include refid="selectEztPushTodoToreadVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertEztPushTodoToread" parameterType="EztPushTodoToread">
+        insert into ezt_push_todo_toread
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="taskId != null and taskId != ''">task_id,</if>
+            <if test="bid != null">bid,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="title != null">title,</if>
+            <if test="type != null">type,</if>
+            <if test="launcher != null">launcher,</if>
+            <if test="launchTime != null">launch_time,</if>
+            <if test="processor != null">processor,</if>
+            <if test="action != null">action,</if>
+            <if test="opinion != null">opinion,</if>
+            <if test="content != null">content,</if>
+            <if test="url != null">url,</if>
+            <if test="dealTime != null">deal_time,</if>
+            <if test="pushStatus != null">push_status,</if>
+            <if test="retryCount != null">retry_count,</if>
+            <if test="pushTime != null">push_time,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="taskId != null and taskId != ''">#{taskId},</if>
+            <if test="bid != null">#{bid},</if>
+            <if test="orderId != null">#{orderId},</if>
+            <if test="title != null">#{title},</if>
+            <if test="type != null">#{type},</if>
+            <if test="launcher != null">#{launcher},</if>
+            <if test="launchTime != null">#{launchTime},</if>
+            <if test="processor != null">#{processor},</if>
+            <if test="action != null">#{action},</if>
+            <if test="opinion != null">#{opinion},</if>
+            <if test="content != null">#{content},</if>
+            <if test="url != null">#{url},</if>
+            <if test="dealTime != null">#{dealTime},</if>
+            <if test="pushStatus != null">#{pushStatus},</if>
+            <if test="retryCount != null">#{retryCount},</if>
+            <if test="pushTime != null">#{pushTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertEztPushTodoToread" parameterType="java.util.List">
+        insert into ezt_push_todo_toread
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            task_id,
+            bid,
+            order_id,
+            title,
+            type,
+            launcher,
+            launch_time,
+            processor,
+            action,
+            opinion,
+            content,
+            url,
+            deal_time,
+            push_status,
+            retry_count,
+            push_time,
+            create_time,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.id},
+                #{item.taskId},
+                #{item.bid},
+                #{item.orderId},
+                #{item.title},
+                #{item.type},
+                #{item.launcher},
+                #{item.launchTime},
+                #{item.processor},
+                #{item.action},
+                #{item.opinion},
+                #{item.content},
+                #{item.url},
+                #{item.dealTime},
+                #{item.pushStatus},
+                #{item.retryCount},
+                #{item.pushTime},
+                #{item.createTime},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateEztPushTodoToread" parameterType="EztPushTodoToread">
+        update ezt_push_todo_toread
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskId != null and taskId != ''">task_id = #{taskId},</if>
+            <if test="bid != null">bid = #{bid},</if>
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="launcher != null">launcher = #{launcher},</if>
+            <if test="launchTime != null">launch_time = #{launchTime},</if>
+            <if test="processor != null">processor = #{processor},</if>
+            <if test="action != null">action = #{action},</if>
+            <if test="opinion != null">opinion = #{opinion},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="dealTime != null">deal_time = #{dealTime},</if>
+            <if test="pushStatus != null">push_status = #{pushStatus},</if>
+            <if test="retryCount != null">retry_count = #{retryCount},</if>
+            <if test="pushTime != null">push_time = #{pushTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEztPushTodoToreadById" parameterType="String">
+        delete
+        from ezt_push_todo_toread
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteEztPushTodoToreadByIds" parameterType="String">
+        delete from ezt_push_todo_toread where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.SysNewsPushLogMapper">
+
+    <resultMap type="SysNewsPushLog" id="SysNewsPushLogResult">
+        <result property="id" column="id"/>
+        <result property="templateId" column="template_id"/>
+        <result property="sendOutText" column="send_out_text"/>
+        <result property="sendOutBy" column="send_out_by"/>
+        <result property="sendOutByName" column="send_out_by_name"/>
+        <result property="sendOutPhone" column="send_out_phone"/>
+        <result property="sendOutUrl" column="send_out_url"/>
+        <result property="sendOutNumber" column="send_out_number"/>
+        <result property="sendOutState" column="send_out_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="sendOutTime" column="send_out_time"/>
+        <result property="imgKey" column="img_key"/>
+        <result property="readType" column="read_type"/>
+        <result property="extendK1" column="extend_k1"/>
+        <result property="extendK2" column="extend_k2"/>
+    </resultMap>
+
+    <resultMap type="com.yabushan.system.domain.vo.SysNewsPushLogVo" id="SysNewsPushLogVoResult">
+        <result property="id" column="id"/>
+        <result property="templateId" column="template_id"/>
+        <result property="sendOutText" column="send_out_text"/>
+        <result property="sendOutBy" column="send_out_by"/>
+        <result property="sendOutByName" column="send_out_by_name"/>
+        <result property="sendOutPhone" column="send_out_phone"/>
+        <result property="sendOutUrl" column="send_out_url"/>
+        <result property="sendOutNumber" column="send_out_number"/>
+        <result property="sendOutState" column="send_out_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="sendOutTime" column="send_out_time"/>
+        <result property="imgKey" column="img_key"/>
+        <result property="readType" column="read_type"/>
+        <result property="extendK1" column="extend_k1"/>
+        <result property="extendK2" column="extend_k2"/>
+        <result property="templateTitle" column="template_title"/>
+        <result property="businessType" column="business_type"/>
+        <result property="applyName" column="APPLY_NAME"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectSysNewsPushLogVo">
+        select id, template_id, send_out_text,img_key,read_type,extend_k1,extend_k2, send_out_by, send_out_by_name, send_out_phone, send_out_url, send_out_number, send_out_state, create_time, create_by, update_time, update_by,send_out_time from sys_news_push_log
+    </sql>
+
+    <select id="selectSysNewsPushLogList" parameterType="SysNewsPushLog" resultMap="SysNewsPushLogResult">
+        <include refid="selectSysNewsPushLogVo"/>
+        <where>
+            <if test="sendOutText != null  and sendOutText != ''">and send_out_text like concat('%', #{sendOutText},
+                '%')
+            </if>
+            <if test="sendOutByName != null  and sendOutByName != ''">and send_out_by_name like concat('%',
+                #{sendOutByName}, '%')
+            </if>
+            <if test="sendOutPhone != null  and sendOutPhone != ''">and send_out_phone like concat('%', #{sendOutPhone},
+                '%')
+            </if>
+            <if test="sendOutUrl != null  and sendOutUrl != ''">and send_out_url like concat('%', #{sendOutUrl}, '%')
+            </if>
+            <if test="sendOutNumber != null  and sendOutNumber != ''">and send_out_number like concat('%',
+                #{sendOutNumber}, '%')
+            </if>
+            <if test="sendOutState != null  and sendOutState != ''">and send_out_state = #{sendOutState}</if>
+            <if test="readType != null  and readType != ''">and read_type = #{readType}</if>
+        </where>
+    </select>
+
+    <select id="selectSysNewsPushLogVoList" parameterType="com.yabushan.system.domain.vo.SysNewsPushLogVo"
+            resultMap="SysNewsPushLogVoResult">
+        SELECT
+        a.id,
+        a.send_out_by,
+        a.send_out_text,
+        a.send_out_url,
+        a.send_out_time,
+        a.send_out_phone,
+        a.send_out_number,
+        a.send_out_state,
+        a.read_type,
+        c.APPLY_NAME,
+        b.template_title,
+        a.create_time,
+        a.extend_k1,
+        b.business_type,
+        a.update_time
+        FROM
+        sys_news_push_log a,
+        sys_news_template b,
+        wx_portal_apply_info c
+        <where>
+            a.template_id = b.id
+            AND b.applly_id = c.ID
+            <if test="sendOutText != null  and sendOutText != ''">and a.send_out_text like concat('%', #{sendOutText},
+                '%')
+            </if>
+            <if test="templateTitle != null  and templateTitle != ''">and b.template_title like concat('%', #{templateTitle},
+                '%')
+            </if>
+            <if test="sendOutByName != null  and sendOutByName != ''">and a.send_out_by_name like concat('%',
+                #{sendOutByName}, '%')
+            </if>
+            <if test="sendOutPhone != null  and sendOutPhone != ''">and a.send_out_phone like concat('%',
+                #{sendOutPhone}, '%')
+            </if>
+            <if test="sendOutUrl != null  and sendOutUrl != ''">and a.send_out_url like concat('%', #{sendOutUrl},
+                '%')
+            </if>
+            <if test="sendOutNumber != null  and sendOutNumber != ''">and a.send_out_number like concat('%',
+                #{sendOutNumber}, '%')
+            </if>
+            <if test="sendOutState != null  and sendOutState != ''">and a.send_out_state = #{sendOutState}</if>
+            <if test="readType != null  and readType != ''">and a.read_type = #{readType}</if>
+            <if test="sendOutBy != null  and sendOutBy != ''">and a.send_out_by = #{sendOutBy}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectSysNewsPushLogById" parameterType="Long" resultMap="SysNewsPushLogResult">
+        <include refid="selectSysNewsPushLogVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectReadCount" parameterType="String" resultType="com.yabushan.system.domain.vo.SysNewsPushLogVo">
+     SELECT
+	(
+		SELECT count(*)  FROM sys_news_push_log l
+		WHERE  l.read_type = '2'  AND l.send_out_by = #{sendOutBy}
+	) AS readCount,
+	(
+		SELECT count(*)  FROM sys_news_push_log l
+		WHERE  l.read_type = '1'  AND l.send_out_by = #{sendOutBy}
+	) AS UnreadCount
+    FROM
+	(
+		SELECT a.id AS aid,a.template_id,a.read_type,a.send_out_by,b.id AS bid,b.applly_id,c.ID
+		FROM sys_news_push_log a, sys_news_template b, wx_portal_apply_info c
+		WHERE a.template_id = b.id  AND b.applly_id = c.ID  AND a.send_out_by = #{sendOutBy}
+	) t LIMIT 1
+    </select>
+    <insert id="insertSysNewsPushLog" parameterType="SysNewsPushLog">
+        insert into sys_news_push_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="imgKey != null">img_key,</if>
+            <if test="readType != null">read_type,</if>
+            <if test="extendK1 != null">extend_k1,</if>
+            <if test="extendK2 != null">extend_k2,</if>
+            <if test="templateId != null">template_id,</if>
+            <if test="sendOutText != null">send_out_text,</if>
+            <if test="sendOutBy != null">send_out_by,</if>
+            <if test="sendOutByName != null">send_out_by_name,</if>
+            <if test="sendOutPhone != null">send_out_phone,</if>
+            <if test="sendOutUrl != null">send_out_url,</if>
+            <if test="sendOutNumber != null">send_out_number,</if>
+            <if test="sendOutState != null">send_out_state,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="sendOutTime != null">send_out_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="imgKey != null">#{img_key},</if>
+            <if test="readType != null">#{read_type},</if>
+            <if test="extendK1 != null">#{extend_k1},</if>
+            <if test="extendK2 != null">#{extend_k2},</if>
+            <if test="templateId != null">#{templateId},</if>
+            <if test="sendOutText != null">#{sendOutText},</if>
+            <if test="sendOutBy != null">#{sendOutBy},</if>
+            <if test="sendOutByName != null">#{sendOutByName},</if>
+            <if test="sendOutPhone != null">#{sendOutPhone},</if>
+            <if test="sendOutUrl != null">#{sendOutUrl},</if>
+            <if test="sendOutNumber != null">#{sendOutNumber},</if>
+            <if test="sendOutState != null">#{sendOutState},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="sendOutTime != null">#{sendOutTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysNewsPushLog" parameterType="SysNewsPushLog">
+        update sys_news_push_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imgKey != null">img_key = #{imgKey},</if>
+            <if test="readType != null">read_type = #{readType},</if>
+            <if test="extendK1 != null">extend_k1 = #{extendK1},</if>
+            <if test="extendK2 != null">extend_k2 = #{extendK2},</if>
+            <if test="templateId != null">template_id = #{templateId},</if>
+            <if test="sendOutText != null">send_out_text = #{sendOutText},</if>
+            <if test="sendOutBy != null">send_out_by = #{sendOutBy},</if>
+            <if test="sendOutByName != null">send_out_by_name = #{sendOutByName},</if>
+            <if test="sendOutPhone != null">send_out_phone = #{sendOutPhone},</if>
+            <if test="sendOutUrl != null">send_out_url = #{sendOutUrl},</if>
+            <if test="sendOutNumber != null">send_out_number = #{sendOutNumber},</if>
+            <if test="sendOutState != null">send_out_state = #{sendOutState},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="sendOutTime != null">send_out_time = #{sendOutTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateSysNewsPushLogBySendOutBy" parameterType="SysNewsPushLog">
+        update sys_news_push_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imgKey != null">img_key = #{imgKey},</if>
+            <if test="readType != null">read_type = #{readType},</if>
+            <if test="extendK1 != null">extend_k1 = #{extendK1},</if>
+            <if test="extendK2 != null">extend_k2 = #{extendK2},</if>
+            <if test="templateId != null">template_id = #{templateId},</if>
+            <if test="sendOutText != null">send_out_text = #{sendOutText},</if>
+<!--            <if test="sendOutBy != null">send_out_by = #{sendOutBy},</if>-->
+            <if test="sendOutByName != null">send_out_by_name = #{sendOutByName},</if>
+            <if test="sendOutPhone != null">send_out_phone = #{sendOutPhone},</if>
+            <if test="sendOutUrl != null">send_out_url = #{sendOutUrl},</if>
+            <if test="sendOutNumber != null">send_out_number = #{sendOutNumber},</if>
+            <if test="sendOutState != null">send_out_state = #{sendOutState},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="sendOutTime != null">#{sendOutTime},</if>
+        </trim>
+        where send_out_by = #{sendOutBy}
+    </update>
+
+    <delete id="deleteSysNewsPushLogById" parameterType="Long">
+        delete from sys_news_push_log where id = #{id}
+    </delete>
+
+    <delete id="deleteSysNewsPushLogByIds" parameterType="String">
+        delete from sys_news_push_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

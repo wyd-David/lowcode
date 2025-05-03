@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.AppConnectorAttrMapper">
+    
+    <resultMap type="AppConnectorAttr" id="AppConnectorAttrResult">
+        <result property="attrId"    column="attr_id"    />
+        <result property="connectorId"    column="connector_id"    />
+        <result property="attrCode"    column="attr_code"    />
+        <result property="attrValue"    column="attr_value"    />
+    </resultMap>
+
+    <sql id="selectAppConnectorAttrVo">
+        select attr_id, connector_id, attr_code, attr_value from app_connector_attr
+    </sql>
+
+    <select id="selectAppConnectorAttrList" parameterType="AppConnectorAttr" resultMap="AppConnectorAttrResult">
+        <include refid="selectAppConnectorAttrVo"/>
+        <where>  
+            <if test="connectorId != null  and connectorId != ''"> and connector_id = #{connectorId}</if>
+            <if test="attrCode != null  and attrCode != ''"> and attr_code = #{attrCode}</if>
+            <if test="attrValue != null  and attrValue != ''"> and attr_value = #{attrValue}</if>
+        </where>
+    </select>
+    
+    <select id="selectAppConnectorAttrById" parameterType="String" resultMap="AppConnectorAttrResult">
+        <include refid="selectAppConnectorAttrVo"/>
+        where attr_id = #{attrId}
+    </select>
+        
+    <insert id="insertAppConnectorAttr" parameterType="AppConnectorAttr">
+        insert into app_connector_attr
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="attrId != null">attr_id,</if>
+            <if test="connectorId != null and connectorId != ''">connector_id,</if>
+            <if test="attrCode != null and attrCode != ''">attr_code,</if>
+            <if test="attrValue != null">attr_value,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="attrId != null">#{attrId},</if>
+            <if test="connectorId != null and connectorId != ''">#{connectorId},</if>
+            <if test="attrCode != null and attrCode != ''">#{attrCode},</if>
+            <if test="attrValue != null">#{attrValue},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertAppConnectorAttr" parameterType="java.util.List">
+        insert into app_connector_attr
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                attr_id,
+                                                                connector_id,
+                                                                attr_code,
+                                                                attr_value,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.attrId},
+                                                                                #{item.connectorId},
+                                                                                #{item.attrCode},
+                                                                                #{item.attrValue},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateAppConnectorAttr" parameterType="AppConnectorAttr">
+        update app_connector_attr
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="connectorId != null and connectorId != ''">connector_id = #{connectorId},</if>
+            <if test="attrCode != null and attrCode != ''">attr_code = #{attrCode},</if>
+            <if test="attrValue != null">attr_value = #{attrValue},</if>
+        </trim>
+        where attr_id = #{attrId}
+    </update>
+
+    <delete id="deleteAppConnectorAttrById" parameterType="String">
+        delete from app_connector_attr where attr_id = #{attrId}
+    </delete>
+
+    <delete id="deleteAppConnectorAttrByIds" parameterType="String">
+        delete from app_connector_attr where attr_id in 
+        <foreach item="attrId" collection="array" open="(" separator="," close=")">
+            #{attrId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.web.mapper.YmxInformationOptionsInfoMapper">
+    
+    <resultMap type="com.yabushan.web.model.entity.YmxInformationOptionsInfo" id="YmxInformationOptionsInfoResult">
+        <result property="optionsId"    column="OPTIONS_ID"    />
+        <result property="optionsType"    column="OPTIONS_TYPE"    />
+        <result property="optionsName"    column="OPTIONS_NAME"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="lastUpdatedBy"    column="LAST_UPDATED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+    </resultMap>
+
+    <sql id="selectYmxInformationOptionsInfoVo">
+        select OPTIONS_ID, OPTIONS_TYPE, OPTIONS_NAME, CREATED_BY, CREATED_TIME, LAST_UPDATED_BY, LAST_UPDATED_TIME from ymx_information_options_info
+    </sql>
+
+    <select id="selectYmxInformationOptionsInfoList" parameterType="com.yabushan.web.model.entity.YmxInformationOptionsInfo" resultMap="YmxInformationOptionsInfoResult">
+        <include refid="selectYmxInformationOptionsInfoVo"/>
+        <where>  
+            <if test="optionsType != null  and optionsType != ''"> and OPTIONS_TYPE = #{optionsType}</if>
+            <if test="optionsName != null  and optionsName != ''"> and OPTIONS_NAME like concat('%', #{optionsName}, '%')</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="lastUpdatedBy != null  and lastUpdatedBy != ''"> and LAST_UPDATED_BY = #{lastUpdatedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectYmxInformationOptionsInfoById" parameterType="String" resultMap="YmxInformationOptionsInfoResult">
+        <include refid="selectYmxInformationOptionsInfoVo"/>
+        where OPTIONS_ID = #{optionsId}
+    </select>
+        
+    <insert id="insertYmxInformationOptionsInfo" parameterType="com.yabushan.web.model.entity.YmxInformationOptionsInfo">
+        insert into ymx_information_options_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="optionsId != null">OPTIONS_ID,</if>
+            <if test="optionsType != null and optionsType != ''">OPTIONS_TYPE,</if>
+            <if test="optionsName != null">OPTIONS_NAME,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="optionsId != null">#{optionsId},</if>
+            <if test="optionsType != null and optionsType != ''">#{optionsType},</if>
+            <if test="optionsName != null">#{optionsName},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedBy != null">#{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYmxInformationOptionsInfo" parameterType="com.yabushan.web.model.entity.YmxInformationOptionsInfo">
+        update ymx_information_options_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="optionsType != null and optionsType != ''">OPTIONS_TYPE = #{optionsType},</if>
+            <if test="optionsName != null">OPTIONS_NAME = #{optionsName},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY = #{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+        </trim>
+        where OPTIONS_ID = #{optionsId}
+    </update>
+
+    <delete id="deleteYmxInformationOptionsInfoById" parameterType="String">
+        delete from ymx_information_options_info where OPTIONS_ID = #{optionsId}
+    </delete>
+
+    <delete id="deleteYmxInformationOptionsInfoByIds" parameterType="String">
+        delete from ymx_information_options_info where OPTIONS_ID in 
+        <foreach item="optionsId" collection="array" open="(" separator="," close=")">
+            #{optionsId}
+        </foreach>
+    </delete>
+    
+</mapper>

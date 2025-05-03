@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.MetadataDatasourceTypeClassMapper">
+    
+    <resultMap type="MetadataDatasourceTypeClass" id="MetadataDatasourceTypeClassResult">
+        <result property="classCode"    column="CLASS_CODE"    />
+        <result property="className"    column="CLASS_NAME"    />
+        <result property="order"    column="ORDER"    />
+    </resultMap>
+
+    <sql id="selectMetadataDatasourceTypeClassVo">
+        select CLASS_CODE, CLASS_NAME, ORDER from metadata_datasource_type_class
+    </sql>
+
+    <select id="selectMetadataDatasourceTypeClassList" parameterType="MetadataDatasourceTypeClass" resultMap="MetadataDatasourceTypeClassResult">
+        <include refid="selectMetadataDatasourceTypeClassVo"/>
+        <where>  
+            <if test="className != null  and className != ''"> and CLASS_NAME like concat('%', #{className}, '%')</if>
+            <if test="order != null "> and ORDER = #{order}</if>
+        </where>
+    </select>
+    
+    <select id="selectMetadataDatasourceTypeClassById" parameterType="String" resultMap="MetadataDatasourceTypeClassResult">
+        <include refid="selectMetadataDatasourceTypeClassVo"/>
+        where CLASS_CODE = #{classCode}
+    </select>
+        
+    <insert id="insertMetadataDatasourceTypeClass" parameterType="MetadataDatasourceTypeClass">
+        insert into metadata_datasource_type_class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="classCode != null">CLASS_CODE,</if>
+            <if test="className != null">CLASS_NAME,</if>
+            <if test="order != null">ORDER,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="classCode != null">#{classCode},</if>
+            <if test="className != null">#{className},</if>
+            <if test="order != null">#{order},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertMetadataDatasourceTypeClass" parameterType="java.util.List">
+        insert into metadata_datasource_type_class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                CLASS_CODE,
+                                                                CLASS_NAME,
+                                                                ORDER,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.classCode},
+                                                                                #{item.className},
+                                                                                #{item.order},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateMetadataDatasourceTypeClass" parameterType="MetadataDatasourceTypeClass">
+        update metadata_datasource_type_class
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="className != null">CLASS_NAME = #{className},</if>
+            <if test="order != null">ORDER = #{order},</if>
+        </trim>
+        where CLASS_CODE = #{classCode}
+    </update>
+
+    <delete id="deleteMetadataDatasourceTypeClassById" parameterType="String">
+        delete from metadata_datasource_type_class where CLASS_CODE = #{classCode}
+    </delete>
+
+    <delete id="deleteMetadataDatasourceTypeClassByIds" parameterType="String">
+        delete from metadata_datasource_type_class where CLASS_CODE in 
+        <foreach item="classCode" collection="array" open="(" separator="," close=")">
+            #{classCode}
+        </foreach>
+    </delete>
+    
+</mapper>

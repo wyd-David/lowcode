@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubTreatiseMapper">
+    
+    <resultMap type="EmpSubTreatise" id="EmpSubTreatiseResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="translations"    column="TRANSLATIONS"    />
+        <result property="treatiseName"    column="TREATISE_NAME"    />
+        <result property="publishDate"    column="PUBLISH_DATE"    />
+        <result property="publishOrgName"    column="PUBLISH_ORG_NAME"    />
+        <result property="thesisIdentifier"    column="THESIS_IDENTIFIER"    />
+        <result property="publicationLevel"    column="PUBLICATION_LEVEL"    />
+        <result property="intercourseCircs"    column="INTERCOURSE_CIRCS"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectEmpSubTreatiseVo">
+        select REC_ID, EMP_ID, SORT_INDEX, TRANSLATIONS, TREATISE_NAME, PUBLISH_DATE, PUBLISH_ORG_NAME, THESIS_IDENTIFIER, PUBLICATION_LEVEL, INTERCOURSE_CIRCS, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME from emp_sub_treatise
+    </sql>
+
+    <select id="selectEmpSubTreatiseList" parameterType="EmpSubTreatise" resultMap="EmpSubTreatiseResult">
+        <include refid="selectEmpSubTreatiseVo"/>
+        <where>  
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="sortIndex != null "> and SORT_INDEX = #{sortIndex}</if>
+            <if test="translations != null "> and TRANSLATIONS = #{translations}</if>
+            <if test="treatiseName != null  and treatiseName != ''"> and TREATISE_NAME like concat('%', #{treatiseName}, '%')</if>
+            <if test="publishDate != null  and publishDate != ''"> and PUBLISH_DATE = #{publishDate}</if>
+            <if test="publishOrgName != null  and publishOrgName != ''"> and PUBLISH_ORG_NAME like concat('%', #{publishOrgName}, '%')</if>
+            <if test="thesisIdentifier != null "> and THESIS_IDENTIFIER = #{thesisIdentifier}</if>
+            <if test="publicationLevel != null "> and PUBLICATION_LEVEL = #{publicationLevel}</if>
+            <if test="intercourseCircs != null  and intercourseCircs != ''"> and INTERCOURSE_CIRCS = #{intercourseCircs}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmpSubTreatiseById" parameterType="String" resultMap="EmpSubTreatiseResult">
+        <include refid="selectEmpSubTreatiseVo"/>
+        where REC_ID = #{recId}
+    </select>
+        
+    <insert id="insertEmpSubTreatise" parameterType="EmpSubTreatise">
+        insert into emp_sub_treatise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="translations != null">TRANSLATIONS,</if>
+            <if test="treatiseName != null">TREATISE_NAME,</if>
+            <if test="publishDate != null">PUBLISH_DATE,</if>
+            <if test="publishOrgName != null">PUBLISH_ORG_NAME,</if>
+            <if test="thesisIdentifier != null">THESIS_IDENTIFIER,</if>
+            <if test="publicationLevel != null">PUBLICATION_LEVEL,</if>
+            <if test="intercourseCircs != null">INTERCOURSE_CIRCS,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="translations != null">#{translations},</if>
+            <if test="treatiseName != null">#{treatiseName},</if>
+            <if test="publishDate != null">#{publishDate},</if>
+            <if test="publishOrgName != null">#{publishOrgName},</if>
+            <if test="thesisIdentifier != null">#{thesisIdentifier},</if>
+            <if test="publicationLevel != null">#{publicationLevel},</if>
+            <if test="intercourseCircs != null">#{intercourseCircs},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubTreatise" parameterType="EmpSubTreatise">
+        update emp_sub_treatise
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="translations != null">TRANSLATIONS = #{translations},</if>
+            <if test="treatiseName != null">TREATISE_NAME = #{treatiseName},</if>
+            <if test="publishDate != null">PUBLISH_DATE = #{publishDate},</if>
+            <if test="publishOrgName != null">PUBLISH_ORG_NAME = #{publishOrgName},</if>
+            <if test="thesisIdentifier != null">THESIS_IDENTIFIER = #{thesisIdentifier},</if>
+            <if test="publicationLevel != null">PUBLICATION_LEVEL = #{publicationLevel},</if>
+            <if test="intercourseCircs != null">INTERCOURSE_CIRCS = #{intercourseCircs},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubTreatiseById" parameterType="String">
+        delete from emp_sub_treatise where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubTreatiseByIds" parameterType="String">
+        delete from emp_sub_treatise where REC_ID in 
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.XunchaBaseLogMapper">
+
+	<resultMap type="XunchaBaseLog" id="XunchaBaseLogResult">
+		<result property="id"    column="id"    />
+		<result property="title"    column="title"    />
+		<result property="businessType"    column="business_type"    />
+		<result property="method"    column="method"    />
+		<result property="requestMethod"    column="request_method"    />
+		<result property="operName"    column="oper_name"    />
+		<result property="deptName"    column="dept_name"    />
+		<result property="operIp"    column="oper_ip"    />
+		<result property="operParam"    column="oper_param"    />
+		<result property="jsonResult"    column="json_result"    />
+		<result property="status"    column="status"    />
+		<result property="errorMsg"    column="error_msg"    />
+		<result property="operTime"    column="oper_time"    />
+		<result property="operUrl"    column="oper_url"    />
+		<result property="businessId"    column="business_id"    />
+	</resultMap>
+
+	<sql id="selectXunchaBaseLogVo">
+        select id, title, business_type, method, request_method, oper_name, dept_name, oper_ip, oper_param, json_result, status, error_msg, oper_time, oper_url from xuncha_base_log
+    </sql>
+
+
+	<select id="selectXunchaBaseLogList" resultType="com.yabushan.system.domain.XunchaBaseLog">
+		select
+			id as id,
+			title as title,
+			business_type as businessType,
+			method as method,
+			request_method as requestMethod,
+			oper_name as operName,
+			if(oper_name = 'admin', '系统管理员', (select FULLNAME from uum_userinfo uu where uu.USERID = oper_name)) as username,
+			dept_name as deptName,
+			oper_ip as operIp,
+			oper_param as operParam,
+			json_result as jsonResult,
+			status as status,
+			error_msg as errorMsg,
+			oper_time as operTime,
+			oper_url as operUrl
+		from xuncha_base_log
+		<where>
+			<if test="title != null  and title != ''"> and title = #{title}</if>
+			and ( business_type = 1 or business_type = 2)
+			<if test="method != null  and method != ''"> and method = #{method}</if>
+			<if test="requestMethod != null  and requestMethod != ''"> and request_method = #{requestMethod}</if>
+			<if test="operName != null  and operName != ''"> and oper_name like concat('%', #{operName}, '%')</if>
+			<if test="deptName != null  and deptName != ''"> and dept_name like concat('%', #{deptName}, '%')</if>
+			<if test="operIp != null  and operIp != ''"> and oper_ip = #{operIp}</if>
+			<if test="operParam != null  and operParam != ''"> and oper_param = #{operParam}</if>
+			<if test="jsonResult != null  and jsonResult != ''"> and json_result = #{jsonResult}</if>
+			<if test="status != null "> and status = #{status}</if>
+			<if test="errorMsg != null  and errorMsg != ''"> and error_msg = #{errorMsg}</if>
+			<if test="operTime != null "> and oper_time = #{operTime}</if>
+			<if test="operUrl != null  and operUrl != ''"> and oper_url = #{operUrl}</if>
+			<if test="businessId != null  and businessId != ''"> and business_id = #{businessId}</if>
+		</where>
+	</select>
+
+	<select id="selectXunchaBaseLogById" resultType="com.yabushan.system.domain.XunchaBaseLog">
+		select
+			id as id,
+			title as title,
+			business_type as businessType,
+			method as method,
+			request_method as requestMethod,
+			oper_name as operName,
+			if(oper_name = 'admin', '系统管理员', (select FULLNAME from uum_userinfo uu where uu.USERID = oper_name)) as username,
+			dept_name as deptName,
+			oper_ip as operIp,
+			oper_param as operParam,
+			json_result as jsonResult,
+			status as status,
+			error_msg as errorMsg,
+			oper_time as operTime,
+			oper_url as operUrl
+		from xuncha_base_log
+		where id = #{id}
+	</select>
+
+
+	<select id="getTableColumns" resultType="java.util.Map">
+		select column_name,
+			   column_comment
+		from information_schema.columns
+		where table_name = #{tableName};
+	</select>
+
+	<insert id="insertXunchaBaseLog" parameterType="XunchaBaseLog" useGeneratedKeys="true" keyProperty="id">
+		insert into xuncha_base_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="title != null">title,</if>
+			<if test="businessType != null">business_type,</if>
+			<if test="method != null">method,</if>
+			<if test="requestMethod != null">request_method,</if>
+			<if test="operName != null">oper_name,</if>
+			<if test="deptName != null">dept_name,</if>
+			<if test="operIp != null">oper_ip,</if>
+			<if test="operParam != null">oper_param,</if>
+			<if test="jsonResult != null">json_result,</if>
+			<if test="status != null">status,</if>
+			<if test="errorMsg != null">error_msg,</if>
+			oper_time,
+			<if test="operUrl != null">oper_url,</if>
+			<if test="businessId != null">business_id,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="title != null">#{title},</if>
+			<if test="businessType != null">#{businessType},</if>
+			<if test="method != null">#{method},</if>
+			<if test="requestMethod != null">#{requestMethod},</if>
+			<if test="operName != null">#{operName},</if>
+			<if test="deptName != null">#{deptName},</if>
+			<if test="operIp != null">#{operIp},</if>
+			<if test="operParam != null">#{operParam},</if>
+			<if test="jsonResult != null">#{jsonResult},</if>
+			<if test="status != null">#{status},</if>
+			<if test="errorMsg != null">#{errorMsg},</if>
+			(sysdate()),
+			<if test="operUrl != null">#{operUrl},</if>
+			<if test="businessId != null">#{businessId},</if>
+		</trim>
+	</insert>
+
+	<insert id="bathInsertXunchaBaseLog" parameterType="java.util.List">
+		insert into xuncha_base_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			title,
+			business_type,
+			method,
+			request_method,
+			oper_name,
+			dept_name,
+			oper_ip,
+			oper_param,
+			json_result,
+			status,
+			error_msg,
+			oper_time,
+			oper_url,
+		</trim>
+		values
+		<foreach collection ="list" item="item" separator =",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				#{item.title},
+				#{item.businessType},
+				#{item.method},
+				#{item.requestMethod},
+				#{item.operName},
+				#{item.deptName},
+				#{item.operIp},
+				#{item.operParam},
+				#{item.jsonResult},
+				#{item.status},
+				#{item.errorMsg},
+				#{item.operTime},
+				#{item.operUrl},
+			</trim>
+		</foreach>
+	</insert>
+
+	<update id="updateXunchaBaseLog" parameterType="XunchaBaseLog">
+		update xuncha_base_log
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="title != null">title = #{title},</if>
+			<if test="businessType != null">business_type = #{businessType},</if>
+			<if test="method != null">method = #{method},</if>
+			<if test="requestMethod != null">request_method = #{requestMethod},</if>
+			<if test="operName != null">oper_name = #{operName},</if>
+			<if test="deptName != null">dept_name = #{deptName},</if>
+			<if test="operIp != null">oper_ip = #{operIp},</if>
+			<if test="operParam != null">oper_param = #{operParam},</if>
+			<if test="jsonResult != null">json_result = #{jsonResult},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="errorMsg != null">error_msg = #{errorMsg},</if>
+			<if test="operTime != null">oper_time = #{operTime},</if>
+			<if test="operUrl != null">oper_url = #{operUrl},</if>
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="deleteXunchaBaseLogById" parameterType="Long">
+        delete from xuncha_base_log where id = #{id}
+    </delete>
+
+	<delete id="deleteXunchaBaseLogByIds" parameterType="String">
+		delete from xuncha_base_log where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

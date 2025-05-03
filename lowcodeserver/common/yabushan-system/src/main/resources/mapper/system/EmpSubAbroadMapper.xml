@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubAbroadMapper">
+    
+    <resultMap type="EmpSubAbroad" id="EmpSubAbroadResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="startDate"    column="START_DATE"    />
+        <result property="endDate"    column="END_DATE"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="abroadDate"    column="ABROAD_DATE"    />
+        <result property="abroadArea"    column="ABROAD_AREA"    />
+        <result property="abroadOrg"    column="ABROAD_ORG"    />
+        <result property="groupName"    column="GROUP_NAME"    />
+        <result property="foundSource"    column="FOUND_SOURCE"    />
+        <result property="auditingNo"    column="AUDITING_NO"    />
+        <result property="abroadTask"    column="ABROAD_TASK"    />
+        <result property="groupType"    column="GROUP_TYPE"    />
+        <result property="stayDays"    column="STAY_DAYS"    />
+        <result property="repatriateIdentify"    column="REPATRIATE_IDENTIFY"    />
+        <result property="auditingValidTo"    column="AUDITING_VALID_TO"    />
+        <result property="groupProperty"    column="GROUP_PROPERTY"    />
+        <result property="repatriateDate"    column="REPATRIATE_DATE"    />
+        <result property="auditingRecord"    column="AUDITING_RECORD"    />
+        <result property="otherCountryName"    column="OTHER_COUNTRY_NAME"    />
+        <result property="recordDate"    column="RECORD_DATE"    />
+        <result property="abnormityCircs"    column="ABNORMITY_CIRCS"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectEmpSubAbroadVo">
+        select REC_ID, EMP_ID, START_DATE, END_DATE, SORT_INDEX, ABROAD_DATE, ABROAD_AREA, ABROAD_ORG, GROUP_NAME, FOUND_SOURCE, AUDITING_NO, ABROAD_TASK, GROUP_TYPE, STAY_DAYS, REPATRIATE_IDENTIFY, AUDITING_VALID_TO, GROUP_PROPERTY, REPATRIATE_DATE, AUDITING_RECORD, OTHER_COUNTRY_NAME, RECORD_DATE, ABNORMITY_CIRCS, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME from emp_sub_abroad
+    </sql>
+
+    <select id="selectEmpSubAbroadList" parameterType="EmpSubAbroad" resultMap="EmpSubAbroadResult">
+        <include refid="selectEmpSubAbroadVo"/>
+        <where>  
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="startDate != null "> and START_DATE = #{startDate}</if>
+            <if test="endDate != null "> and END_DATE = #{endDate}</if>
+            <if test="sortIndex != null "> and SORT_INDEX = #{sortIndex}</if>
+            <if test="abroadDate != null "> and ABROAD_DATE = #{abroadDate}</if>
+            <if test="abroadArea != null "> and ABROAD_AREA = #{abroadArea}</if>
+            <if test="abroadOrg != null  and abroadOrg != ''"> and ABROAD_ORG = #{abroadOrg}</if>
+            <if test="groupName != null  and groupName != ''"> and GROUP_NAME like concat('%', #{groupName}, '%')</if>
+            <if test="foundSource != null "> and FOUND_SOURCE = #{foundSource}</if>
+            <if test="auditingNo != null  and auditingNo != ''"> and AUDITING_NO = #{auditingNo}</if>
+            <if test="abroadTask != null  and abroadTask != ''"> and ABROAD_TASK = #{abroadTask}</if>
+            <if test="groupType != null "> and GROUP_TYPE = #{groupType}</if>
+            <if test="stayDays != null "> and STAY_DAYS = #{stayDays}</if>
+            <if test="repatriateIdentify != null  and repatriateIdentify != ''"> and REPATRIATE_IDENTIFY = #{repatriateIdentify}</if>
+            <if test="auditingValidTo != null  and auditingValidTo != ''"> and AUDITING_VALID_TO = #{auditingValidTo}</if>
+            <if test="groupProperty != null  and groupProperty != ''"> and GROUP_PROPERTY = #{groupProperty}</if>
+            <if test="repatriateDate != null "> and REPATRIATE_DATE = #{repatriateDate}</if>
+            <if test="auditingRecord != null "> and AUDITING_RECORD = #{auditingRecord}</if>
+            <if test="otherCountryName != null  and otherCountryName != ''"> and OTHER_COUNTRY_NAME like concat('%', #{otherCountryName}, '%')</if>
+            <if test="recordDate != null "> and RECORD_DATE = #{recordDate}</if>
+            <if test="abnormityCircs != null  and abnormityCircs != ''"> and ABNORMITY_CIRCS = #{abnormityCircs}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmpSubAbroadById" parameterType="String" resultMap="EmpSubAbroadResult">
+        <include refid="selectEmpSubAbroadVo"/>
+        where REC_ID = #{recId}
+    </select>
+        
+    <insert id="insertEmpSubAbroad" parameterType="EmpSubAbroad">
+        insert into emp_sub_abroad
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="startDate != null">START_DATE,</if>
+            <if test="endDate != null">END_DATE,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="abroadDate != null">ABROAD_DATE,</if>
+            <if test="abroadArea != null">ABROAD_AREA,</if>
+            <if test="abroadOrg != null">ABROAD_ORG,</if>
+            <if test="groupName != null">GROUP_NAME,</if>
+            <if test="foundSource != null">FOUND_SOURCE,</if>
+            <if test="auditingNo != null">AUDITING_NO,</if>
+            <if test="abroadTask != null">ABROAD_TASK,</if>
+            <if test="groupType != null">GROUP_TYPE,</if>
+            <if test="stayDays != null">STAY_DAYS,</if>
+            <if test="repatriateIdentify != null">REPATRIATE_IDENTIFY,</if>
+            <if test="auditingValidTo != null">AUDITING_VALID_TO,</if>
+            <if test="groupProperty != null">GROUP_PROPERTY,</if>
+            <if test="repatriateDate != null">REPATRIATE_DATE,</if>
+            <if test="auditingRecord != null">AUDITING_RECORD,</if>
+            <if test="otherCountryName != null">OTHER_COUNTRY_NAME,</if>
+            <if test="recordDate != null">RECORD_DATE,</if>
+            <if test="abnormityCircs != null">ABNORMITY_CIRCS,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="abroadDate != null">#{abroadDate},</if>
+            <if test="abroadArea != null">#{abroadArea},</if>
+            <if test="abroadOrg != null">#{abroadOrg},</if>
+            <if test="groupName != null">#{groupName},</if>
+            <if test="foundSource != null">#{foundSource},</if>
+            <if test="auditingNo != null">#{auditingNo},</if>
+            <if test="abroadTask != null">#{abroadTask},</if>
+            <if test="groupType != null">#{groupType},</if>
+            <if test="stayDays != null">#{stayDays},</if>
+            <if test="repatriateIdentify != null">#{repatriateIdentify},</if>
+            <if test="auditingValidTo != null">#{auditingValidTo},</if>
+            <if test="groupProperty != null">#{groupProperty},</if>
+            <if test="repatriateDate != null">#{repatriateDate},</if>
+            <if test="auditingRecord != null">#{auditingRecord},</if>
+            <if test="otherCountryName != null">#{otherCountryName},</if>
+            <if test="recordDate != null">#{recordDate},</if>
+            <if test="abnormityCircs != null">#{abnormityCircs},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubAbroad" parameterType="EmpSubAbroad">
+        update emp_sub_abroad
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="startDate != null">START_DATE = #{startDate},</if>
+            <if test="endDate != null">END_DATE = #{endDate},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="abroadDate != null">ABROAD_DATE = #{abroadDate},</if>
+            <if test="abroadArea != null">ABROAD_AREA = #{abroadArea},</if>
+            <if test="abroadOrg != null">ABROAD_ORG = #{abroadOrg},</if>
+            <if test="groupName != null">GROUP_NAME = #{groupName},</if>
+            <if test="foundSource != null">FOUND_SOURCE = #{foundSource},</if>
+            <if test="auditingNo != null">AUDITING_NO = #{auditingNo},</if>
+            <if test="abroadTask != null">ABROAD_TASK = #{abroadTask},</if>
+            <if test="groupType != null">GROUP_TYPE = #{groupType},</if>
+            <if test="stayDays != null">STAY_DAYS = #{stayDays},</if>
+            <if test="repatriateIdentify != null">REPATRIATE_IDENTIFY = #{repatriateIdentify},</if>
+            <if test="auditingValidTo != null">AUDITING_VALID_TO = #{auditingValidTo},</if>
+            <if test="groupProperty != null">GROUP_PROPERTY = #{groupProperty},</if>
+            <if test="repatriateDate != null">REPATRIATE_DATE = #{repatriateDate},</if>
+            <if test="auditingRecord != null">AUDITING_RECORD = #{auditingRecord},</if>
+            <if test="otherCountryName != null">OTHER_COUNTRY_NAME = #{otherCountryName},</if>
+            <if test="recordDate != null">RECORD_DATE = #{recordDate},</if>
+            <if test="abnormityCircs != null">ABNORMITY_CIRCS = #{abnormityCircs},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubAbroadById" parameterType="String">
+        delete from emp_sub_abroad where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubAbroadByIds" parameterType="String">
+        delete from emp_sub_abroad where REC_ID in 
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+    
+</mapper>

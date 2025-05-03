@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.SystemJobLogMapper">
+
+    <resultMap type="SystemJobLog" id="SystemJobLogResult">
+        <result property="id" column="ID"/>
+        <result property="applyName" column="APPLY_NAME"/>
+        <result property="applyMiaos" column="APPLY_MIAOS"/>
+        <result property="jobName" column="JOB_NAME"/>
+        <result property="jobMessage" column="JOB_MESSAGE"/>
+        <result property="jobStatus" column="JOB_STATUS"/>
+        <result property="jobExceptionInfo" column="JOB_EXCEPTION_INFO"/>
+        <result property="jobIpAddr" column="JOB_IP_ADDR"/>
+        <result property="dataNum" column="DATA_NUM"/>
+        <result property="dataBatchId" column="DATA_BATCH_ID"/>
+        <result property="exeMethod" column="EXE_METHOD"/>
+        <result property="jobTimeConsuming" column="JOB_TIME_CONSUMING"/>
+        <result property="createdBy" column="CREATED_BY"/>
+        <result property="createdTime" column="CREATED_TIME"/>
+        <result property="updatedBy" column="UPDATED_BY"/>
+        <result property="updatedTime" column="UPDATED_TIME"/>
+    </resultMap>
+
+    <sql id="selectSystemJobLogVo">
+        select ID, APPLY_NAME, APPLY_MIAOS, JOB_NAME, JOB_MESSAGE, JOB_STATUS, JOB_EXCEPTION_INFO, JOB_IP_ADDR, DATA_NUM, DATA_BATCH_ID, EXE_METHOD, JOB_TIME_CONSUMING, CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME from system_job_log
+    </sql>
+
+    <select id="selectSystemJobLogList" parameterType="SystemJobLog" resultMap="SystemJobLogResult">
+        <include refid="selectSystemJobLogVo"/>
+        <where>
+            <if test="applyName != null  and applyName != ''">and APPLY_NAME like concat('%', #{applyName}, '%')</if>
+            <if test="jobName != null  and jobName != ''">and JOB_NAME like concat('%', #{jobName}, '%')</if>
+            <if test="jobStatus != null  and jobStatus != ''">and JOB_STATUS = #{jobStatus}</if>
+            <if test="dataNum != null  and dataNum != ''">and DATA_NUM = #{dataNum}</if>
+            <if test="exeMethod != null  and exeMethod != ''">and EXE_METHOD = #{exeMethod}</if>
+        </where>
+        order by CREATED_TIME desc
+    </select>
+
+    <select id="selectSystemJobLogById" parameterType="String" resultMap="SystemJobLogResult">
+        <include refid="selectSystemJobLogVo"/>
+        where ID = #{id}
+    </select>
+
+    <insert id="insertSystemJobLog" parameterType="SystemJobLog">
+        insert into system_job_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="applyName != null">APPLY_NAME,</if>
+            <if test="applyMiaos != null">APPLY_MIAOS,</if>
+            <if test="jobName != null">JOB_NAME,</if>
+            <if test="jobMessage != null">JOB_MESSAGE,</if>
+            <if test="jobStatus != null">JOB_STATUS,</if>
+            <if test="jobExceptionInfo != null">JOB_EXCEPTION_INFO,</if>
+            <if test="jobIpAddr != null">JOB_IP_ADDR,</if>
+            <if test="dataNum != null">DATA_NUM,</if>
+            <if test="dataBatchId != null">DATA_BATCH_ID,</if>
+            <if test="exeMethod != null">EXE_METHOD,</if>
+            <if test="jobTimeConsuming != null">JOB_TIME_CONSUMING,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="updatedBy != null">UPDATED_BY,</if>
+            <if test="updatedTime != null">UPDATED_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="applyName != null">#{applyName},</if>
+            <if test="applyMiaos != null">#{applyMiaos},</if>
+            <if test="jobName != null">#{jobName},</if>
+            <if test="jobMessage != null">#{jobMessage},</if>
+            <if test="jobStatus != null">#{jobStatus},</if>
+            <if test="jobExceptionInfo != null">#{jobExceptionInfo},</if>
+            <if test="jobIpAddr != null">#{jobIpAddr},</if>
+            <if test="dataNum != null">#{dataNum},</if>
+            <if test="dataBatchId != null">#{dataBatchId},</if>
+            <if test="exeMethod != null">#{exeMethod},</if>
+            <if test="jobTimeConsuming != null">#{jobTimeConsuming},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertSystemJobLog" parameterType="java.util.List">
+        insert into system_job_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            APPLY_NAME,
+            APPLY_MIAOS,
+            JOB_NAME,
+            JOB_MESSAGE,
+            JOB_STATUS,
+            JOB_EXCEPTION_INFO,
+            JOB_IP_ADDR,
+            DATA_NUM,
+            DATA_BATCH_ID,
+            EXE_METHOD,
+            JOB_TIME_CONSUMING,
+            CREATED_BY,
+            CREATED_TIME,
+            UPDATED_BY,
+            UPDATED_TIME,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.id},
+                #{item.applyName},
+                #{item.applyMiaos},
+                #{item.jobName},
+                #{item.jobMessage},
+                #{item.jobStatus},
+                #{item.jobExceptionInfo},
+                #{item.jobIpAddr},
+                #{item.dataNum},
+                #{item.dataBatchId},
+                #{item.exeMethod},
+                #{item.jobTimeConsuming},
+                #{item.createdBy},
+                #{item.createdTime},
+                #{item.updatedBy},
+                #{item.updatedTime},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateSystemJobLog" parameterType="SystemJobLog">
+        update system_job_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="applyName != null">APPLY_NAME = #{applyName},</if>
+            <if test="applyMiaos != null">APPLY_MIAOS = #{applyMiaos},</if>
+            <if test="jobName != null">JOB_NAME = #{jobName},</if>
+            <if test="jobMessage != null">JOB_MESSAGE = #{jobMessage},</if>
+            <if test="jobStatus != null">JOB_STATUS = #{jobStatus},</if>
+            <if test="jobExceptionInfo != null">JOB_EXCEPTION_INFO = #{jobExceptionInfo},</if>
+            <if test="jobIpAddr != null">JOB_IP_ADDR = #{jobIpAddr},</if>
+            <if test="dataNum != null">DATA_NUM = #{dataNum},</if>
+            <if test="dataBatchId != null">DATA_BATCH_ID = #{dataBatchId},</if>
+            <if test="exeMethod != null">EXE_METHOD = #{exeMethod},</if>
+            <if test="jobTimeConsuming != null">JOB_TIME_CONSUMING = #{jobTimeConsuming},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="updatedBy != null">UPDATED_BY = #{updatedBy},</if>
+            <if test="updatedTime != null">UPDATED_TIME = #{updatedTime},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteSystemJobLogById" parameterType="Long">
+        delete from system_job_log where ID = #{id}
+    </delete>
+
+    <delete id="deleteSystemJobLogByIds" parameterType="String">
+        delete from system_job_log where ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

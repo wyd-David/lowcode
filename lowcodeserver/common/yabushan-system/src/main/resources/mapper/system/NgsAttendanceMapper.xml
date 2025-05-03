@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.NgsAttendanceMapper">
+
+    <resultMap type="NgsAttendance" id="NgsAttendanceResult">
+        <result property="atdId"    column="atd_id"    />
+        <result property="mangoUserId"    column="mango_user_id"    />
+        <result property="stId"    column="st_id"    />
+        <result property="secUserId"    column="sec_user_id"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="useClassNum"    column="use_class_num"    />
+        <result property="leftClassNum"    column="left_class_num"    />
+        <result property="mangoUserIdName"    column="mango_user_id_name"    />
+        <result property="secUserIdName"    column="sec_user_id_name"    />
+        <result property="stIdName"    column="st_id_name"    />
+        <result property="orgName"    column="org_name"    />
+
+    </resultMap>
+
+    <sql id="selectNgsAttendanceVo">
+        select atd_id, mango_user_id, st_id, sec_user_id, CREATE_TIME, use_class_num, left_class_num from ngs_attendance
+    </sql>
+
+    <sql id="selectNgsAttendanceVo2">
+        select s.`atd_id`,
+            s.`CREATE_TIME`,
+            s.`left_class_num`,
+            s.`mango_user_id`,
+            s.`mango_user_id_name`,
+            s.`sec_user_id`,
+            s.`sec_user_id_name`,
+            s.`st_id_name`,
+            s.`use_class_num`,
+            S.org_name,
+            S.st_id
+             from view_ngs_attendance s
+    </sql>
+
+    <select id="selectNgsAttendanceList" parameterType="NgsAttendance" resultMap="NgsAttendanceResult">
+        <include refid="selectNgsAttendanceVo2"/>
+        <where>
+            <if test="mangoUserIdName != null "> and ( mango_user_id_name like concat('%', #{mangoUserIdName}, '%') or  sec_user_id_name like concat('%', #{mangoUserIdName}, '%') ) </if>
+            <if test="stId != null "> and st_id_name like concat('%', #{stId}, '%')</if>
+            <if test="stId != null "> and org_name like concat('%', #{orgName}, '%')</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="useClassNum != null "> and use_class_num = #{useClassNum}</if>
+            <if test="leftClassNum != null "> and left_class_num = #{leftClassNum}</if>
+        </where>
+        order by CREATE_TIME desc
+    </select>
+
+    <select id="selectNgsAttendanceById" parameterType="String" resultMap="NgsAttendanceResult">
+        <include refid="selectNgsAttendanceVo"/>
+        where atd_id = #{atdId}
+    </select>
+
+    <insert id="insertNgsAttendance" parameterType="NgsAttendance">
+        insert into ngs_attendance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="atdId != null">atd_id,</if>
+            <if test="mangoUserId != null">mango_user_id,</if>
+            <if test="stId != null">st_id,</if>
+            <if test="secUserId != null">sec_user_id,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="useClassNum != null">use_class_num,</if>
+            <if test="leftClassNum != null">left_class_num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="atdId != null">#{atdId},</if>
+            <if test="mangoUserId != null">#{mangoUserId},</if>
+            <if test="stId != null">#{stId},</if>
+            <if test="secUserId != null">#{secUserId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="useClassNum != null">#{useClassNum},</if>
+            <if test="leftClassNum != null">#{leftClassNum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNgsAttendance" parameterType="NgsAttendance">
+        update ngs_attendance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mangoUserId != null">mango_user_id = #{mangoUserId},</if>
+            <if test="stId != null">st_id = #{stId},</if>
+            <if test="secUserId != null">sec_user_id = #{secUserId},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="useClassNum != null">use_class_num = #{useClassNum},</if>
+            <if test="leftClassNum != null">left_class_num = #{leftClassNum},</if>
+        </trim>
+        where atd_id = #{atdId}
+    </update>
+
+    <delete id="deleteNgsAttendanceById" parameterType="String">
+        delete from ngs_attendance where atd_id = #{atdId}
+    </delete>
+
+    <delete id="deleteNgsAttendanceByIds" parameterType="String">
+        delete from ngs_attendance where atd_id in
+        <foreach item="atdId" collection="array" open="(" separator="," close=")">
+            #{atdId}
+        </foreach>
+    </delete>
+
+</mapper>

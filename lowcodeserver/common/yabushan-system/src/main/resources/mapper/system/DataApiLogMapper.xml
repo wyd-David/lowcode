@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.DataApiLogMapper">
+
+    <resultMap type="DataApiLog" id="DataApiLogResult">
+        <result property="logId"    column="log_id"    />
+        <result property="apiCode"    column="api_code"    />
+        <result property="paramInfo"    column="param_info"    />
+        <result property="resultInfo"    column="result_info"    />
+        <result property="resultCode"    column="result_code"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="requestUser"    column="request_user"    />
+        <result property="createBy"    column="create_by"    />
+
+    </resultMap>
+
+    <sql id="selectDataApiLogVo">
+        SELECT
+          l.log_id,
+          s.`resource_name` AS  api_code,
+          l.param_info,
+          l.result_info,
+          l.result_code,
+          l.create_time,
+          l.request_user
+        FROM
+          data_api_log l,data_api_infos s WHERE l.api_code=s.api_code
+    </sql>
+
+    <select id="selectDataApiLogList" parameterType="DataApiLog" resultMap="DataApiLogResult">
+        <include refid="selectDataApiLogVo"/>
+
+            <if test="apiCode != null  and apiCode != ''"> and l.api_code like concat('%', #{apiCode}, '%')</if>
+            <if test="paramInfo != null  and paramInfo != ''"> and l.param_info like concat('%', #{paramInfo}, '%')</if>
+            <if test="resultCode != null  and resultCode != ''"> and l.result_code = #{resultCode}</if>
+            <if test="requestUser != null  and requestUser != ''"> and l.request_user like concat('%', #{requestUser}, '%')</if>
+            <if test="createBy != null  and createBy != ''"> and s.create_by = #{createBy}</if>
+
+    </select>
+
+    <select id="selectDataApiLogById" parameterType="Long" resultMap="DataApiLogResult">
+        <include refid="selectDataApiLogVo"/>
+        and log_id = #{logId}
+    </select>
+
+    <insert id="insertDataApiLog" parameterType="DataApiLog" useGeneratedKeys="true" keyProperty="logId">
+        insert into data_api_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="apiCode != null">api_code,</if>
+            <if test="paramInfo != null">param_info,</if>
+            <if test="resultInfo != null">result_info,</if>
+            <if test="resultCode != null">result_code,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="requestUser != null">request_user,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="apiCode != null">#{apiCode},</if>
+            <if test="paramInfo != null">#{paramInfo},</if>
+            <if test="resultInfo != null">#{resultInfo},</if>
+            <if test="resultCode != null">#{resultCode},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="requestUser != null">#{requestUser},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataApiLog" parameterType="DataApiLog">
+        update data_api_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="apiCode != null">api_code = #{apiCode},</if>
+            <if test="paramInfo != null">param_info = #{paramInfo},</if>
+            <if test="resultInfo != null">result_info = #{resultInfo},</if>
+            <if test="resultCode != null">result_code = #{resultCode},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="requestUser != null">request_user = #{requestUser},</if>
+        </trim>
+        where log_id = #{logId}
+    </update>
+
+    <delete id="deleteDataApiLogById" parameterType="Long">
+        delete from data_api_log where log_id = #{logId}
+    </delete>
+
+    <delete id="deleteDataApiLogByIds" parameterType="String">
+        delete from data_api_log where log_id in
+        <foreach item="logId" collection="array" open="(" separator="," close=")">
+            #{logId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.ServiceStepBtnConfMapper" >
+  <resultMap id="BaseResultMap" type="com.yabushan.system.domain.ServiceStepBtnConf">
+    <id column="KEY_ID" jdbcType="BIGINT" property="keyId" />
+    <result column="STEP_ID" jdbcType="VARCHAR" property="stepId" />
+    <result column="PROCDEF_ID" jdbcType="VARCHAR" property="procdefId" />
+    <result column="STEP_NAME" jdbcType="VARCHAR" property="stepName" />
+    <result column="STEP_CODE" jdbcType="VARCHAR" property="stepCode" />
+    <result column="BTN_CODE" jdbcType="VARCHAR" property="btnCode" />
+    <result column="BTN_NAME" jdbcType="VARCHAR" property="btnName" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATED_BY" jdbcType="VARCHAR" property="createdBy" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    KEY_ID, STEP_ID, PROCDEF_ID, STEP_NAME, STEP_CODE, BTN_CODE, BTN_NAME, REMARK, CREATED_BY,
+    CREATED_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from service_step_btn_conf
+    where KEY_ID = #{keyId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from service_step_btn_conf
+    where KEY_ID = #{keyId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="KEY_ID" keyProperty="keyId" parameterType="com.yabushan.system.domain.ServiceStepBtnConf" useGeneratedKeys="true">
+    insert into service_step_btn_conf (STEP_ID, PROCDEF_ID, STEP_NAME,
+      STEP_CODE, BTN_CODE, BTN_NAME,
+      REMARK, CREATED_BY, CREATED_TIME
+      )
+    values (#{stepId,jdbcType=VARCHAR}, #{procdefId,jdbcType=VARCHAR}, #{stepName,jdbcType=VARCHAR},
+      #{stepCode,jdbcType=VARCHAR}, #{btnCode,jdbcType=VARCHAR}, #{btnName,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="KEY_ID" keyProperty="keyId" parameterType="com.yabushan.system.domain.ServiceStepBtnConf" useGeneratedKeys="true">
+    insert into service_step_btn_conf
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stepId != null">
+        STEP_ID,
+      </if>
+      <if test="procdefId != null">
+        PROCDEF_ID,
+      </if>
+      <if test="stepName != null">
+        STEP_NAME,
+      </if>
+      <if test="stepCode != null">
+        STEP_CODE,
+      </if>
+      <if test="btnCode != null">
+        BTN_CODE,
+      </if>
+      <if test="btnName != null">
+        BTN_NAME,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY,
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stepId != null">
+        #{stepId,jdbcType=VARCHAR},
+      </if>
+      <if test="procdefId != null">
+        #{procdefId,jdbcType=VARCHAR},
+      </if>
+      <if test="stepName != null">
+        #{stepName,jdbcType=VARCHAR},
+      </if>
+      <if test="stepCode != null">
+        #{stepCode,jdbcType=VARCHAR},
+      </if>
+      <if test="btnCode != null">
+        #{btnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="btnName != null">
+        #{btnName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yabushan.system.domain.ServiceStepBtnConf">
+    update service_step_btn_conf
+    <set>
+      <if test="btnCode != null">
+        BTN_CODE = #{btnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="btnName != null">
+        BTN_NAME = #{btnName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <where>
+      and PROCDEF_ID = #{procdefId,jdbcType=VARCHAR}
+      and STEP_CODE = #{stepCode,jdbcType=VARCHAR}
+      <if test="btnCode != null">
+        and BTN_CODE = #{btnCode,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yabushan.system.domain.ServiceStepBtnConf">
+    update service_step_btn_conf
+    set STEP_ID = #{stepId,jdbcType=VARCHAR},
+      PROCDEF_ID = #{procdefId,jdbcType=VARCHAR},
+      STEP_NAME = #{stepName,jdbcType=VARCHAR},
+      STEP_CODE = #{stepCode,jdbcType=VARCHAR},
+      BTN_CODE = #{btnCode,jdbcType=VARCHAR},
+      BTN_NAME = #{btnName,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATED_BY = #{createdBy,jdbcType=VARCHAR},
+      CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP}
+    where KEY_ID = #{keyId,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="selectServiceStepBtnConfList" parameterType="com.yabushan.system.domain.ServiceStepBtnConf" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from service_step_btn_conf
+    <where>
+      <if test="stepId != null">
+        and STEP_ID = #{stepId,jdbcType=VARCHAR}
+      </if>
+      <if test="procdefId != null">
+        and PROCDEF_ID = #{procdefId,jdbcType=VARCHAR}
+      </if>
+      <if test="stepName != null">
+        and STEP_NAME = #{stepName,jdbcType=VARCHAR}
+      </if>
+      <if test="stepCode != null">
+        and STEP_CODE = #{stepCode,jdbcType=VARCHAR}
+      </if>
+      <if test="btnCode != null">
+        and BTN_CODE = #{btnCode,jdbcType=VARCHAR}
+      </if>
+      <if test="btnName != null">
+        and BTN_NAME = #{btnName,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null">
+        and REMARK = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="createdBy != null">
+        and CREATED_BY = #{createdBy,jdbcType=VARCHAR}
+      </if>
+      <if test="createdTime != null">
+        and CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByParam" parameterType="com.yabushan.system.domain.ServiceStepBtnConf">
+    delete from service_step_btn_conf
+    <where>
+        and PROCDEF_ID = #{procdefId,jdbcType=VARCHAR}
+        and STEP_CODE = #{stepCode,jdbcType=VARCHAR}
+      <if test="btnCode != null">
+        and BTN_CODE = #{btnCode,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </delete>
+
+
+  <select id="selectServiceStepBtnConf" parameterType="com.yabushan.system.domain.ServiceStepBtnConf" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from service_step_btn_conf
+    <where>
+      <if test="stepId != null">
+        and STEP_ID = #{stepId,jdbcType=VARCHAR}
+      </if>
+      <if test="procdefId != null">
+        and PROCDEF_ID like concat(#{procdefId}, '%')
+      </if>
+    </where>
+    order by CREATED_TIME desc
+  </select>
+
+  <select id="selectLastServiceStepBtnConf" parameterType="com.yabushan.system.domain.ServiceStepBtnConf" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from service_step_btn_conf
+    <where>
+      <if test="stepId != null">
+        and STEP_ID = #{stepId,jdbcType=VARCHAR}
+      </if>
+      <if test="procdefId != null">
+        and PROCDEF_ID like concat(#{procdefId}, '%')
+      </if>
+    </where>
+    order by KEY_ID desc limit 1
+  </select>
+
+</mapper>

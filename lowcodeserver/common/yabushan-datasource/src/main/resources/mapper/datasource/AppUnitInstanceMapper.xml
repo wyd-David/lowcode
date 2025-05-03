@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.AppUnitInstanceMapper">
+    
+    <resultMap type="AppUnitInstance" id="AppUnitInstanceResult">
+        <result property="instanceId"    column="instance_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="path"    column="path"    />
+        <result property="instanceCode"    column="instance_code"    />
+        <result property="appId"    column="app_id"    />
+        <result property="accountId"    column="account_id"    />
+        <result property="quotaUnitCode"    column="quota_unit_code"    />
+        <result property="instanceName"    column="instance_name"    />
+        <result property="instanceDisplayName"    column="instance_display_name"    />
+        <result property="instanceDesc"    column="instance_desc"    />
+        <result property="appClassCode"    column="app_class_code"    />
+        <result property="versionCode"    column="version_code"    />
+        <result property="instanceType"    column="instance_type"    />
+        <result property="storageType"    column="storage_type"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createUserName"    column="create_user_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="lastUpdateUserId"    column="last_update_user_id"    />
+        <result property="lastUpdateUserName"    column="last_update_user_name"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+        <result property="belongSpaceId"    column="belong_space_id"    />
+        <result property="ownerType"    column="owner_type"    />
+        <result property="ownerId"    column="owner_id"    />
+        <result property="ownerName"    column="owner_name"    />
+        <result property="securityGradeId"    column="security_grade_id"    />
+        <result property="sortId"    column="sort_id"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="storageStats"    column="storage_stats"    />
+        <result property="isExchangeArea"    column="is_exchange_area"    />
+    </resultMap>
+
+    <sql id="selectAppUnitInstanceVo">
+        select instance_id, parent_id, path, instance_code, app_id, account_id, quota_unit_code, instance_name, instance_display_name, instance_desc, app_class_code, version_code, instance_type, storage_type, create_user_id, create_user_name, create_time, last_update_user_id, last_update_user_name, last_update_time, belong_space_id, owner_type, owner_id, owner_name, security_grade_id, sort_id, is_deleted, storage_stats, is_exchange_area from app_unit_instance
+    </sql>
+
+    <select id="selectAppUnitInstanceList" parameterType="AppUnitInstance" resultMap="AppUnitInstanceResult">
+        <include refid="selectAppUnitInstanceVo"/>
+        <where>  
+            <if test="parentId != null  and parentId != ''"> and parent_id = #{parentId}</if>
+            <if test="path != null  and path != ''"> and path = #{path}</if>
+            <if test="instanceCode != null  and instanceCode != ''"> and instance_code = #{instanceCode}</if>
+            <if test="appId != null  and appId != ''"> and app_id = #{appId}</if>
+            <if test="accountId != null  and accountId != ''"> and account_id = #{accountId}</if>
+            <if test="quotaUnitCode != null  and quotaUnitCode != ''"> and quota_unit_code = #{quotaUnitCode}</if>
+            <if test="instanceName != null  and instanceName != ''"> and instance_name like concat('%', #{instanceName}, '%')</if>
+            <if test="instanceDisplayName != null  and instanceDisplayName != ''"> and instance_display_name like concat('%', #{instanceDisplayName}, '%')</if>
+            <if test="instanceDesc != null  and instanceDesc != ''"> and instance_desc = #{instanceDesc}</if>
+            <if test="appClassCode != null  and appClassCode != ''"> and app_class_code = #{appClassCode}</if>
+            <if test="versionCode != null  and versionCode != ''"> and version_code = #{versionCode}</if>
+            <if test="instanceType != null  and instanceType != ''"> and instance_type = #{instanceType}</if>
+            <if test="storageType != null  and storageType != ''"> and storage_type = #{storageType}</if>
+            <if test="createUserId != null  and createUserId != ''"> and create_user_id = #{createUserId}</if>
+            <if test="createUserName != null  and createUserName != ''"> and create_user_name like concat('%', #{createUserName}, '%')</if>
+            <if test="lastUpdateUserId != null  and lastUpdateUserId != ''"> and last_update_user_id = #{lastUpdateUserId}</if>
+            <if test="lastUpdateUserName != null  and lastUpdateUserName != ''"> and last_update_user_name like concat('%', #{lastUpdateUserName}, '%')</if>
+            <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
+            <if test="belongSpaceId != null  and belongSpaceId != ''"> and belong_space_id = #{belongSpaceId}</if>
+            <if test="ownerType != null  and ownerType != ''"> and owner_type = #{ownerType}</if>
+            <if test="ownerId != null  and ownerId != ''"> and owner_id = #{ownerId}</if>
+            <if test="ownerName != null  and ownerName != ''"> and owner_name like concat('%', #{ownerName}, '%')</if>
+            <if test="securityGradeId != null  and securityGradeId != ''"> and security_grade_id = #{securityGradeId}</if>
+            <if test="sortId != null "> and sort_id = #{sortId}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+            <if test="storageStats != null "> and storage_stats = #{storageStats}</if>
+            <if test="isExchangeArea != null  and isExchangeArea != ''"> and is_exchange_area = #{isExchangeArea}</if>
+        </where>
+    </select>
+    
+    <select id="selectAppUnitInstanceById" parameterType="String" resultMap="AppUnitInstanceResult">
+        <include refid="selectAppUnitInstanceVo"/>
+        where instance_id = #{instanceId}
+    </select>
+        
+    <insert id="insertAppUnitInstance" parameterType="AppUnitInstance">
+        insert into app_unit_instance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="instanceId != null">instance_id,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="path != null and path != ''">path,</if>
+            <if test="instanceCode != null">instance_code,</if>
+            <if test="appId != null and appId != ''">app_id,</if>
+            <if test="accountId != null">account_id,</if>
+            <if test="quotaUnitCode != null and quotaUnitCode != ''">quota_unit_code,</if>
+            <if test="instanceName != null and instanceName != ''">instance_name,</if>
+            <if test="instanceDisplayName != null">instance_display_name,</if>
+            <if test="instanceDesc != null">instance_desc,</if>
+            <if test="appClassCode != null">app_class_code,</if>
+            <if test="versionCode != null">version_code,</if>
+            <if test="instanceType != null">instance_type,</if>
+            <if test="storageType != null">storage_type,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createUserName != null">create_user_name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="lastUpdateUserId != null">last_update_user_id,</if>
+            <if test="lastUpdateUserName != null">last_update_user_name,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+            <if test="belongSpaceId != null">belong_space_id,</if>
+            <if test="ownerType != null">owner_type,</if>
+            <if test="ownerId != null">owner_id,</if>
+            <if test="ownerName != null">owner_name,</if>
+            <if test="securityGradeId != null">security_grade_id,</if>
+            <if test="sortId != null">sort_id,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="storageStats != null">storage_stats,</if>
+            <if test="isExchangeArea != null">is_exchange_area,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="instanceId != null">#{instanceId},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="path != null and path != ''">#{path},</if>
+            <if test="instanceCode != null">#{instanceCode},</if>
+            <if test="appId != null and appId != ''">#{appId},</if>
+            <if test="accountId != null">#{accountId},</if>
+            <if test="quotaUnitCode != null and quotaUnitCode != ''">#{quotaUnitCode},</if>
+            <if test="instanceName != null and instanceName != ''">#{instanceName},</if>
+            <if test="instanceDisplayName != null">#{instanceDisplayName},</if>
+            <if test="instanceDesc != null">#{instanceDesc},</if>
+            <if test="appClassCode != null">#{appClassCode},</if>
+            <if test="versionCode != null">#{versionCode},</if>
+            <if test="instanceType != null">#{instanceType},</if>
+            <if test="storageType != null">#{storageType},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createUserName != null">#{createUserName},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="lastUpdateUserId != null">#{lastUpdateUserId},</if>
+            <if test="lastUpdateUserName != null">#{lastUpdateUserName},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+            <if test="belongSpaceId != null">#{belongSpaceId},</if>
+            <if test="ownerType != null">#{ownerType},</if>
+            <if test="ownerId != null">#{ownerId},</if>
+            <if test="ownerName != null">#{ownerName},</if>
+            <if test="securityGradeId != null">#{securityGradeId},</if>
+            <if test="sortId != null">#{sortId},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="storageStats != null">#{storageStats},</if>
+            <if test="isExchangeArea != null">#{isExchangeArea},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertAppUnitInstance" parameterType="java.util.List">
+        insert into app_unit_instance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                instance_id,
+                                                                parent_id,
+                                                                path,
+                                                                instance_code,
+                                                                app_id,
+                                                                account_id,
+                                                                quota_unit_code,
+                                                                instance_name,
+                                                                instance_display_name,
+                                                                instance_desc,
+                                                                app_class_code,
+                                                                version_code,
+                                                                instance_type,
+                                                                storage_type,
+                                                                create_user_id,
+                                                                create_user_name,
+                                                                create_time,
+                                                                last_update_user_id,
+                                                                last_update_user_name,
+                                                                last_update_time,
+                                                                belong_space_id,
+                                                                owner_type,
+                                                                owner_id,
+                                                                owner_name,
+                                                                security_grade_id,
+                                                                sort_id,
+                                                                is_deleted,
+                                                                storage_stats,
+                                                                is_exchange_area,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.instanceId},
+                                                                                #{item.parentId},
+                                                                                #{item.path},
+                                                                                #{item.instanceCode},
+                                                                                #{item.appId},
+                                                                                #{item.accountId},
+                                                                                #{item.quotaUnitCode},
+                                                                                #{item.instanceName},
+                                                                                #{item.instanceDisplayName},
+                                                                                #{item.instanceDesc},
+                                                                                #{item.appClassCode},
+                                                                                #{item.versionCode},
+                                                                                #{item.instanceType},
+                                                                                #{item.storageType},
+                                                                                #{item.createUserId},
+                                                                                #{item.createUserName},
+                                                                                #{item.createTime},
+                                                                                #{item.lastUpdateUserId},
+                                                                                #{item.lastUpdateUserName},
+                                                                                #{item.lastUpdateTime},
+                                                                                #{item.belongSpaceId},
+                                                                                #{item.ownerType},
+                                                                                #{item.ownerId},
+                                                                                #{item.ownerName},
+                                                                                #{item.securityGradeId},
+                                                                                #{item.sortId},
+                                                                                #{item.isDeleted},
+                                                                                #{item.storageStats},
+                                                                                #{item.isExchangeArea},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateAppUnitInstance" parameterType="AppUnitInstance">
+        update app_unit_instance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="path != null and path != ''">path = #{path},</if>
+            <if test="instanceCode != null">instance_code = #{instanceCode},</if>
+            <if test="appId != null and appId != ''">app_id = #{appId},</if>
+            <if test="accountId != null">account_id = #{accountId},</if>
+            <if test="quotaUnitCode != null and quotaUnitCode != ''">quota_unit_code = #{quotaUnitCode},</if>
+            <if test="instanceName != null and instanceName != ''">instance_name = #{instanceName},</if>
+            <if test="instanceDisplayName != null">instance_display_name = #{instanceDisplayName},</if>
+            <if test="instanceDesc != null">instance_desc = #{instanceDesc},</if>
+            <if test="appClassCode != null">app_class_code = #{appClassCode},</if>
+            <if test="versionCode != null">version_code = #{versionCode},</if>
+            <if test="instanceType != null">instance_type = #{instanceType},</if>
+            <if test="storageType != null">storage_type = #{storageType},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUserName != null">create_user_name = #{createUserName},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="lastUpdateUserId != null">last_update_user_id = #{lastUpdateUserId},</if>
+            <if test="lastUpdateUserName != null">last_update_user_name = #{lastUpdateUserName},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="belongSpaceId != null">belong_space_id = #{belongSpaceId},</if>
+            <if test="ownerType != null">owner_type = #{ownerType},</if>
+            <if test="ownerId != null">owner_id = #{ownerId},</if>
+            <if test="ownerName != null">owner_name = #{ownerName},</if>
+            <if test="securityGradeId != null">security_grade_id = #{securityGradeId},</if>
+            <if test="sortId != null">sort_id = #{sortId},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="storageStats != null">storage_stats = #{storageStats},</if>
+            <if test="isExchangeArea != null">is_exchange_area = #{isExchangeArea},</if>
+        </trim>
+        where instance_id = #{instanceId}
+    </update>
+
+    <delete id="deleteAppUnitInstanceById" parameterType="String">
+        delete from app_unit_instance where instance_id = #{instanceId}
+    </delete>
+
+    <delete id="deleteAppUnitInstanceByIds" parameterType="String">
+        delete from app_unit_instance where instance_id in 
+        <foreach item="instanceId" collection="array" open="(" separator="," close=")">
+            #{instanceId}
+        </foreach>
+    </delete>
+    
+</mapper>

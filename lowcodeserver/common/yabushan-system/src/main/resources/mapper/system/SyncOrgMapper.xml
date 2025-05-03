@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.SyncOrgMapper">
+    
+    <resultMap type="SyncOrg" id="SyncOrgResult">
+        <result property="id"    column="ID"    />
+        <result property="dpid"    column="DPID"    />
+        <result property="dpcode"    column="DPCODE"    />
+        <result property="dpname"    column="DPNAME"    />
+        <result property="dpfullname"    column="DPFULLNAME"    />
+        <result property="dplv"    column="DPLV"    />
+        <result property="serialnumber"    column="SERIALNUMBER"    />
+        <result property="status"    column="STATUS"    />
+        <result property="comments"    column="COMMENTS"    />
+        <result property="createdate"    column="CREATEDATE"    />
+        <result property="modifieddate"    column="MODIFIEDDATE"    />
+        <result property="parentdpid"    column="PARENTDPID"    />
+        <result property="operationcode"    column="OPERATIONCODE"    />
+        <result property="newno"    column="NEWNO"    />
+        <result property="depttype"    column="DEPTTYPE"    />
+        <result property="parentno"    column="PARENTNO"    />
+        <result property="ldapdpid"    column="LDAPDPID"    />
+        <result property="dn"    column="DN"    />
+        <result property="oashow"    column="OASHOW"    />
+        <result property="pinyin"    column="PINYIN"    />
+        <result property="unideptcode"    column="UNIDEPTCODE"    />
+        <result property="unideptname"    column="UNIDEPTNAME"    />
+        <result property="isdept"    column="ISDEPT"    />
+        <result property="orgid"    column="ORGID"    />
+        <result property="orgcode"    column="ORGCODE"    />
+        <result property="orgnameinerp"    column="ORGNAMEINERP"    />
+        <result property="deptdeletedate"    column="DEPTDELETEDATE"    />
+        <result property="upuniteorgcode"    column="UPUNITEORGCODE"    />
+        <result property="iscrm"    column="ISCRM"    />
+        <result property="depttype2"    column="DEPTTYPE2"    />
+        <result property="segment1"    column="SEGMENT1"    />
+        <result property="segment2"    column="SEGMENT2"    />
+        <result property="rid"    column="RID"    />
+        <result property="syscsdepid"    column="syscsdepid"    />
+        <result property="sysDepId" column="sys_dep_id"/>
+        <result property="syncDepId" column="sync_dep_id"/>
+        <result property="depAcset" column="dep_acset"/>
+        <result property="depEnglishName" column="dep_english_name"/>
+        <result property="isDept" column="is_dept"/>
+        <result property="extendedField1" column="extended_field1"/>
+        <result property="extendedField2" column="extended_field2"/>
+        <result property="extendedField3" column="extended_field3"/>
+    </resultMap>
+
+    <sql id="selectSyncOrgVo">
+        select ID, DPID, DPCODE, DPNAME, DPFULLNAME, DPLV, SERIALNUMBER, STATUS, COMMENTS, CREATEDATE, MODIFIEDDATE, PARENTDPID, OPERATIONCODE, NEWNO, DEPTTYPE, PARENTNO, LDAPDPID, DN, OASHOW, PINYIN, UNIDEPTCODE, UNIDEPTNAME, ISDEPT, ORGID, ORGCODE, ORGNAMEINERP, DEPTDELETEDATE, UPUNITEORGCODE, ISCRM, DEPTTYPE2, SEGMENT1, SEGMENT2, RID from sync_org
+    </sql>
+
+    <select id="selectSyncOrgListAll" parameterType="SyncOrg" resultMap="SyncOrgResult">
+        <include refid="selectSyncOrgVo"/>
+        <where>
+            <if test="dpid != null  and dpid != ''"> and G.DPID = #{dpid}</if>
+            <if test="dpcode != null  and dpcode != ''"> and G.DPCODE = #{dpcode}</if>
+            <if test="dpname != null  and dpname != ''"> and G.DPNAME like concat('%', #{dpname}, '%')</if>
+            <if test="dpfullname != null  and dpfullname != ''"> and G.DPFULLNAME like concat('%', #{dpfullname}, '%')</if>
+            <if test="dplv != null "> and G.DPLV = #{dplv}</if>
+            <if test="serialnumber != null "> and G.SERIALNUMBER = #{serialnumber}</if>
+            <if test="status != null  and status != ''"> and G.STATUS = #{status}</if>
+            <if test="comments != null  and comments != ''"> and G.COMMENTS = #{comments}</if>
+            <if test="createdate != null "> and G.CREATEDATE = #{createdate}</if>
+            <if test="modifieddate != null "> and G.MODIFIEDDATE = #{modifieddate}</if>
+            <if test="parentdpid != null  and parentdpid != ''"> and G.PARENTDPID = #{parentdpid}</if>
+            <if test="operationcode != null  and operationcode != ''"> and G.OPERATIONCODE = #{operationcode}</if>
+            <if test="newno != null  and newno != ''"> and G.NEWNO = #{newno}</if>
+            <if test="depttype != null  and depttype != ''"> and G.DEPTTYPE = #{depttype}</if>
+            <if test="parentno != null  and parentno != ''"> and G.PARENTNO = #{parentno}</if>
+            <if test="ldapdpid != null  and ldapdpid != ''"> and G.LDAPDPID = #{ldapdpid}</if>
+            <if test="dn != null  and dn != ''"> and G.DN = #{dn}</if>
+            <if test="oashow != null  and oashow != ''"> and G.OASHOW = #{oashow}</if>
+            <if test="pinyin != null  and pinyin != ''"> and G.PINYIN = #{pinyin}</if>
+            <if test="unideptcode != null  and unideptcode != ''"> and G.UNIDEPTCODE = #{unideptcode}</if>
+            <if test="unideptname != null  and unideptname != ''"> and G.UNIDEPTNAME like concat('%', #{unideptname}, '%')</if>
+            <if test="isdept != null  and isdept != ''"> and G.ISDEPT = #{isdept}</if>
+            <if test="orgid != null  and orgid != ''"> and G.ORGID = #{orgid}</if>
+            <if test="orgcode != null  and orgcode != ''"> and G.ORGCODE = #{orgcode}</if>
+            <if test="orgnameinerp != null  and orgnameinerp != ''"> and G.ORGNAMEINERP = #{orgnameinerp}</if>
+            <if test="deptdeletedate != null  and deptdeletedate != ''"> and G.DEPTDELETEDATE = #{deptdeletedate}</if>
+            <if test="upuniteorgcode != null  and upuniteorgcode != ''"> and G.UPUNITEORGCODE = #{upuniteorgcode}</if>
+            <if test="iscrm != null "> and G.ISCRM = #{iscrm}</if>
+            <if test="depttype2 != null  and depttype2 != ''"> and G.DEPTTYPE2 = #{depttype2}</if>
+            <if test="segment1 != null  and segment1 != ''"> and G.SEGMENT1 = #{segment1}</if>
+            <if test="segment2 != null  and segment2 != ''"> and G.SEGMENT2 = #{segment2}</if>
+            <if test="rid != null "> and G.RID = #{rid}</if>
+        </where>
+    </select>
+
+    <select id="selectSyncOrgList" parameterType="SyncOrg" resultMap="SyncOrgResult">
+        select G.ID, G.DPID, G.DPCODE, G.DPNAME, G.DPFULLNAME, G.DPLV, G.SERIALNUMBER, G.STATUS, G.COMMENTS, G.CREATEDATE, G.MODIFIEDDATE,
+        G.PARENTDPID, G.OPERATIONCODE,G.NEWNO, G.DEPTTYPE, G.PARENTNO, G.LDAPDPID, G.DN, G.OASHOW, G.PINYIN, G.UNIDEPTCODE, G.UNIDEPTNAME,
+               G.ISDEPT, G.ORGID, G.ORGCODE, G.ORGNAMEINERP, G.DEPTDELETEDATE,G.UPUNITEORGCODE, G.ISCRM, G.DEPTTYPE2, G.SEGMENT1, G.SEGMENT2,
+        G.RID,D.SYS_DEP_ID
+        from sync_org G JOIN sys_sync_dep D ON D.sync_dep_id=G.DPID
+        <where>  
+            <if test="dpid != null  and dpid != ''"> and G.DPID = #{dpid}</if>
+            <if test="dpcode != null  and dpcode != ''"> and G.DPCODE = #{dpcode}</if>
+            <if test="dpname != null  and dpname != ''"> and G.DPNAME like concat('%', #{dpname}, '%')</if>
+            <if test="dpfullname != null  and dpfullname != ''"> and G.DPFULLNAME like concat('%', #{dpfullname}, '%')</if>
+            <if test="dplv != null "> and G.DPLV = #{dplv}</if>
+            <if test="serialnumber != null "> and G.SERIALNUMBER = #{serialnumber}</if>
+            <if test="status != null  and status != ''"> and G.STATUS = #{status}</if>
+            <if test="comments != null  and comments != ''"> and G.COMMENTS = #{comments}</if>
+            <if test="createdate != null "> and G.CREATEDATE = #{createdate}</if>
+            <if test="modifieddate != null "> and G.MODIFIEDDATE = #{modifieddate}</if>
+            <if test="parentdpid != null  and parentdpid != ''"> and G.PARENTDPID = #{parentdpid}</if>
+            <if test="operationcode != null  and operationcode != ''"> and G.OPERATIONCODE = #{operationcode}</if>
+            <if test="newno != null  and newno != ''"> and G.NEWNO = #{newno}</if>
+            <if test="depttype != null  and depttype != ''"> and G.DEPTTYPE = #{depttype}</if>
+            <if test="parentno != null  and parentno != ''"> and G.PARENTNO = #{parentno}</if>
+            <if test="ldapdpid != null  and ldapdpid != ''"> and G.LDAPDPID = #{ldapdpid}</if>
+            <if test="dn != null  and dn != ''"> and G.DN = #{dn}</if>
+            <if test="oashow != null  and oashow != ''"> and G.OASHOW = #{oashow}</if>
+            <if test="pinyin != null  and pinyin != ''"> and G.PINYIN = #{pinyin}</if>
+            <if test="unideptcode != null  and unideptcode != ''"> and G.UNIDEPTCODE = #{unideptcode}</if>
+            <if test="unideptname != null  and unideptname != ''"> and G.UNIDEPTNAME like concat('%', #{unideptname}, '%')</if>
+            <if test="isdept != null  and isdept != ''"> and G.ISDEPT = #{isdept}</if>
+            <if test="orgid != null  and orgid != ''"> and G.ORGID = #{orgid}</if>
+            <if test="orgcode != null  and orgcode != ''"> and G.ORGCODE = #{orgcode}</if>
+            <if test="orgnameinerp != null  and orgnameinerp != ''"> and G.ORGNAMEINERP = #{orgnameinerp}</if>
+            <if test="deptdeletedate != null  and deptdeletedate != ''"> and G.DEPTDELETEDATE = #{deptdeletedate}</if>
+            <if test="upuniteorgcode != null  and upuniteorgcode != ''"> and G.UPUNITEORGCODE = #{upuniteorgcode}</if>
+            <if test="iscrm != null "> and G.ISCRM = #{iscrm}</if>
+            <if test="depttype2 != null  and depttype2 != ''"> and G.DEPTTYPE2 = #{depttype2}</if>
+            <if test="segment1 != null  and segment1 != ''"> and G.SEGMENT1 = #{segment1}</if>
+            <if test="segment2 != null  and segment2 != ''"> and G.SEGMENT2 = #{segment2}</if>
+            <if test="rid != null "> and G.RID = #{rid}</if>
+        </where>
+        ORDER BY RID
+    </select>
+    
+    <select id="selectSyncOrgById" parameterType="Long" resultMap="SyncOrgResult">
+        <include refid="selectSyncOrgVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertSyncOrg" parameterType="SyncOrg">
+        insert into sync_org
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="dpid != null">DPID,</if>
+            <if test="dpcode != null">DPCODE,</if>
+            <if test="dpname != null">DPNAME,</if>
+            <if test="dpfullname != null">DPFULLNAME,</if>
+            <if test="dplv != null">DPLV,</if>
+            <if test="serialnumber != null">SERIALNUMBER,</if>
+            <if test="status != null">STATUS,</if>
+            <if test="comments != null">COMMENTS,</if>
+            <if test="createdate != null">CREATEDATE,</if>
+            <if test="modifieddate != null">MODIFIEDDATE,</if>
+            <if test="parentdpid != null">PARENTDPID,</if>
+            <if test="operationcode != null">OPERATIONCODE,</if>
+            <if test="newno != null">NEWNO,</if>
+            <if test="depttype != null">DEPTTYPE,</if>
+            <if test="parentno != null">PARENTNO,</if>
+            <if test="ldapdpid != null">LDAPDPID,</if>
+            <if test="dn != null">DN,</if>
+            <if test="oashow != null">OASHOW,</if>
+            <if test="pinyin != null">PINYIN,</if>
+            <if test="unideptcode != null">UNIDEPTCODE,</if>
+            <if test="unideptname != null">UNIDEPTNAME,</if>
+            <if test="isdept != null">ISDEPT,</if>
+            <if test="orgid != null">ORGID,</if>
+            <if test="orgcode != null">ORGCODE,</if>
+            <if test="orgnameinerp != null">ORGNAMEINERP,</if>
+            <if test="deptdeletedate != null">DEPTDELETEDATE,</if>
+            <if test="upuniteorgcode != null">UPUNITEORGCODE,</if>
+            <if test="iscrm != null">ISCRM,</if>
+            <if test="depttype2 != null">DEPTTYPE2,</if>
+            <if test="segment1 != null">SEGMENT1,</if>
+            <if test="segment2 != null">SEGMENT2,</if>
+            <if test="rid != null">RID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="dpid != null">#{dpid},</if>
+            <if test="dpcode != null">#{dpcode},</if>
+            <if test="dpname != null">#{dpname},</if>
+            <if test="dpfullname != null">#{dpfullname},</if>
+            <if test="dplv != null">#{dplv},</if>
+            <if test="serialnumber != null">#{serialnumber},</if>
+            <if test="status != null">#{status},</if>
+            <if test="comments != null">#{comments},</if>
+            <if test="createdate != null">#{createdate},</if>
+            <if test="modifieddate != null">#{modifieddate},</if>
+            <if test="parentdpid != null">#{parentdpid},</if>
+            <if test="operationcode != null">#{operationcode},</if>
+            <if test="newno != null">#{newno},</if>
+            <if test="depttype != null">#{depttype},</if>
+            <if test="parentno != null">#{parentno},</if>
+            <if test="ldapdpid != null">#{ldapdpid},</if>
+            <if test="dn != null">#{dn},</if>
+            <if test="oashow != null">#{oashow},</if>
+            <if test="pinyin != null">#{pinyin},</if>
+            <if test="unideptcode != null">#{unideptcode},</if>
+            <if test="unideptname != null">#{unideptname},</if>
+            <if test="isdept != null">#{isdept},</if>
+            <if test="orgid != null">#{orgid},</if>
+            <if test="orgcode != null">#{orgcode},</if>
+            <if test="orgnameinerp != null">#{orgnameinerp},</if>
+            <if test="deptdeletedate != null">#{deptdeletedate},</if>
+            <if test="upuniteorgcode != null">#{upuniteorgcode},</if>
+            <if test="iscrm != null">#{iscrm},</if>
+            <if test="depttype2 != null">#{depttype2},</if>
+            <if test="segment1 != null">#{segment1},</if>
+            <if test="segment2 != null">#{segment2},</if>
+            <if test="rid != null">#{rid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSyncOrg" parameterType="SyncOrg">
+        update sync_org
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dpid != null">DPID = #{dpid},</if>
+            <if test="dpcode != null">DPCODE = #{dpcode},</if>
+            <if test="dpname != null">DPNAME = #{dpname},</if>
+            <if test="dpfullname != null">DPFULLNAME = #{dpfullname},</if>
+            <if test="dplv != null">DPLV = #{dplv},</if>
+            <if test="serialnumber != null">SERIALNUMBER = #{serialnumber},</if>
+            <if test="status != null">STATUS = #{status},</if>
+            <if test="comments != null">COMMENTS = #{comments},</if>
+            <if test="createdate != null">CREATEDATE = #{createdate},</if>
+            <if test="modifieddate != null">MODIFIEDDATE = #{modifieddate},</if>
+            <if test="parentdpid != null">PARENTDPID = #{parentdpid},</if>
+            <if test="operationcode != null">OPERATIONCODE = #{operationcode},</if>
+            <if test="newno != null">NEWNO = #{newno},</if>
+            <if test="depttype != null">DEPTTYPE = #{depttype},</if>
+            <if test="parentno != null">PARENTNO = #{parentno},</if>
+            <if test="ldapdpid != null">LDAPDPID = #{ldapdpid},</if>
+            <if test="dn != null">DN = #{dn},</if>
+            <if test="oashow != null">OASHOW = #{oashow},</if>
+            <if test="pinyin != null">PINYIN = #{pinyin},</if>
+            <if test="unideptcode != null">UNIDEPTCODE = #{unideptcode},</if>
+            <if test="unideptname != null">UNIDEPTNAME = #{unideptname},</if>
+            <if test="isdept != null">ISDEPT = #{isdept},</if>
+            <if test="orgid != null">ORGID = #{orgid},</if>
+            <if test="orgcode != null">ORGCODE = #{orgcode},</if>
+            <if test="orgnameinerp != null">ORGNAMEINERP = #{orgnameinerp},</if>
+            <if test="deptdeletedate != null">DEPTDELETEDATE = #{deptdeletedate},</if>
+            <if test="upuniteorgcode != null">UPUNITEORGCODE = #{upuniteorgcode},</if>
+            <if test="iscrm != null">ISCRM = #{iscrm},</if>
+            <if test="depttype2 != null">DEPTTYPE2 = #{depttype2},</if>
+            <if test="segment1 != null">SEGMENT1 = #{segment1},</if>
+            <if test="segment2 != null">SEGMENT2 = #{segment2},</if>
+            <if test="rid != null">RID = #{rid},</if>
+        </trim>
+        where DPID = #{dpid}
+    </update>
+
+    <delete id="deleteSyncOrgById" parameterType="Long">
+        delete from sync_org where ID = #{id}
+    </delete>
+
+    <delete id="deleteSyncOrgByDepId" parameterType="String">
+        delete from sync_org where DPID = #{depId}
+    </delete>
+
+    <delete id="deleteSyncOrgByIds" parameterType="String">
+        delete from sync_org where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectSyncOrgByDepId" parameterType="String" resultMap="SyncOrgResult">
+        <include refid="selectSyncOrgVo"/>
+        where DPID = #{depId}
+    </select>
+
+    <select id="selectSyncOrgBySysDep" parameterType="String" resultMap="SyncOrgResult">
+        <include refid="selectSyncOrgVo"/> o where o.DPID IN(
+        SELECT sync_dep_id FROM sys_sync_dep s
+            <where>
+                <if test="deptId != null">AND s.sys_dep_id = #{deptId}</if>
+            </where>
+        )
+    </select>
+
+    <select id="selectSyncOrgByParentId" parameterType="String" resultType="java.lang.Integer">
+        select count(*) from sync_org where PARENTDPID = #{parentdpid}
+    </select>
+
+    <delete id="trunCateSyncOrg">
+        TRUNCATE table sync_org
+    </delete>
+
+    <select id="selectSysSyncDepAllParentLevel"  resultMap="SyncOrgResult">
+        SELECT d.* FROM sync_org d,sys_sync_dep sd WHERE d.DPID = sd.sync_dep_id AND  d.PARENTDPID='dproot'
+    </select>
+
+    <select id="selectSysSyncDepAllSenndLevel" parameterType="SyncOrg" resultMap="SyncOrgResult" >
+        SELECT d.*,sd.dep_english_name,sd.dep_acset ,sd.id as syscsdepid,sd.sys_dep_id , sd.sync_dep_id
+         FROM sync_org d,sys_sync_dep sd
+           <where>
+               d.DPID = sd.sync_dep_id AND sd.is_dept = '1'
+               <if test="parentdpid != null and parentdpid != ''">
+                   and d.PARENTDPID=#{parentdpid}
+               </if>
+               <if test="dpid != null and dpid != ''">
+                   and d.DPID=#{dpid}
+               </if>
+               <if test="dpname != null and dpname != ''">
+                   and d.DPNAME like concat('%', #{dpname}, '%')
+               </if>
+               <if test="depEnglishName != null and depEnglishName != ''">
+                   and sd.dep_english_name like concat('%', #{depEnglishName}, '%')
+               </if>
+               <if test="depAcset != null and depAcset != ''">
+                   and sd.dep_acset=#{depAcset}
+               </if>
+           </where>
+
+    </select>
+    <select id="selectSysSyncDepAll"   resultMap="SyncOrgResult">
+        SELECT d.*,sd.dep_english_name,sd.dep_acset ,sd.id as syscsdepid,sd.sys_dep_id , sd.sync_dep_id FROM sync_org d,sys_sync_dep sd WHERE d.DPID = sd.sync_dep_id
+        AND d.DPFULLNAME like concat('总部各部门%')
+    </select>
+
+
+    <select id="getLcjsEmpInfo" parameterType="com.yabushan.system.domain.vo.OrgRoleUserVo" resultType="com.yabushan.system.domain.vo.RoleEmpInfoVo">
+        SELECT
+        S.user_login_id as loginId,
+        S.user_name as empName,
+        R.role_Name as roleName,
+		CONCAT(S.user_name,'(',R.role_name,')') as fullUserName
+        FROM
+        role_control_manager S,
+        role_control R,
+        SYS_SYNC_DEP D
+        WHERE S.role_control_id = R.role_control_id
+        AND R.role_name = #{roleName}
+        <if test="orgId != null and orgId != ''">
+            AND D.sync_dep_id=#{orgId}
+        </if>
+        AND D.sys_dep_id=S.scope
+    </select>
+
+<!--    <select id="getJsEmpInfo" parameterType="com.yabushan.system.domain.vo.OrgRoleUserVo" resultType="com.yabushan.system.domain.vo.RoleEmpInfoVo">-->
+<!--        SELECT-->
+<!--            u.`nick_name` as empName,-->
+<!--            u.`user_name` as loginId-->
+<!--        FROM-->
+<!--            SYS_ROLE R,-->
+<!--            SYS_USER_ROLE UR,-->
+<!--            sys_user u ,-->
+<!--            sys_sync_dep d-->
+<!--        WHERE R.`role_id` = UR.`role_id`-->
+<!--          AND ur.`user_id` = u.`user_id`-->
+<!--          AND d.`sys_dep_id`=u.`dept_id`-->
+<!--          AND (d.`sync_dep_id`=#{orgId} or u.dept_id =#{orgId})-->
+<!--          AND R.`role_name`=#{roleName}-->
+<!--    </select>-->
+
+    <select id="getJsEmpInfo" parameterType="com.yabushan.system.domain.vo.OrgRoleUserVo" resultType="com.yabushan.system.domain.vo.RoleEmpInfoVo">
+        SELECT sy.`user_name` as loginId,sy.`nick_name` as empName
+        FROM sync_user u,sys_user sy,sys_user_role  ur,sys_role r
+        WHERE  sy.user_name=u.`LOGINID`
+        AND r.`role_id`=ur.`role_id`
+        AND sy.`user_id`=ur.`user_id`
+        and u.`DPID` in(SELECT g.`DPID` FROM sync_org g WHERE g.`DPCODE` like concat('%', #{orgId}, '%'))
+        AND r.`role_name`=#{roleName}
+    </select>
+
+    <select id="selectSyncDepAllVo" parameterType="SyncOrg" resultType="com.yabushan.system.domain.vo.SyncOrgVo" >
+        SELECT d.*,sd.dep_english_name as depEnglishName,sd.dep_acset as depAcset
+        FROM sync_org d,sys_sync_dep sd
+        <where>
+            d.DPID = sd.sync_dep_id AND sd.is_dept = '1'
+            <if test="parentdpid != null and parentdpid != ''">
+                and d.PARENTDPID=#{parentdpid}
+            </if>
+            <if test="dpid != null and dpid != ''">
+                and d.DPID=#{dpid}
+            </if>
+            <if test="dpname != null and dpname != ''">
+                and d.DPNAME=#{dpname}
+            </if>
+            <if test="depEnglishName != null and depEnglishName != ''">
+                and ds.dep_english_name=#{depEnglishName}
+            </if>
+            <if test="depAcset != null and depAcset != ''">
+                and ds.dep_acset=#{depAcset}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="getSyncOrgBySyncDep" parameterType="String" resultMap="SyncOrgResult">
+        <include refid="selectSyncOrgVo"/> o where o.DPID IN(
+        SELECT sync_dep_id FROM sys_sync_dep s
+        <where>
+            <if test="deptId != null">AND s.sync_dep_id = #{deptId}</if>
+        </where>
+        )
+    </select>
+
+
+    <select id="selectChildrenSyncDeptById" parameterType="String" resultMap="SyncOrgResult">
+		select * from sync_org where find_in_set(#{deptId}, DPCODE)
+	</select>
+
+
+
+    <update id="updateSyncDeptChildren" parameterType="java.util.List">
+        update sync_org set DPCODE =
+        <foreach collection="depts" item="item" index="index"
+                 separator=" " open="case dept_id" close="end">
+            when #{item.dpid} then #{item.dpcode}
+        </foreach>
+        where dpid in
+        <foreach collection="depts" item="item" index="index"
+                 separator="," open="(" close=")">
+            #{item.dpid}
+        </foreach>
+    </update>
+
+</mapper>

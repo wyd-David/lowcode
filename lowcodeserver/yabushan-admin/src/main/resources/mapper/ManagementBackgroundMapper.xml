@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.web.mapper.ManagementBackgroundMapper">
+
+    <resultMap type="com.yabushan.web.model.entity.YmxOrderInfo" id="YmxOrderInfoResult">
+        <result property="orderId" column="ORDER_ID"/>
+        <result property="amazonOrderId" column="AMAZON_ORDER_ID"/>
+        <result property="merchantOrderId" column="MERCHANT_ORDER_ID"/>
+        <result property="purchaseDate" column="PURCHASE_DATE"/>
+        <result property="orderStatus" column="ORDER_STATUS"/>
+        <result property="salesChannel" column="SALES_CHANNEL"/>
+        <result property="orderChannel" column="ORDER_CHANNEL"/>
+        <result property="url" column="URL"/>
+        <result property="shipServiceLevel" column="SHIP_SERVICE_LEVEL"/>
+        <result property="productName" column="PRODUCT_NAME"/>
+        <result property="sku" column="SKU"/>
+        <result property="asin" column="ASIN"/>
+        <result property="itemStatus" column="ITEM_STATUS"/>
+        <result property="quantity" column="QUANTITY"/>
+        <result property="currency" column="CURRENCY"/>
+        <result property="itemPrice" column="ITEM_PRICE"/>
+        <result property="itemTax" column="ITEM_TAX"/>
+        <result property="shippingPrice" column="SHIPPING_PRICE"/>
+        <result property="shippingTax" column="SHIPPING_TAX"/>
+        <result property="giftWrapPrice" column="GIFT_WRAP_PRICE"/>
+        <result property="giftWrapTax" column="GIFT_WRAP_TAX"/>
+        <result property="itemPromotionDiscount" column="ITEM_PROMOTION_DISCOUNT"/>
+        <result property="shipPromotionDiscount" column="SHIP_PROMOTION_DISCOUNT"/>
+        <result property="shipCity" column="SHIP_CITY"/>
+        <result property="shipPostalCode" column="SHIP_POSTAL_CODE"/>
+        <result property="shipState" column="SHIP_STATE"/>
+        <result property="shipCountry" column="SHIP_COUNTRY"/>
+        <result property="promotionIds" column="PROMOTION_IDS"/>
+        <result property="isBusinessOrder" column="IS_BUSINESS_ORDER"/>
+        <result property="purchaseOrderNumber" column="PURCHASE_ORDER_NUMBER"/>
+        <result property="customerInformationId" column="CUSTOMER_INFORMATION_ID"/>
+        <result property="priceDesignation" column="PRICE_DESIGNATION"/>
+        <result property="createdBy" column="CREATED_BY"/>
+        <result property="createdTime" column="CREATED_TIME"/>
+        <result property="lastUpdatedBy" column="LAST_UPDATED_BY"/>
+        <result property="lastUpdatedTime" column="LAST_UPDATED_TIME"/>
+    </resultMap>
+
+    <sql id="selectYmxOrderInfoVo">
+        select ORDER_ID,
+               AMAZON_ORDER_ID,
+               MERCHANT_ORDER_ID,
+               PURCHASE_DATE,
+               ORDER_STATUS,
+               SALES_CHANNEL,
+               ORDER_CHANNEL,
+               URL,
+               SHIP_SERVICE_LEVEL,
+               PRODUCT_NAME,
+               SKU,
+               ASIN,
+               ITEM_STATUS,
+               QUANTITY,
+               CURRENCY,
+               ITEM_PRICE,
+               ITEM_TAX,
+               SHIPPING_PRICE,
+               SHIPPING_TAX,
+               GIFT_WRAP_PRICE,
+               GIFT_WRAP_TAX,
+               ITEM_PROMOTION_DISCOUNT,
+               SHIP_PROMOTION_DISCOUNT,
+               SHIP_CITY,
+               SHIP_POSTAL_CODE,
+               SHIP_STATE,
+               SHIP_COUNTRY,
+               PROMOTION_IDS,
+               IS_BUSINESS_ORDER,
+               PURCHASE_ORDER_NUMBER,
+               CUSTOMER_INFORMATION_ID,
+               PRICE_DESIGNATION,
+               CREATED_BY,
+               CREATED_TIME,
+               LAST_UPDATED_BY,
+               LAST_UPDATED_TIME
+        from ymx_order_info
+    </sql>
+
+    <select id="selectYmxOrderInfoList" parameterType="com.yabushan.web.model.entity.YmxOrderInfo" resultMap="YmxOrderInfoResult">
+        select * from ymx_order_info
+        <where>
+            <if test="amazonOrderId != null  and amazonOrderId != ''">and AMAZON_ORDER_ID = #{amazonOrderId}</if>
+            <if test="merchantOrderId != null  and merchantOrderId != ''">and MERCHANT_ORDER_ID = #{merchantOrderId}
+            </if>
+            <if test="purchaseDate != null ">and PURCHASE_DATE = #{purchaseDate}</if>
+            <if test="orderStatus != null  and orderStatus != ''">and ORDER_STATUS = #{orderStatus}</if>
+            <if test="salesChannel != null  and salesChannel != ''">and SALES_CHANNEL = #{salesChannel}</if>
+            <if test="orderChannel != null  and orderChannel != ''">and ORDER_CHANNEL = #{orderChannel}</if>
+            <if test="url != null  and url != ''">and URL = #{url}</if>
+            <if test="shipServiceLevel != null  and shipServiceLevel != ''">and SHIP_SERVICE_LEVEL =
+                #{shipServiceLevel}
+            </if>
+            <if test="productName != null  and productName != ''">and PRODUCT_NAME like concat('%', #{productName},'%')
+            </if>
+            <if test="sku != null  and sku != ''">and SKU = #{sku}</if>
+            <if test="asin != null  and asin != ''">and ASIN = #{asin}</if>
+            <if test="itemStatus != null  and itemStatus != ''">and ITEM_STATUS = #{itemStatus}</if>
+            <if test="quantity != null ">and QUANTITY = #{quantity}</if>
+            <if test="currency != null  and currency != ''">and CURRENCY = #{currency}</if>
+            <if test="itemPrice != null ">and ITEM_PRICE = #{itemPrice}</if>
+            <if test="itemTax != null ">and ITEM_TAX = #{itemTax}</if>
+            <if test="shippingPrice != null ">and SHIPPING_PRICE = #{shippingPrice}</if>
+            <if test="shippingTax != null ">and SHIPPING_TAX = #{shippingTax}</if>
+            <if test="giftWrapPrice != null ">and GIFT_WRAP_PRICE = #{giftWrapPrice}</if>
+            <if test="giftWrapTax != null ">and GIFT_WRAP_TAX = #{giftWrapTax}</if>
+            <if test="itemPromotionDiscount != null  and itemPromotionDiscount != ''">and ITEM_PROMOTION_DISCOUNT = #{itemPromotionDiscount}
+            </if>
+            <if test="shipPromotionDiscount != null  and shipPromotionDiscount != ''">and SHIP_PROMOTION_DISCOUNT = #{shipPromotionDiscount}
+            </if>
+            <if test="shipCity != null  and shipCity != ''">and SHIP_CITY = #{shipCity}</if>
+            <if test="shipPostalCode != null  and shipPostalCode != ''">and SHIP_POSTAL_CODE = #{shipPostalCode}</if>
+            <if test="shipState != null  and shipState != ''">and SHIP_STATE = #{shipState}</if>
+            <if test="shipCountry != null  and shipCountry != ''">and SHIP_COUNTRY = #{shipCountry}</if>
+            <if test="promotionIds != null  and promotionIds != ''">and PROMOTION_IDS = #{promotionIds}</if>
+            <if test="isBusinessOrder != null  and isBusinessOrder != ''">and IS_BUSINESS_ORDER = #{isBusinessOrder}
+            </if>
+            <if test="purchaseOrderNumber != null  and purchaseOrderNumber != ''">and PURCHASE_ORDER_NUMBER = #{purchaseOrderNumber}
+            </if>
+            <if test="customerInformationId != null  and customerInformationId != ''">and CUSTOMER_INFORMATION_ID = #{customerInformation_Id}
+            </if>
+            <if test="priceDesignation != null  and priceDesignation != ''">and PRICE_DESIGNATION =
+                #{priceDesignation}
+            </if>
+            <if test="createdBy != null  and createdBy != ''">and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null ">and CREATED_TIME = #{createdTime}</if>
+            <if test="lastUpdatedBy != null  and lastUpdatedBy != ''">and LAST_UPDATED_BY = #{lastUpdatedBy}</if>
+            <if test="lastUpdatedTime != null ">and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+        </where>
+    </select>
+
+    <select id="selectYmxOrderInfoById" parameterType="String" resultMap="YmxOrderInfoResult">
+        select * from ymx_order_info
+        where ORDER_ID = #{orderId}
+    </select>
+
+    <insert id="insertYmxOrderInfo" parameterType="com.yabushan.web.model.entity.YmxOrderInfo">
+        insert into ymx_order_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">ORDER_ID,</if>
+            <if test="amazonOrderId != null and amazonOrderId != ''">AMAZON_ORDER_ID,</if>
+            <if test="merchantOrderId != null">MERCHANT_ORDER_ID,</if>
+            <if test="purchaseDate != null">PURCHASE_DATE,</if>
+            <if test="orderStatus != null">ORDER_STATUS,</if>
+            <if test="salesChannel != null">SALES_CHANNEL,</if>
+            <if test="orderChannel != null">ORDER_CHANNEL,</if>
+            <if test="url != null">URL,</if>
+            <if test="shipServiceLevel != null">SHIP_SERVICE_LEVEL,</if>
+            <if test="productName != null">PRODUCT_NAME,</if>
+            <if test="sku != null">SKU,</if>
+            <if test="asin != null">ASIN,</if>
+            <if test="itemStatus != null">ITEM_STATUS,</if>
+            <if test="quantity != null">QUANTITY,</if>
+            <if test="currency != null">CURRENCY,</if>
+            <if test="itemPrice != null">ITEM_PRICE,</if>
+            <if test="itemTax != null">ITEM_TAX,</if>
+            <if test="shippingPrice != null">SHIPPING_PRICE,</if>
+            <if test="shippingTax != null">SHIPPING_TAX,</if>
+            <if test="giftWrapPrice != null">GIFT_WRAP_PRICE,</if>
+            <if test="giftWrapTax != null">GIFT_WRAP_TAX,</if>
+            <if test="itemPromotionDiscount != null">ITEM_PROMOTION_DISCOUNT,</if>
+            <if test="shipPromotionDiscount != null">SHIP_PROMOTION_DISCOUNT,</if>
+            <if test="shipCity != null">SHIP_CITY,</if>
+            <if test="shipPostalCode != null">SHIP_POSTAL_CODE,</if>
+            <if test="shipState != null">SHIP_STATE,</if>
+            <if test="shipCountry != null">SHIP_COUNTRY,</if>
+            <if test="promotionIds != null">PROMOTION_IDS,</if>
+            <if test="isBusinessOrder != null">IS_BUSINESS_ORDER,</if>
+            <if test="purchaseOrderNumber != null">PURCHASE_ORDER_NUMBER,</if>
+            <if test="customerInformationId != null">CUSTOMER_INFORMATION_ID,</if>
+            <if test="priceDesignation != null">PRICE_DESIGNATION,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="amazonOrderId != null and amazonOrderId != ''">#{amazonOrderId},</if>
+            <if test="merchantOrderId != null">#{merchantOrderId},</if>
+            <if test="purchaseDate != null">#{purchaseDate},</if>
+            <if test="orderStatus != null">#{orderStatus},</if>
+            <if test="salesChannel != null">#{salesChannel},</if>
+            <if test="orderChannel != null">#{orderChannel},</if>
+            <if test="url != null">#{url},</if>
+            <if test="shipServiceLevel != null">#{shipServiceLevel},</if>
+            <if test="productName != null">#{productName},</if>
+            <if test="sku != null">#{sku},</if>
+            <if test="asin != null">#{asin},</if>
+            <if test="itemStatus != null">#{itemStatus},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="currency != null">#{currency},</if>
+            <if test="itemPrice != null">#{itemPrice},</if>
+            <if test="itemTax != null">#{itemTax},</if>
+            <if test="shippingPrice != null">#{shippingPrice},</if>
+            <if test="shippingTax != null">#{shippingTax},</if>
+            <if test="giftWrapPrice != null">#{giftWrapPrice},</if>
+            <if test="giftWrapTax != null">#{giftWrapTax},</if>
+            <if test="itemPromotionDiscount != null">#{itemPromotionDiscount},</if>
+            <if test="shipPromotionDiscount != null">#{shipPromotionDiscount},</if>
+            <if test="shipCity != null">#{shipCity},</if>
+            <if test="shipPostalCode != null">#{shipPostalCode},</if>
+            <if test="shipState != null">#{shipState},</if>
+            <if test="shipCountry != null">#{shipCountry},</if>
+            <if test="promotionIds != null">#{promotionIds},</if>
+            <if test="isBusinessOrder != null">#{isBusinessOrder},</if>
+            <if test="purchaseOrderNumber != null">#{purchaseOrderNumber},</if>
+            <if test="customerInformationId != null">#{customerInformationId},</if>
+            <if test="priceDesignation != null">#{priceDesignation},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedBy != null">#{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateYmxOrderInfo" parameterType="com.yabushan.web.model.entity.YmxOrderInfo">
+        update ymx_order_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="amazonOrderId != null and amazonOrderId != ''">AMAZON_ORDER_ID = #{amazonOrderId},</if>
+            <if test="merchantOrderId != null">MERCHANT_ORDER_ID = #{merchantOrderId},</if>
+            <if test="purchaseDate != null">PURCHASE_DATE = #{purchaseDate},</if>
+            <if test="orderStatus != null">ORDER_STATUS = #{orderStatus},</if>
+            <if test="salesChannel != null">SALES_CHANNEL = #{salesChannel},</if>
+            <if test="orderChannel != null">ORDER_CHANNEL = #{orderChannel},</if>
+            <if test="url != null">URL = #{url},</if>
+            <if test="shipServiceLevel != null">SHIP_SERVICE_LEVEL = #{shipServiceLevel},</if>
+            <if test="productName != null">PRODUCT_NAME = #{productName},</if>
+            <if test="sku != null">SKU = #{sku},</if>
+            <if test="asin != null">ASIN = #{asin},</if>
+            <if test="itemStatus != null">ITEM_STATUS = #{itemStatus},</if>
+            <if test="quantity != null">QUANTITY = #{quantity},</if>
+            <if test="currency != null">CURRENCY = #{currency},</if>
+            <if test="itemPrice != null">ITEM_PRICE = #{itemPrice},</if>
+            <if test="itemTax != null">ITEM_TAX = #{itemTax},</if>
+            <if test="shippingPrice != null">SHIPPING_PRICE = #{shippingPrice},</if>
+            <if test="shippingTax != null">SHIPPING_TAX = #{shippingTax},</if>
+            <if test="giftWrapPrice != null">GIFT_WRAP_PRICE = #{giftWrapPrice},</if>
+            <if test="giftWrapTax != null">GIFT_WRAP_TAX = #{giftWrapTax},</if>
+            <if test="itemPromotionDiscount != null">ITEM_PROMOTION_DISCOUNT = #{itemPromotionDiscount},</if>
+            <if test="shipPromotionDiscount != null">SHIP_PROMOTION_DISCOUNT = #{shipPromotionDiscount},</if>
+            <if test="shipCity != null">SHIP_CITY = #{shipCity},</if>
+            <if test="shipPostalCode != null">SHIP_POSTAL_CODE = #{shipPostalCode},</if>
+            <if test="shipState != null">SHIP_STATE = #{shipState},</if>
+            <if test="shipCountry != null">SHIP_COUNTRY = #{shipCountry},</if>
+            <if test="promotionIds != null">PROMOTION_IDS = #{promotionIds},</if>
+            <if test="isBusinessOrder != null">IS_BUSINESS_ORDER = #{isBusinessOrder},</if>
+            <if test="purchaseOrderNumber != null">PURCHASE_ORDER_NUMBER = #{purchaseOrderNumber},</if>
+            <if test="customerInformationId != null">CUSTOMER_INFORMATION_ID = #{customerInformationId},</if>
+            <if test="priceDesignation != null">PRICE_DESIGNATION = #{priceDesignation},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY = #{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+        </trim>
+        where ORDER_ID = #{orderId}
+    </update>
+
+    <delete id="deleteYmxOrderInfoById" parameterType="String">
+        delete
+        from ymx_order_info
+        where ORDER_ID = #{orderId}
+    </delete>
+
+    <delete id="deleteYmxOrderInfoByIds" parameterType="String">
+        delete from ymx_order_info where ORDER_ID in
+        <foreach item="orderId" collection="array" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+
+</mapper>

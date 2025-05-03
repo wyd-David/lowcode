@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.WarnSmsLogMapper">
+
+    <resultMap type="WarnSmsLog" id="WarnSmsLogResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="loginId" column="login_id"/>
+        <result property="phone" column="phone"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="content" column="content"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="status" column="status"/>
+        <result property="type" column="type"/>
+        <result property="num" column="num"/>
+        <result property="innerHandler" column="inner_handler"/>
+        <result property="exData" column="ex_data"/>
+        <result property="title" column="title"/>
+        <result property="innerStatus" column="inner_status"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="orgId" column="org_id"/>
+        <result property="tenantId" column="tenant_id"/>
+
+        <result property="sendType" column="send_type"/>
+        <result property="setTime" column="set_time"/>
+    </resultMap>
+
+    <sql id="selectWarnSmsLogVo">
+        select id,
+               name,
+               login_id,
+               phone,
+               order_num,
+               content,
+               create_time,
+               update_time,
+               status,
+               type,
+               num,
+               inner_handler,
+               ex_data,
+               title,
+               inner_status,
+               created_by,
+               updated_by,
+               created_at,
+               updated_at,
+               org_id,
+               tenant_id,
+               send_type,
+               set_time
+        from warn_sms_log
+    </sql>
+
+    <select id="selectWarnSmsLogList" parameterType="WarnSmsLog" resultMap="WarnSmsLogResult">
+        <include refid="selectWarnSmsLogVo"/>
+        <where>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="loginId != null  and loginId != ''">and login_id = #{loginId}</if>
+            <if test="phone != null  and phone != ''">and phone = #{phone}</if>
+            <if test="orderNum != null  and orderNum != ''">and order_num = #{orderNum}</if>
+            <if test="content != null  and content != ''">and content = #{content}</if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+            <if test="num != null ">and num = #{num}</if>
+            <if test="innerHandler != null  and innerHandler != ''">and inner_handler = #{innerHandler}</if>
+            <if test="exData != null  and exData != ''">and ex_data = #{exData}</if>
+            <if test="title != null  and title != ''">and title = #{title}</if>
+            <if test="innerStatus != null  and innerStatus != ''">and inner_status = #{innerStatus}</if>
+            <if test="createdBy != null  and createdBy != ''">and created_by = #{createdBy}</if>
+            <if test="updatedBy != null  and updatedBy != ''">and updated_by = #{updatedBy}</if>
+            <if test="createdAt != null ">and created_at = #{createdAt}</if>
+            <if test="updatedAt != null ">and updated_at = #{updatedAt}</if>
+            <if test="orgId != null  and orgId != ''">and org_id = #{orgId}</if>
+            <if test="tenantId != null  and tenantId != ''">and tenant_id = #{tenantId}</if>
+        </where>
+    </select>
+
+    <select id="selectWarnSmsLogById" parameterType="String" resultMap="WarnSmsLogResult">
+        <include refid="selectWarnSmsLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertWarnSmsLog" parameterType="WarnSmsLog">
+        insert into warn_sms_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="loginId != null">login_id,</if>
+            <if test="phone != null">phone,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="content != null">content,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="status != null">status,</if>
+            <if test="type != null">type,</if>
+            <if test="num != null">num,</if>
+            <if test="innerHandler != null">inner_handler,</if>
+            <if test="exData != null">ex_data,</if>
+            <if test="title != null">title,</if>
+            <if test="innerStatus != null">inner_status,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="updatedBy != null">updated_by,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+            <if test="orgId != null">org_id,</if>
+            <if test="tenantId != null">tenant_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="loginId != null">#{loginId},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="content != null">#{content},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="type != null">#{type},</if>
+            <if test="num != null">#{num},</if>
+            <if test="innerHandler != null">#{innerHandler},</if>
+            <if test="exData != null">#{exData},</if>
+            <if test="title != null">#{title},</if>
+            <if test="innerStatus != null">#{innerStatus},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+            <if test="orgId != null">#{orgId},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertWarnSmsLog" parameterType="java.util.List">
+        insert into warn_sms_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            name,
+            login_id,
+            phone,
+            order_num,
+            content,
+            create_time,
+            update_time,
+            status,
+            type,
+            num,
+            inner_handler,
+            ex_data,
+            title,
+            inner_status,
+            created_by,
+            updated_by,
+            created_at,
+            updated_at,
+            org_id,
+            tenant_id,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.id},
+                #{item.name},
+                #{item.loginId},
+                #{item.phone},
+                #{item.orderNum},
+                #{item.content},
+                #{item.createTime},
+                #{item.updateTime},
+                #{item.status},
+                #{item.type},
+                #{item.num},
+                #{item.innerHandler},
+                #{item.exData},
+                #{item.title},
+                #{item.innerStatus},
+                #{item.createdBy},
+                #{item.updatedBy},
+                #{item.createdAt},
+                #{item.updatedAt},
+                #{item.orgId},
+                #{item.tenantId},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateWarnSmsLog" parameterType="WarnSmsLog">
+        update warn_sms_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="loginId != null">login_id = #{loginId},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="num != null">num = #{num},</if>
+            <if test="innerHandler != null">inner_handler = #{innerHandler},</if>
+            <if test="exData != null">ex_data = #{exData},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="innerStatus != null">inner_status = #{innerStatus},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="updatedBy != null">updated_by = #{updatedBy},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+            <if test="orgId != null">org_id = #{orgId},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWarnSmsLogById" parameterType="String">
+        delete
+        from warn_sms_log
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteWarnSmsLogByIds" parameterType="String">
+        delete from warn_sms_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--根据状态查询-->
+    <select id="getSMSSendLogByStatus" resultMap="WarnSmsLogResult">
+        <include refid="selectWarnSmsLogVo"/>
+        where status = #{status} AND phone is not null
+       and (send_type='1' OR (send_type!='1' OR NOW()>set_time) )
+    </select>
+
+</mapper>

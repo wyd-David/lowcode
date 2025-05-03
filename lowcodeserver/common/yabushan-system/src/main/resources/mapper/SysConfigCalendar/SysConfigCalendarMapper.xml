@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.SysConfigCalendarMapper">
+
+    <resultMap type="SysConfigCalendar" id="SysConfigCalendarResult">
+        <result property="id" column="id"/>
+        <result property="festivalTime" column="festival_time"/>
+        <result property="calendarType" column="calendar_type"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+    </resultMap>
+
+    <sql id="selectSysConfigCalendarVo">
+        select id, festival_time, calendar_type, remarks, create_time, create_by, update_time, update_by from sys_config_calendar
+    </sql>
+
+    <select id="selectSysConfigCalendarList" parameterType="SysConfigCalendar" resultMap="SysConfigCalendarResult">
+        <include refid="selectSysConfigCalendarVo"/>
+        <where>
+            <if test="festivalTime != null ">and festival_time like concat('%', #{festivalTime}, '%')</if>
+            <if test="calendarType != null  and calendarType != ''">and calendar_type = #{calendarType}</if>
+            <if test="remarks != null  and remarks != ''">and remarks = #{remarks}</if>
+        </where>
+    </select>
+
+    <select id="selectSysConfigCalendarById" parameterType="String" resultMap="SysConfigCalendarResult">
+        <include refid="selectSysConfigCalendarVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysConfigCalendar" parameterType="SysConfigCalendar">
+        insert into sys_config_calendar
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="festivalTime != null">festival_time,</if>
+            <if test="calendarType != null">calendar_type,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="festivalTime != null">#{festivalTime},</if>
+            <if test="calendarType != null">#{calendarType},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+        </trim>
+    </insert>
+
+    <insert id="bathInsertSysConfigCalendar" parameterType="java.util.List">
+        insert into sys_config_calendar
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            festival_time,
+            calendar_type,
+            remarks,
+            create_time,
+            create_by,
+            update_time,
+            update_by,
+        </trim>
+        values
+        <foreach collection="list" item="item" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{item.id},
+                #{item.festivalTime},
+                #{item.calendarType},
+                #{item.remarks},
+                #{item.createTime},
+                #{item.createBy},
+                #{item.updateTime},
+                #{item.updateBy},
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateSysConfigCalendar" parameterType="SysConfigCalendar">
+        update sys_config_calendar
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="festivalTime != null">festival_time = #{festivalTime},</if>
+            <if test="calendarType != null">calendar_type = #{calendarType},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysConfigCalendarById" parameterType="Long">
+        delete from sys_config_calendar where id = #{id}
+    </delete>
+
+    <delete id="deleteSysConfigCalendarByIds" parameterType="String">
+        delete from sys_config_calendar where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+
+    <select id="getSysConfigCalendarByDate" parameterType="String" resultMap="SysConfigCalendarResult">
+        <include refid="selectSysConfigCalendarVo"/>
+        where DATE_FORMAT(festival_time,'%Y-%m-%d') = #{date} limit 1
+    </select>
+
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.EmpSubQualificationMapper">
+    
+    <resultMap type="EmpSubQualification" id="EmpSubQualificationResult">
+        <result property="recId"    column="REC_ID"    />
+        <result property="empId"    column="EMP_ID"    />
+        <result property="sortIndex"    column="SORT_INDEX"    />
+        <result property="qualificationLevel"    column="QUALIFICATION_LEVEL"    />
+        <result property="qualificationName"    column="QUALIFICATION_NAME"    />
+        <result property="passDate"    column="PASS_DATE"    />
+        <result property="qualificationOrg"    column="QUALIFICATION_ORG"    />
+        <result property="identifyNo"    column="IDENTIFY_NO"    />
+        <result property="standardQualificationLevel"    column="STANDARD_QUALIFICATION_LEVEL"    />
+        <result property="createBy"    column="CREATE_BY"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="updateBy"    column="UPDATE_BY"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+    </resultMap>
+
+    <sql id="selectEmpSubQualificationVo">
+        select REC_ID, EMP_ID, SORT_INDEX, QUALIFICATION_LEVEL, QUALIFICATION_NAME, PASS_DATE, QUALIFICATION_ORG, IDENTIFY_NO, STANDARD_QUALIFICATION_LEVEL, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME from emp_sub_qualification
+    </sql>
+
+    <select id="selectEmpSubQualificationList" parameterType="EmpSubQualification" resultMap="EmpSubQualificationResult">
+        <include refid="selectEmpSubQualificationVo"/>
+        <where>  
+            <if test="empId != null  and empId != ''"> and EMP_ID = #{empId}</if>
+            <if test="sortIndex != null "> and SORT_INDEX = #{sortIndex}</if>
+            <if test="qualificationLevel != null "> and QUALIFICATION_LEVEL = #{qualificationLevel}</if>
+            <if test="qualificationName != null  and qualificationName != ''"> and QUALIFICATION_NAME like concat('%', #{qualificationName}, '%')</if>
+            <if test="passDate != null "> and PASS_DATE = #{passDate}</if>
+            <if test="qualificationOrg != null  and qualificationOrg != ''"> and QUALIFICATION_ORG = #{qualificationOrg}</if>
+            <if test="identifyNo != null  and identifyNo != ''"> and IDENTIFY_NO = #{identifyNo}</if>
+            <if test="standardQualificationLevel != null "> and STANDARD_QUALIFICATION_LEVEL = #{standardQualificationLevel}</if>
+            <if test="createBy != null  and createBy != ''"> and CREATE_BY = #{createBy}</if>
+            <if test="createTime != null "> and CREATE_TIME = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and UPDATE_BY = #{updateBy}</if>
+            <if test="updateTime != null "> and UPDATE_TIME = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmpSubQualificationById" parameterType="String" resultMap="EmpSubQualificationResult">
+        <include refid="selectEmpSubQualificationVo"/>
+        where REC_ID = #{recId}
+    </select>
+        
+    <insert id="insertEmpSubQualification" parameterType="EmpSubQualification">
+        insert into emp_sub_qualification
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recId != null">REC_ID,</if>
+            <if test="empId != null">EMP_ID,</if>
+            <if test="sortIndex != null">SORT_INDEX,</if>
+            <if test="qualificationLevel != null">QUALIFICATION_LEVEL,</if>
+            <if test="qualificationName != null">QUALIFICATION_NAME,</if>
+            <if test="passDate != null">PASS_DATE,</if>
+            <if test="qualificationOrg != null">QUALIFICATION_ORG,</if>
+            <if test="identifyNo != null">IDENTIFY_NO,</if>
+            <if test="standardQualificationLevel != null">STANDARD_QUALIFICATION_LEVEL,</if>
+            <if test="createBy != null">CREATE_BY,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="updateBy != null">UPDATE_BY,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recId != null">#{recId},</if>
+            <if test="empId != null">#{empId},</if>
+            <if test="sortIndex != null">#{sortIndex},</if>
+            <if test="qualificationLevel != null">#{qualificationLevel},</if>
+            <if test="qualificationName != null">#{qualificationName},</if>
+            <if test="passDate != null">#{passDate},</if>
+            <if test="qualificationOrg != null">#{qualificationOrg},</if>
+            <if test="identifyNo != null">#{identifyNo},</if>
+            <if test="standardQualificationLevel != null">#{standardQualificationLevel},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpSubQualification" parameterType="EmpSubQualification">
+        update emp_sub_qualification
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empId != null">EMP_ID = #{empId},</if>
+            <if test="sortIndex != null">SORT_INDEX = #{sortIndex},</if>
+            <if test="qualificationLevel != null">QUALIFICATION_LEVEL = #{qualificationLevel},</if>
+            <if test="qualificationName != null">QUALIFICATION_NAME = #{qualificationName},</if>
+            <if test="passDate != null">PASS_DATE = #{passDate},</if>
+            <if test="qualificationOrg != null">QUALIFICATION_ORG = #{qualificationOrg},</if>
+            <if test="identifyNo != null">IDENTIFY_NO = #{identifyNo},</if>
+            <if test="standardQualificationLevel != null">STANDARD_QUALIFICATION_LEVEL = #{standardQualificationLevel},</if>
+            <if test="createBy != null">CREATE_BY = #{createBy},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="updateBy != null">UPDATE_BY = #{updateBy},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </trim>
+        where REC_ID = #{recId}
+    </update>
+
+    <delete id="deleteEmpSubQualificationById" parameterType="String">
+        delete from emp_sub_qualification where REC_ID = #{recId}
+    </delete>
+
+    <delete id="deleteEmpSubQualificationByIds" parameterType="String">
+        delete from emp_sub_qualification where REC_ID in 
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.YmxGiftInfoMapper">
+    
+    <resultMap type="YmxGiftInfo" id="YmxGiftInfoResult">
+        <result property="giftId"    column="GIFT_ID"    />
+        <result property="giftName"    column="GIFT_NAME"    />
+        <result property="giftImage"    column="GIFT_IMAGE"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="lastUpdatedBy"    column="LAST_UPDATED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+    </resultMap>
+
+    <sql id="selectYmxGiftInfoVo">
+        select GIFT_ID, GIFT_NAME, GIFT_IMAGE, CREATED_BY, CREATED_TIME, LAST_UPDATED_BY, LAST_UPDATED_TIME from ymx_gift_info
+    </sql>
+
+    <select id="selectYmxGiftInfoList" parameterType="YmxGiftInfo" resultMap="YmxGiftInfoResult">
+        <include refid="selectYmxGiftInfoVo"/>
+        <where>  
+            <if test="giftName != null  and giftName != ''"> and GIFT_NAME like concat('%', #{giftName}, '%')</if>
+            <if test="giftImage != null  and giftImage != ''"> and GIFT_IMAGE = #{giftImage}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="lastUpdatedBy != null  and lastUpdatedBy != ''"> and LAST_UPDATED_BY = #{lastUpdatedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectYmxGiftInfoById" parameterType="String" resultMap="YmxGiftInfoResult">
+        <include refid="selectYmxGiftInfoVo"/>
+        where GIFT_ID = #{giftId}
+    </select>
+        
+    <insert id="insertYmxGiftInfo" parameterType="YmxGiftInfo">
+        insert into ymx_gift_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="giftId != null">GIFT_ID,</if>
+            <if test="giftName != null and giftName != ''">GIFT_NAME,</if>
+            <if test="giftImage != null">GIFT_IMAGE,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="giftId != null">#{giftId},</if>
+            <if test="giftName != null and giftName != ''">#{giftName},</if>
+            <if test="giftImage != null">#{giftImage},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedBy != null">#{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYmxGiftInfo" parameterType="YmxGiftInfo">
+        update ymx_gift_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="giftName != null and giftName != ''">GIFT_NAME = #{giftName},</if>
+            <if test="giftImage != null">GIFT_IMAGE = #{giftImage},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY = #{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+        </trim>
+        where GIFT_ID = #{giftId}
+    </update>
+
+    <delete id="deleteYmxGiftInfoById" parameterType="String">
+        delete from ymx_gift_info where GIFT_ID = #{giftId}
+    </delete>
+
+    <delete id="deleteYmxGiftInfoByIds" parameterType="String">
+        delete from ymx_gift_info where GIFT_ID in 
+        <foreach item="giftId" collection="array" open="(" separator="," close=")">
+            #{giftId}
+        </foreach>
+    </delete>
+    
+</mapper>

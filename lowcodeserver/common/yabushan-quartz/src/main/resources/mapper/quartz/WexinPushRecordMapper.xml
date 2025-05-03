@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.quartz.mapper.WexinPushRecordMapper">
+
+	<resultMap type="WexinPushRecord" id="WexinPushRecordResult">
+		<result property="id" column="id"/>
+		<result property="pushTime" column="push_time"/>
+		<result property="pushTotal" column="push_total"/>
+
+	</resultMap>
+
+	<sql id="selectWexinPushRecordVo">
+        select id,push_time,push_total	from weixin_push_record
+    </sql>
+
+	<insert id="insert" parameterType="WexinPushRecord">
+		 insert into weixin_push_record (id,push_time,push_total) values (#{id},#{pushTime},#{pushTotal})
+	</insert>
+
+	<select id="selectList"   parameterType="WexinPushRecord" resultMap="WexinPushRecordResult">
+		<include refid="selectWexinPushRecordVo"/>
+		order by push_time desc
+	</select>
+
+	<select id="selectLastRecord"    resultMap="WexinPushRecordResult">
+		 select id, max(push_time) as push_time,push_total	from weixin_push_record
+	</select>
+</mapper>

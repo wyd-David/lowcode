@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.LpkCustomerMapper">
+    
+    <resultMap type="LpkCustomer" id="LpkCustomerResult">
+        <result property="keyId"    column="key_id"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="mobileNum"    column="mobile_num"    />
+        <result property="payWay"    column="pay_way"    />
+        <result property="payImg"    column="pay_img"    />
+        <result property="goodsImg"    column="goods_img"    />
+        <result property="customAdvice"    column="custom_advice"    />
+        <result property="isPay"    column="is_pay"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="payMoney"    column="pay_money"    />
+        <result property="telantId"    column="telant_id"    />
+        <result property="starNum"    column="star_num"    />
+    </resultMap>
+
+    <sql id="selectLpkCustomerVo">
+        select key_id, goods_name, mobile_num, pay_way, pay_img, goods_img, custom_advice, is_pay, pay_time, create_time, pay_money, telant_id, star_num from lpk_customer
+    </sql>
+
+    <select id="selectLpkCustomerList" parameterType="LpkCustomer" resultMap="LpkCustomerResult">
+        <include refid="selectLpkCustomerVo"/>
+        <where>  
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="mobileNum != null  and mobileNum != ''"> and mobile_num = #{mobileNum}</if>
+            <if test="payWay != null "> and pay_way = #{payWay}</if>
+            <if test="isPay != null "> and is_pay = #{isPay}</if>
+            <if test="payTime != null "> and pay_time = #{payTime}</if>
+            <if test="payMoney != null "> and pay_money = #{payMoney}</if>
+            <if test="starNum != null "> and star_num = #{starNum}</if>
+        </where>
+    </select>
+    
+    <select id="selectLpkCustomerById" parameterType="Long" resultMap="LpkCustomerResult">
+        <include refid="selectLpkCustomerVo"/>
+        where key_id = #{keyId}
+    </select>
+        
+    <insert id="insertLpkCustomer" parameterType="LpkCustomer" useGeneratedKeys="true" keyProperty="keyId">
+        insert into lpk_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsName != null">goods_name,</if>
+            <if test="mobileNum != null">mobile_num,</if>
+            <if test="payWay != null">pay_way,</if>
+            <if test="payImg != null">pay_img,</if>
+            <if test="goodsImg != null">goods_img,</if>
+            <if test="customAdvice != null">custom_advice,</if>
+            <if test="isPay != null">is_pay,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="payMoney != null">pay_money,</if>
+            <if test="telantId != null">telant_id,</if>
+            <if test="starNum != null">star_num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsName != null">#{goodsName},</if>
+            <if test="mobileNum != null">#{mobileNum},</if>
+            <if test="payWay != null">#{payWay},</if>
+            <if test="payImg != null">#{payImg},</if>
+            <if test="goodsImg != null">#{goodsImg},</if>
+            <if test="customAdvice != null">#{customAdvice},</if>
+            <if test="isPay != null">#{isPay},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="payMoney != null">#{payMoney},</if>
+            <if test="telantId != null">#{telantId},</if>
+            <if test="starNum != null">#{starNum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLpkCustomer" parameterType="LpkCustomer">
+        update lpk_customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsName != null">goods_name = #{goodsName},</if>
+            <if test="mobileNum != null">mobile_num = #{mobileNum},</if>
+            <if test="payWay != null">pay_way = #{payWay},</if>
+            <if test="payImg != null">pay_img = #{payImg},</if>
+            <if test="goodsImg != null">goods_img = #{goodsImg},</if>
+            <if test="customAdvice != null">custom_advice = #{customAdvice},</if>
+            <if test="isPay != null">is_pay = #{isPay},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="payMoney != null">pay_money = #{payMoney},</if>
+            <if test="telantId != null">telant_id = #{telantId},</if>
+            <if test="starNum != null">star_num = #{starNum},</if>
+        </trim>
+        where key_id = #{keyId}
+    </update>
+
+    <delete id="deleteLpkCustomerById" parameterType="Long">
+        delete from lpk_customer where key_id = #{keyId}
+    </delete>
+
+    <delete id="deleteLpkCustomerByIds" parameterType="String">
+        delete from lpk_customer where key_id in 
+        <foreach item="keyId" collection="array" open="(" separator="," close=")">
+            #{keyId}
+        </foreach>
+    </delete>
+    
+</mapper>

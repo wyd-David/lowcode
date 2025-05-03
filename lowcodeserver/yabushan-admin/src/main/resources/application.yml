@@ -1,0 +1,201 @@
+# 项目相关配置
+yabushan:
+  # 名称
+  name: bingo
+  # 版本
+  version: 3.1.0
+  # 版权年份
+  copyrightYear: 2021
+  # 实例演示开关
+  demoEnabled: true
+  # 文件路径 示例（ Windows配置D:/yabushan/uploadPath，Linux配置 /home/yabushan/uploadPath）
+  #profile: /asc/gfxz/uploadPath
+  #profile: ${yabushan_profile}
+  profile: D:/project/ngs/uploadfile
+  # 本地
+  #profile: /home/lowCode/lowCodeForm/upload
+  # 获取ip地址开关
+  addressEnabled: true
+  # 验证码类型 math 数组计算 char 字符验证
+  captchaType: char
+  # minio 文件服务器所使用的桶
+  minio-bucket: yj-xuncha
+
+
+# 日志配置
+logging:
+  level:
+    com.yabushan: debug
+    org.springframework: warn
+
+# Spring配置
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  profiles:
+    active: druid-dev # 文件上传
+#    active: druid-local # 文件上传
+#    active: druid-test # 文件上传
+  oss.token: 1
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size:  10MB
+      #max-file-size: ${spring_servlet_multipart_max_file_size}
+      # 设置总上传的文件大小
+      max-request-size:  50MB
+      #max-request-size: ${spring_servlet_multipart_max_request_size}
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
+  #静态资源加载配置
+  mvc:
+    static-path-pattern: /**
+  resource:
+    static-locations: classpath:/static/,classpath:/public/
+  ai:
+    ollama:
+      base-url: http://120.55.99.218:11434
+      chat:
+        options:
+          model: gemma:7b
+
+# token配置
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: abcdefghijklmnopqrstuvwxyz
+  # 令牌有效期（默认30分钟）
+  expireTime: 360
+  #expireTime: ${token_expireTime}
+
+# MyBatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.yabushan.**.domain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supMethodsArguments: true
+  params: count=countSql
+
+
+
+# 防止XSS攻击
+xss:
+  # 过滤开关
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  excludes: /system/notice/*
+  # 匹配链接
+  urlPatterns: /system/*,/monitor/*,/tool/*,/activiti/*
+
+
+#Minidao配置
+minidao:
+  base-package: org.jeecg.modules.jmreport.*
+  # 数据库类型：mysql|postgresql|oracle|sqlserver
+  db-type: mysql
+
+
+# 数据服务配置，如需，可加微信：yabushan  或者登录qxsdcloud.com    学习
+daas:
+  url: 1
+  accessKeyId: 1
+  secertKey: 1
+  projectId: 1
+  datasourceId: 1
+
+
+#//论文比对相似度,similarityRatio 单个字符串相似度>50阈值时，任务相似。
+#计算 所有大于阈值similarityRatio  的字符串的总和/字符串总行数> allPoint 时，将结果输出
+compare:
+  similarityRatio: 50
+  allPoint: 50
+
+#单点登录信息
+gmcc:
+  SYSTEMID: 4
+  SYSTEMACCOUNT: 3
+  SYSTEMPWD: 2
+  SOAPURL: 1
+
+ezt:
+  appid: 2
+  appSecret: 1
+
+
+
+#百度智能云文字识别
+BAIDU_AI:
+  #文字识别
+  WZSB:
+    APP_ID: 3
+    API_KEY: 1
+    SECRET_KEY: 2
+    #动态表单允许上传的文件的大小
+    FILE_SIZE_MB: 100
+
+
+
+#kafka环境信息 prod
+kafka:
+  servers: 10.16.196.68:9094
+  authentication: SASL/SCRAM
+  user: admin
+  password: admin-secret
+
+
+#消费主题
+topic: test111
+#分区数量
+partition: 1
+#消费组
+groupId: cascade
+
+zookeeper:
+  connect: 10.201.61.161:2181,10.201.61.166:2181,10.201.61.171:2181
+  connection:
+    timeout:
+      ms: 60000
+
+  #证书信息
+ssl:
+  truststore:
+    location: /home/daas/kafka/client.truststore.jks
+    password: 123
+    #prod
+    servers: kafka.nginx:29004,kafka.nginx:29005,kafka.nginx:29006
+  active: false
+  # Producer acks:确认模式：0 发出去就确认，1 落盘就确认，all 所有follower同步完才确认
+  # Producer retries:消息发送异常时(未被确认)，发送方重试次数
+  # Producer batch-size:多少条数据发送一次，默认16K。达到数量会触发消息发送
+producer:
+  acks: 1
+  retries: 3
+  batch-size: 16385
+#kafka环境信息 ########################################end
+
+
+#小程序
+XCX:
+  APP_ID: wx67cbce24e38d5b28
+  APP_SECRET: 69f027bee1775273f3a8fb6af14ac2a0
+  TEMPLATE_ID: CJddRmM6d63MS7vvqVA-N4uDxyiEP1A_Yj2JEncDDFk
+  INIT_PASSWORD: ngs_ai_666
+
+
+

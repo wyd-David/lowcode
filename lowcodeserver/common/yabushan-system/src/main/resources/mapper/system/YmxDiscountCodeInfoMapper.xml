@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.system.mapper.YmxDiscountCodeInfoMapper">
+    
+    <resultMap type="YmxDiscountCodeInfo" id="YmxDiscountCodeInfoResult">
+        <result property="discountCodeId"    column="DISCOUNT_CODE_ID"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="lastUpdatedBy"    column="LAST_UPDATED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+    </resultMap>
+
+    <sql id="selectYmxDiscountCodeInfoVo">
+        select DISCOUNT_CODE_ID, CREATED_BY, CREATED_TIME, LAST_UPDATED_BY, LAST_UPDATED_TIME from ymx_discount_code_info
+    </sql>
+
+    <select id="selectYmxDiscountCodeInfoList" parameterType="YmxDiscountCodeInfo" resultMap="YmxDiscountCodeInfoResult">
+        <include refid="selectYmxDiscountCodeInfoVo"/>
+        <where>  
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="lastUpdatedBy != null  and lastUpdatedBy != ''"> and LAST_UPDATED_BY = #{lastUpdatedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectYmxDiscountCodeInfoById" parameterType="String" resultMap="YmxDiscountCodeInfoResult">
+        <include refid="selectYmxDiscountCodeInfoVo"/>
+        where DISCOUNT_CODE_ID = #{discountCodeId}
+    </select>
+        
+    <insert id="insertYmxDiscountCodeInfo" parameterType="YmxDiscountCodeInfo">
+        insert into ymx_discount_code_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="discountCodeId != null">DISCOUNT_CODE_ID,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="discountCodeId != null">#{discountCodeId},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedBy != null">#{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateYmxDiscountCodeInfo" parameterType="YmxDiscountCodeInfo">
+        update ymx_discount_code_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="lastUpdatedBy != null">LAST_UPDATED_BY = #{lastUpdatedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+        </trim>
+        where DISCOUNT_CODE_ID = #{discountCodeId}
+    </update>
+
+    <delete id="deleteYmxDiscountCodeInfoById" parameterType="String">
+        delete from ymx_discount_code_info where DISCOUNT_CODE_ID = #{discountCodeId}
+    </delete>
+
+    <delete id="deleteYmxDiscountCodeInfoByIds" parameterType="String">
+        delete from ymx_discount_code_info where DISCOUNT_CODE_ID in 
+        <foreach item="discountCodeId" collection="array" open="(" separator="," close=")">
+            #{discountCodeId}
+        </foreach>
+    </delete>
+    
+</mapper>

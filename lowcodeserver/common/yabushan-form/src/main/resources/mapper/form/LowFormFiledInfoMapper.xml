@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.form.mapper.LowFormFiledInfoMapper">
+    
+    <resultMap type="LowFormFiledInfo" id="LowFormFiledInfoResult">
+        <result property="filedId"    column="FILED_ID"    />
+        <result property="formUuid"    column="FORM_UUID"    />
+        <result property="filedName"    column="FILED_NAME"    />
+        <result property="filedLabel"    column="FILED_LABEL"    />
+        <result property="filedType"    column="FILED_TYPE"    />
+        <result property="filedIcon"    column="FILED_ICON"    />
+        <result property="formItemFlag"    column="FORM_ITEM_FLAG"    />
+        <result property="entityName"    column="ENTITY_NAME"    />
+        <result property="entityType"    column="ENTITY_TYPE"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="updatedBy"    column="UPDATED_BY"    />
+        <result property="updatedTime"    column="UPDATED_TIME"    />
+        <result property="tenantId"    column="TENANT_ID"    />
+    </resultMap>
+
+    <sql id="selectLowFormFiledInfoVo">
+        select FILED_ID, FORM_UUID, FILED_NAME, FILED_LABEL, FILED_TYPE, FILED_ICON, FORM_ITEM_FLAG, ENTITY_NAME, ENTITY_TYPE, CREATED_BY, CREATED_TIME, UPDATED_BY, UPDATED_TIME, TENANT_ID from low_form_filed_info
+    </sql>
+
+    <select id="selectLowFormFiledInfoList" parameterType="LowFormFiledInfo" resultMap="LowFormFiledInfoResult">
+        <include refid="selectLowFormFiledInfoVo"/>
+        <where>  
+            <if test="formUuid != null  and formUuid != ''"> and FORM_UUID = #{formUuid}</if>
+            <if test="filedName != null  and filedName != ''"> and FILED_NAME like concat('%', #{filedName}, '%')</if>
+            <if test="filedLabel != null  and filedLabel != ''"> and FILED_LABEL = #{filedLabel}</if>
+            <if test="filedType != null  and filedType != ''"> and FILED_TYPE = #{filedType}</if>
+            <if test="filedIcon != null  and filedIcon != ''"> and FILED_ICON = #{filedIcon}</if>
+            <if test="formItemFlag != null  and formItemFlag != ''"> and FORM_ITEM_FLAG = #{formItemFlag}</if>
+            <if test="entityName != null  and entityName != ''"> and ENTITY_NAME like concat('%', #{entityName}, '%')</if>
+            <if test="entityType != null  and entityType != ''"> and ENTITY_TYPE = #{entityType}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="updatedBy != null  and updatedBy != ''"> and UPDATED_BY = #{updatedBy}</if>
+            <if test="updatedTime != null "> and UPDATED_TIME = #{updatedTime}</if>
+            <if test="tenantId != null  and tenantId != ''"> and TENANT_ID = #{tenantId}</if>
+        </where>
+    </select>
+    
+    <select id="selectLowFormFiledInfoById" parameterType="String" resultMap="LowFormFiledInfoResult">
+        <include refid="selectLowFormFiledInfoVo"/>
+        where FILED_ID = #{filedId}
+    </select>
+        
+    <insert id="insertLowFormFiledInfo" parameterType="LowFormFiledInfo">
+        insert into low_form_filed_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="filedId != null">FILED_ID,</if>
+            <if test="formUuid != null">FORM_UUID,</if>
+            <if test="filedName != null">FILED_NAME,</if>
+            <if test="filedLabel != null">FILED_LABEL,</if>
+            <if test="filedType != null">FILED_TYPE,</if>
+            <if test="filedIcon != null">FILED_ICON,</if>
+            <if test="formItemFlag != null">FORM_ITEM_FLAG,</if>
+            <if test="entityName != null">ENTITY_NAME,</if>
+            <if test="entityType != null">ENTITY_TYPE,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="updatedBy != null">UPDATED_BY,</if>
+            <if test="updatedTime != null">UPDATED_TIME,</if>
+            <if test="tenantId != null">TENANT_ID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="filedId != null">#{filedId},</if>
+            <if test="formUuid != null">#{formUuid},</if>
+            <if test="filedName != null">#{filedName},</if>
+            <if test="filedLabel != null">#{filedLabel},</if>
+            <if test="filedType != null">#{filedType},</if>
+            <if test="filedIcon != null">#{filedIcon},</if>
+            <if test="formItemFlag != null">#{formItemFlag},</if>
+            <if test="entityName != null">#{entityName},</if>
+            <if test="entityType != null">#{entityType},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="updatedBy != null">#{updatedBy},</if>
+            <if test="updatedTime != null">#{updatedTime},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertLowFormFiledInfo" parameterType="java.util.List">
+        insert into low_form_filed_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                FILED_ID,
+                                                                FORM_UUID,
+                                                                FILED_NAME,
+                                                                FILED_LABEL,
+                                                                FILED_TYPE,
+                                                                FILED_ICON,
+                                                                FORM_ITEM_FLAG,
+                                                                ENTITY_NAME,
+                                                                ENTITY_TYPE,
+                                                                CREATED_BY,
+                                                                CREATED_TIME,
+                                                                UPDATED_BY,
+                                                                UPDATED_TIME,
+                                                                TENANT_ID,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.filedId},
+                                                                                #{item.formUuid},
+                                                                                #{item.filedName},
+                                                                                #{item.filedLabel},
+                                                                                #{item.filedType},
+                                                                                #{item.filedIcon},
+                                                                                #{item.formItemFlag},
+                                                                                #{item.entityName},
+                                                                                #{item.entityType},
+                                                                                #{item.createdBy},
+                                                                                #{item.createdTime},
+                                                                                #{item.updatedBy},
+                                                                                #{item.updatedTime},
+                                                                                #{item.tenantId},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateLowFormFiledInfo" parameterType="LowFormFiledInfo">
+        update low_form_filed_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="formUuid != null">FORM_UUID = #{formUuid},</if>
+            <if test="filedName != null">FILED_NAME = #{filedName},</if>
+            <if test="filedLabel != null">FILED_LABEL = #{filedLabel},</if>
+            <if test="filedType != null">FILED_TYPE = #{filedType},</if>
+            <if test="filedIcon != null">FILED_ICON = #{filedIcon},</if>
+            <if test="formItemFlag != null">FORM_ITEM_FLAG = #{formItemFlag},</if>
+            <if test="entityName != null">ENTITY_NAME = #{entityName},</if>
+            <if test="entityType != null">ENTITY_TYPE = #{entityType},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="updatedBy != null">UPDATED_BY = #{updatedBy},</if>
+            <if test="updatedTime != null">UPDATED_TIME = #{updatedTime},</if>
+            <if test="tenantId != null">TENANT_ID = #{tenantId},</if>
+        </trim>
+        where FILED_ID = #{filedId}
+    </update>
+
+    <delete id="deleteLowFormFiledInfoById" parameterType="String">
+        delete from low_form_filed_info where FILED_ID = #{filedId}
+    </delete>
+
+    <delete id="deleteLowFormFiledInfoByIds" parameterType="String">
+        delete from low_form_filed_info where FILED_ID in 
+        <foreach item="filedId" collection="array" open="(" separator="," close=")">
+            #{filedId}
+        </foreach>
+    </delete>
+
+    <select id="selectLowFormFiledInfoByFormUuid" parameterType="String" resultMap="LowFormFiledInfoResult">
+        <include refid="selectLowFormFiledInfoVo"/>
+        where FORM_UUID = #{formUuid}
+    </select>
+    
+</mapper>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yabushan.datasource.mapper.DataflowJobTaskMapper">
+    
+    <resultMap type="DataflowJobTask" id="DataflowJobTaskResult">
+        <result property="jobTaskId"    column="job_task_id"    />
+        <result property="jobId"    column="job_id"    />
+        <result property="taskTypeCode"    column="task_type_code"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="taskInputParams"    column="task_input_params"    />
+        <result property="taskOutputParams"    column="task_output_params"    />
+        <result property="executorType"    column="executor_type"    />
+        <result property="paramsMapping"    column="params_mapping"    />
+        <result property="externalObject"    column="external_object"    />
+        <result property="ruleId"    column="rule_id"    />
+        <result property="datasourceId"    column="datasource_id"    />
+        <result property="resourceId"    column="resource_id"    />
+        <result property="businessKey"    column="business_key"    />
+    </resultMap>
+
+    <sql id="selectDataflowJobTaskVo">
+        select job_task_id, job_id, task_type_code, task_name, task_input_params, task_output_params, executor_type, params_mapping, external_object, rule_id, datasource_id, resource_id, business_key from dataflow_job_task
+    </sql>
+
+    <select id="selectDataflowJobTaskList" parameterType="DataflowJobTask" resultMap="DataflowJobTaskResult">
+        <include refid="selectDataflowJobTaskVo"/>
+        <where>  
+            <if test="jobId != null  and jobId != ''"> and job_id = #{jobId}</if>
+            <if test="taskTypeCode != null  and taskTypeCode != ''"> and task_type_code = #{taskTypeCode}</if>
+            <if test="taskName != null  and taskName != ''"> and task_name like concat('%', #{taskName}, '%')</if>
+            <if test="taskInputParams != null  and taskInputParams != ''"> and task_input_params = #{taskInputParams}</if>
+            <if test="taskOutputParams != null  and taskOutputParams != ''"> and task_output_params = #{taskOutputParams}</if>
+            <if test="executorType != null  and executorType != ''"> and executor_type = #{executorType}</if>
+            <if test="paramsMapping != null  and paramsMapping != ''"> and params_mapping = #{paramsMapping}</if>
+            <if test="externalObject != null  and externalObject != ''"> and external_object = #{externalObject}</if>
+            <if test="ruleId != null  and ruleId != ''"> and rule_id = #{ruleId}</if>
+            <if test="datasourceId != null  and datasourceId != ''"> and datasource_id = #{datasourceId}</if>
+            <if test="resourceId != null  and resourceId != ''"> and resource_id = #{resourceId}</if>
+            <if test="businessKey != null  and businessKey != ''"> and business_key = #{businessKey}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataflowJobTaskById" parameterType="String" resultMap="DataflowJobTaskResult">
+        <include refid="selectDataflowJobTaskVo"/>
+        where job_task_id = #{jobTaskId}
+    </select>
+        
+    <insert id="insertDataflowJobTask" parameterType="DataflowJobTask">
+        insert into dataflow_job_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobTaskId != null">job_task_id,</if>
+            <if test="jobId != null and jobId != ''">job_id,</if>
+            <if test="taskTypeCode != null and taskTypeCode != ''">task_type_code,</if>
+            <if test="taskName != null and taskName != ''">task_name,</if>
+            <if test="taskInputParams != null">task_input_params,</if>
+            <if test="taskOutputParams != null">task_output_params,</if>
+            <if test="executorType != null">executor_type,</if>
+            <if test="paramsMapping != null">params_mapping,</if>
+            <if test="externalObject != null">external_object,</if>
+            <if test="ruleId != null">rule_id,</if>
+            <if test="datasourceId != null">datasource_id,</if>
+            <if test="resourceId != null">resource_id,</if>
+            <if test="businessKey != null">business_key,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobTaskId != null">#{jobTaskId},</if>
+            <if test="jobId != null and jobId != ''">#{jobId},</if>
+            <if test="taskTypeCode != null and taskTypeCode != ''">#{taskTypeCode},</if>
+            <if test="taskName != null and taskName != ''">#{taskName},</if>
+            <if test="taskInputParams != null">#{taskInputParams},</if>
+            <if test="taskOutputParams != null">#{taskOutputParams},</if>
+            <if test="executorType != null">#{executorType},</if>
+            <if test="paramsMapping != null">#{paramsMapping},</if>
+            <if test="externalObject != null">#{externalObject},</if>
+            <if test="ruleId != null">#{ruleId},</if>
+            <if test="datasourceId != null">#{datasourceId},</if>
+            <if test="resourceId != null">#{resourceId},</if>
+            <if test="businessKey != null">#{businessKey},</if>
+         </trim>
+    </insert>
+
+    <insert id="bathInsertDataflowJobTask" parameterType="java.util.List">
+        insert into dataflow_job_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                job_task_id,
+                                                                job_id,
+                                                                task_type_code,
+                                                                task_name,
+                                                                task_input_params,
+                                                                task_output_params,
+                                                                executor_type,
+                                                                params_mapping,
+                                                                external_object,
+                                                                rule_id,
+                                                                datasource_id,
+                                                                resource_id,
+                                                                business_key,
+                                    </trim>
+        values
+        <foreach collection ="list" item="item" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                                                            #{item.jobTaskId},
+                                                                                #{item.jobId},
+                                                                                #{item.taskTypeCode},
+                                                                                #{item.taskName},
+                                                                                #{item.taskInputParams},
+                                                                                #{item.taskOutputParams},
+                                                                                #{item.executorType},
+                                                                                #{item.paramsMapping},
+                                                                                #{item.externalObject},
+                                                                                #{item.ruleId},
+                                                                                #{item.datasourceId},
+                                                                                #{item.resourceId},
+                                                                                #{item.businessKey},
+                                                </trim>
+       </foreach>
+    </insert>
+
+    <update id="updateDataflowJobTask" parameterType="DataflowJobTask">
+        update dataflow_job_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobId != null and jobId != ''">job_id = #{jobId},</if>
+            <if test="taskTypeCode != null and taskTypeCode != ''">task_type_code = #{taskTypeCode},</if>
+            <if test="taskName != null and taskName != ''">task_name = #{taskName},</if>
+            <if test="taskInputParams != null">task_input_params = #{taskInputParams},</if>
+            <if test="taskOutputParams != null">task_output_params = #{taskOutputParams},</if>
+            <if test="executorType != null">executor_type = #{executorType},</if>
+            <if test="paramsMapping != null">params_mapping = #{paramsMapping},</if>
+            <if test="externalObject != null">external_object = #{externalObject},</if>
+            <if test="ruleId != null">rule_id = #{ruleId},</if>
+            <if test="datasourceId != null">datasource_id = #{datasourceId},</if>
+            <if test="resourceId != null">resource_id = #{resourceId},</if>
+            <if test="businessKey != null">business_key = #{businessKey},</if>
+        </trim>
+        where job_task_id = #{jobTaskId}
+    </update>
+
+    <delete id="deleteDataflowJobTaskById" parameterType="String">
+        delete from dataflow_job_task where job_task_id = #{jobTaskId}
+    </delete>
+
+    <delete id="deleteDataflowJobTaskByIds" parameterType="String">
+        delete from dataflow_job_task where job_task_id in 
+        <foreach item="jobTaskId" collection="array" open="(" separator="," close=")">
+            #{jobTaskId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,278 @@
+[
+  {
+    "tenantId": "01",
+    "modelId": "01",
+    "modelName": "差旅费检查",
+    "modelMemo": "智慧差旅系统、ERP报账系统、公务用车系统、考勤系统",
+    "checkPointNum": 10,
+    "parentModelId": null,
+    "createdBy": "admin",
+    "createdTime": "2022-08-09 00:00:00",
+    "updatedBy": null,
+    "updatedTime": null,
+    "children": [
+      {
+        "tenantId": "07",
+        "modelId": "07",
+        "modelName": "差旅申请维度分析",
+        "modelMemo": null,
+        "checkPointNum": 3,
+        "parentModelId": "01",
+        "createdBy": "admin",
+        "createdTime": "2022-08-09 00:00:00",
+        "updatedBy": null,
+        "updatedTime": null,
+        "setThreelist": true,
+        "children": [
+          {
+            "tenantId": "11",
+            "modelId": "100",
+            "modelName": "稽核无出差文件的集中度",
+            "modelMemo": "辅助判断差旅活动是否合理，是否无实质内容、无公务目的的差旅活动",
+            "checkPointNum": null,
+            "parentModelId": "10",
+            "createdBy": "admin",
+            "createdTime": "2022-08-09 00:00:00",
+            "updatedBy": null,
+            "updatedTime": null,
+            "children": [],
+            "api": {
+              "listCollon": "/ai/aiResultTravelingDocuments/list",
+              "listInfo": "/ai/aiResultTravelingDocumentsInfo/list",
+              "export": "/ai/aiResultTravelingDocuments/export"
+            },
+            "modelData": [
+              "businessTripLength",
+              "businessTripDetailLength"
+            ]
+          },
+          {
+            "tenantId": "13",
+            "modelId": "110",
+            "modelName": "未出差报销差旅费问题模型（与考勤比对）",
+            "modelMemo": "是否存在正常上班却报销差旅费情况",
+            "checkPointNum": null,
+            "parentModelId": "12",
+            "createdBy": "admin",
+            "createdTime": "2022-08-09 00:00:00",
+            "updatedBy": null,
+            "updatedTime": null,
+            "children": [],
+            "api": {
+              "listInfo": "/ai/aiResultNotripAttendance/list",
+              "export": "/ai/aiResultNotripAttendance/export"
+            },
+            "modelData": [
+              "settlementLength",
+              "attendanceLength"
+            ]
+          },
+          {
+            "tenantId": "13",
+            "modelId": "120",
+            "modelName": "未出差报销差旅费问题模型（与招待比对）",
+            "modelMemo": "是否存在出差人在本地情况",
+            "checkPointNum": null,
+            "parentModelId": "12",
+            "createdBy": "admin",
+            "createdTime": "2022-08-09 00:00:00",
+            "updatedBy": null,
+            "updatedTime": null,
+            "children": [],
+            "modelData": [
+              "settlementLength",
+              "serveLength"
+            ],
+            "api": {
+              "listInfo": "/ai/aiResultNotripServe/list",
+              "export": "/ai/aiResultNotripServe/export"
+            }
+          }
+        ]
+      },
+      {
+        "tenantId": "08",
+        "modelId": "08",
+        "modelName": "差旅酒店维度分析",
+        "modelMemo": null,
+        "checkPointNum": 3,
+        "parentModelId": "01",
+        "createdBy": "admin",
+        "createdTime": "2022-08-09 00:00:00",
+        "updatedBy": null,
+        "updatedTime": null,
+        "setThreelist": true,
+        "children": [
+          {
+            "tenantId": "17",
+            "modelId": "17",
+            "modelName": "重点分析借调差旅费的酒店集中度",
+            "modelMemo": "运用爬虫技术对其放假合理性进行分析",
+            "checkPointNum": null,
+            "parentModelId": "15",
+            "createdBy": "admin",
+            "createdTime": "2022-08-09 00:00:00",
+            "updatedBy": null,
+            "updatedTime": null,
+            "children": [],
+            "api": {
+              "listInfo": "/ai/aiResultHotelFapiao/list",
+              "export": "/ai/aiResultNotripServe/export"
+            }
+          },
+          {
+            "tenantId": "18",
+            "modelId": "18",
+            "modelName": "运用网络技术对酒店进行分析",
+            "modelMemo": "是否存在离借调办公地点较远的情况",
+            "checkPointNum": null,
+            "parentModelId": "15",
+            "createdBy": "admin",
+            "createdTime": "2022-08-09 00:00:00",
+            "updatedBy": null,
+            "updatedTime": null,
+            "children": []
+          },
+          {
+            "tenantId": "14",
+            "modelId": "200",
+            "modelName": "分析差旅酒店所开发票集中度模型",
+            "modelMemo": "是否存在出差人在本地情况",
+            "checkPointNum": null,
+            "parentModelId": "12",
+            "createdBy": "admin",
+            "createdTime": "2022-08-09 00:00:00",
+            "updatedBy": null,
+            "updatedTime": null,
+            "children": [],
+            "modelData": [
+              "settlementLength",
+              "businessTripDetailLength",
+              "attendanceLength",
+              "serveLength"
+            ],
+            "api": {
+              "listInfo": "/ai/aiResultHotelFapiao/list",
+              "export": "/ai/aiResultHotelFapiao/export"
+            }
+          },
+          {
+            "tenantId": "19",
+            "modelId": "19",
+            "modelName": "差旅酒店选择合理性分析",
+            "modelMemo": "根据系统导出的差旅明细（含住宿酒店信息），对住宿酒店进行分析，是否存在非协议酒店的情况--辅助判断是否存在套取差旅费情况",
+            "checkPointNum": null,
+            "parentModelId": "16",
+            "createdBy": "admin",
+            "createdTime": "2022-08-09 00:00:00",
+            "updatedBy": null,
+            "updatedTime": null,
+            "children": []
+          }
+        ]
+      },
+      {
+        "tenantId": "09",
+        "modelId": "09",
+        "modelName": "差旅费用维度分析",
+        "modelMemo": null,
+        "checkPointNum": 4,
+        "parentModelId": "01",
+        "createdBy": "admin",
+        "createdTime": "2022-08-09 00:00:00",
+        "updatedBy": null,
+        "updatedTime": null,
+        "setThreelist": true,
+        "children": [
+          {
+            "tenantId": "24",
+            "modelId": "310",
+            "modelName": "既派车又报销差旅补贴",
+            "modelMemo": "根据差旅系统的差旅补贴信息和派车系统导入的派车信息，稽核既派车又报销交通补贴的情况",
+            "checkPointNum": null,
+            "parentModelId": "20",
+            "createdBy": "admin",
+            "createdTime": "2022-08-09 00:00:00",
+            "updatedBy": null,
+            "updatedTime": null,
+            "children": [],
+            "modelData": [
+              "settlementLength",
+              "businessTripDetailLength",
+              "networkingLength",
+              "trafficLength"
+            ],
+            "api": {
+              "listInfo": "/ai/aiResultCarReimburse/list",
+              "export": "/ai/aiResultCarReimburse/export"
+            }
+          },
+          {
+            "tenantId": "330",
+            "modelId": "330",
+            "modelName": "出差行程中申请用车行为分析",
+            "modelMemo": "用于协助分析在出差过程中申请派车的行为分析",
+            "checkPointNum": null,
+            "parentModelId": "20",
+            "createdBy": "admin",
+            "createdTime": "2022-08-09 00:00:00",
+            "updatedBy": null,
+            "updatedTime": null,
+            "children": [],
+            "modelData": [
+              
+            ],
+            "api": {
+              "listInfo": "/ai/aiResultEvectionCar/list",
+              "export": "/ai/aiResultEvectionCar/export"
+            }
+          },
+          {
+            "tenantId": "320",
+            "modelId": "320",
+            "modelName": "出差半天却报销全天伙食补贴问题",
+            "modelMemo": "比对差旅报销数据和公务用车数据，核查例如下午派车出差，但全额报销当天伙食补贴的问题",
+            "checkPointNum": null,
+            "parentModelId": "21",
+            "createdBy": "admin",
+            "createdTime": "2022-08-09 00:00:00",
+            "updatedBy": null,
+            "updatedTime": null,
+            "children": [],
+            "modelData": [
+              "settlementLength",
+              "businessTripDetailLength",
+              "networkingLength",
+              "mealsLength"
+            ],
+            "api": {
+              "listInfo": "/ai/aiResultFoodAllowance/list",
+              "export": "/ai/aiResultFoodAllowance/export"
+            }
+          },
+          {
+            "tenantId": "340",
+            "modelId": "340",
+            "modelName": "重复报账、超标报账问题分析",
+            "modelMemo": "根据差旅系统开展数据稽核，分析是否存在重复报账、超标准报账但无特殊审批的情况",
+            "checkPointNum": null,
+            "parentModelId": "23",
+            "createdBy": "admin",
+            "createdTime": "2022-08-09 00:00:00",
+            "updatedBy": null,
+            "updatedTime": null,
+            "children": [],
+            "modelData": [
+              "settlementLength",
+              "businessTripDetailLength"
+            ],
+            "api": {
+              "listInfo": "/ai/aiResultRepeatReimburse/list",
+              "export": "/ai/aiResultRepeatReimburse/export"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
